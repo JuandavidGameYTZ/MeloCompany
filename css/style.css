@@ -1,64 +1,157 @@
-
-/*Cuerpo de la paginaINICIO*/
+/* Reset */
+* {
+  box-sizing: border-box;
+}
 body {
-    background-color: #4e4545;
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    box-sizing: border-box;   
-}
-/*Cuerpo de la paginaFIN*/
-
-
-
-/* ImagenTituloINICIO */
-
-.titulo-img {
-
-
-    width: 20%;
-    top: 10px;
-    position: relative;
-    top: -350px;
-    left: 400px;
-    right: 0;
-    margin: 0 auto;
-
-  
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #4e4545;
  
-
-
 }
 
-/* ImagenTituloFIN */
+/* Header */
+.main-header {
+  position: fixed;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 0 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
 
-/* BuscadorINICIO*/
+/* Icono de hambuguesa del menu */
+.toggle {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  position: relative;
+  background: #ffffff;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px;
+  gap: 5px;
+  z-index: 1100;
+  user-select: none;
+}
+.toggle span {
+  display: block;
+  height: 300px;
+  width: 100%;
 
-/* Este es el buscador aqui estan todos los parametros de este */
+  background-color: #705353;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+.toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+  
+}
+.toggle.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
 
+/* Logo */
+.titulo-img {
+  max-width: 120px;
+  max-height: 100px;
+  height: auto;
+  display: block;
+  width: auto;
+  
+  user-select: none;
+}
+
+/* Barra de busqueda */
 .Buscador {
-    width: 100%;
-    max-width: 800px;
-    padding: 1px;
-    background-color: #ffffff;
-    border-radius: 9px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    position: relative;
-    top: -250px;
-    left: -325px;
-    
+  flex-grow: 1;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 9px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
 }
-
 .buscardor-input {
-    width: 100%;
-    max-width: 800px;
-    padding: 10px;
-    border: 0px solid #ffffff;
-    border-radius: 9px;
-    font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
 }
 
-/* BuscadorFIN*/
+/* Sidebar */
+.slidebar {
+  position: fixed;
+  top: 80px; 
+  left: 0;
+  width: 250px;
+  height: calc(100vh - 80px);
+  background-color: rgb(87, 74, 74);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  padding: 20px;
+  border-top-right-radius: 9px;
+  border-bottom-right-radius: 9px;
+  box-shadow: 3px 0 10px rgba(0,0,0,0.3);
+  z-index: 100;
+  overflow-y: auto;
+}
+.slidebar.open {
+  transform: translateX(0);
+}
+
+.slidebar h1 {
+  color: white;
+  font-size: 44px;
+  margin-top: 2px;
+  border-bottom: 4px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  padding-bottom: 20px;
+
+
+}
+
+.slidebar ul {
+  list-style: none;
+  margin: 20px 0;
+  padding-left: 0;
+  font-size: 18px;
+  font-weight: 500;
+  }
+  
+.slidebar ul li a {
+  display: block;
+  padding: 10px ;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 9px;
+  transition: background-color 0.3s ease;
+  border-bottom: 4px solid rgba(255, 255, 255, 0);
+
+}
+.slidebar ul li a:hover {
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 9px;
+  border-bottom: 4px solid rgba(255,255,255,0.1);
+
+
+}
+
+main {
+  padding-top: 80px;
+}
