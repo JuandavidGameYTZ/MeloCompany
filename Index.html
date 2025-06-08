@@ -7,12 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Melo - Renta de autos</title>
   <link rel="stylesheet" href="/css/style.css" />
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  
 </head>
 
 
 
 
 <body>
+  <!--No tocar-->
 
       <!--Menu-->
 
@@ -22,6 +25,9 @@
       <span></span>
       <span></span>
      </div>
+
+
+
 
 
        <!--Logo-->
@@ -43,34 +49,78 @@
         placeholder="Buscar autos..."
         title="Buscar autos disponibles"
         aria-label="Buscar autos disponibles"
+        aria-describedby="search-button"
       />
+      <i class='bx bx-search'></i>
     </div>
 
 
-    <img src="/img/Profile_Icon.png" alt="Imagen de perfil" class="profile-icon" title="Perfil de usuario" aria-label="Perfil" />
+
+    
+
+     <!-- Profile Icon -->
+
+     <div class="profile-container">
+<img src="/img/Profile_Icon.png" alt="Imagen de perfil" class="profile-icon" title="Perfil de usuario" aria-label="Perfil" id="profile-icon" />  <div id="profile-dropdown" class="profile-dropdown">
+    <a href="#">My Profile</a>
+    <a href="#">Settings</a>
+    <a href="#">Logout</a>
+  </div>
+</div>
 
 
   </header>
 
 
     <!--Sidebar-->
-
-  <nav class="slidebar" id="sidebar">
-    <h1>📜Menú</h1>
-    <ul>
-      <li><a href="#">🏡Inicio</a></li>
-      <li><a href="#">⚙️Ajustes</a></li>
-      <li><a href="/register.html">📝Registrarse</a></li>
-
-
-    </ul>
-  </nav>
-
+<nav class="slidebar" id="sidebar">
+  <h1><i class='bx bx-menu'></i> Menú</h1>
+  <ul>
+    <li>
+      <a href="#"><i class='bx bx-home'></i> Inicio</a>
+    </li>
+    <li>
+      <a href="#"><i class='bx bx-cog'></i> Ajustes</a>
+    </li>
+    <li>
+      <a href="/register.html"><i class='bx bx-edit'></i> Registrarse</a>
+    </li>
+    <li>
+      <a href="/login.html"><i class='bx bx-lock'></i> Iniciar Sesión</a>
+    </li>
+    <li>
+      <a href="#"><i class='bx bx-phone'></i> Contacto</a>
+    </li>
+  </ul>
+</nav>
 
     <!--Contenido principal-->
 
   <main>
-
+<section class="main-content">
+      <h2>Bienvenido a Melo</h2>
+      <p>Explora nuestra amplia gama de autos disponibles para renta.</p>
+      <div class="autos-list">
+        <div class="auto-item">
+          <img src="img/auto1.jpg" alt="Auto 1" />
+          <h3>Auto Modelo 1</h3>
+          <p>Descripción breve del auto modelo 1.</p>
+          <button class="rent-button">Rentar</button>
+        </div>
+        <div class="auto-item">
+          <img src="img/auto2.jpg" alt="Auto 2" />
+          <h3>Auto Modelo 2</h3>
+          <p>Descripción breve del auto modelo 2.</p>
+          <button class="rent-button">Rentar</button>
+        </div>
+        <div class="auto-item">
+          <img src="img/auto3.jpg" alt="Auto 3" />
+          <h3>Auto Modelo 3</h3>
+          <p>Descripción breve del auto modelo 3.</p>
+          <button class="rent-button">Rentar</button>
+        </div>
+      </div>
+    </section>
 
 
 
