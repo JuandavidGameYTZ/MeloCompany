@@ -31,8 +31,6 @@ if (toggleBtn && sidebar) {
   });
 }
 
-
-
 const profileIcon = document.getElementById('profile-icon');
 const profileDropdown = document.getElementById('profile-dropdown');
 

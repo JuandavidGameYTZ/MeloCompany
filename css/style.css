@@ -18,12 +18,11 @@
   right: 0;
   height: 80px;
 
-  background-color: rgba(253, 251, 251, 0.4);
+  background: linear-gradient(to right, rgba(253, 251, 251, 0.4), rgba(116, 112, 112, 0.4));
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(6px);
   border-bottom-left-radius: 9px;
   border-bottom-right-radius: 9px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 
   display: flex;
   justify-content: center;   
@@ -36,10 +35,7 @@
 
 
 
-
-
 /* Profile dropdown menu*/
-
 .profile-container {
   position: relative;
   display: inline-block;
@@ -59,32 +55,51 @@
   
 }
 
+.profile-icon:hover {
+  background-color: #b0a8a8;
+}
+
+.profile-dropdown i {
+  margin-right: 10px;
+  font-size: 20px;
+  vertical-align: middle;
+}
+
 .profile-dropdown {
   position: absolute;
-  right: 0;
+  right: 0; 
   top: 40px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to right, rgb(98, 82, 82), rgb(83, 70, 70));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); 
   width: 160px;
   overflow: hidden;
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
   transition: all 0.3s ease;
+  border-radius: 8px;
   z-index: 1000;
 }
 
 .profile-dropdown a {
   display: block;
   padding: 10px 16px;
-  color: #333;
+  color: #ffffff;
   text-decoration: none;
-  font-size: 14px;
+
+  margin: 1px 0;
+  font-size: 18px;
+  font-weight: 500;
+
+  border-radius: 9px;
+  border-bottom: 4px solid rgba(255, 255, 255, 0);
+  transition: background-color 0.3s ease, border-bottom 0.3s ease;
 }
 
 .profile-dropdown a:hover {
-  background-color: #f0f0f0;
+  border-radius: 9px;
+  background-color: rgba(255,255,255,0.1);
+  border-bottom: 4px solid rgba(255,255,255,0.1);
 }
 
 .profile-dropdown.open {
@@ -208,14 +223,12 @@ body{
   background: linear-gradient(to right, rgba(253, 251, 251, 0.4), rgba(116, 112, 112, 0.4));
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.1); 
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); 
   
   display: flex;
   align-items: center;
   gap: 15px;
   padding: 0 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   z-index: 1000;
 }
 
@@ -255,18 +268,18 @@ body{
 }
 
 .toggle.active span:nth-child(1) {
-    background-color: #000000;
+    background-color: #eaeaea;
 
   transform: rotate(45deg) translate(5px, 5px);
 }
 
 .toggle.active span:nth-child(2) {
-    background-color: #000000;
+    background-color: #eaeaea;
   opacity: 0;
 }
 
 .toggle.active span:nth-child(3) {
-    background-color: #000000;
+    background-color: #eaeaea;
 
   transform: rotate(-45deg) translate(8px, -8px);
 }
@@ -286,12 +299,12 @@ body{
 
 .Buscador i {
   color: #000000;
-  font-size: 20px;
-  margin-right: 10px;
+  font-size: 18px;
+  margin-right: 6px;
 }
 
 .Buscador {
-  flex-grow: 1;
+  width: 100%;
   max-width: 500px;
   background-color: #fff;
   border-radius: 9px;
@@ -299,10 +312,10 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px 0px 0px 0px;
-  margin-right: 20px;
-  margin-left: auto;
+  padding: 0px 0px;
+  margin: 0 auto; 
 }
+
 
 .buscardor-input {
   width: 100%;
@@ -320,9 +333,7 @@ body{
   left: 0;
   width: 250px;
   height: calc(100vh - 80px);
-  background-color: rgba(78, 65, 65, 0.4); 
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(6px);
+  background: linear-gradient(to right, rgb(98, 82, 82), rgb(88, 74, 74));
   border: 1px solid rgba(255, 255, 255, 0.1); 
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); 
   border-radius: 10px;
@@ -383,8 +394,8 @@ body{
 }
 
 .slidebar ul li a:hover {
-  background-color: rgba(255,255,255,0.1);
   border-radius: 9px;
+    background-color: rgba(255,255,255,0.1);
   border-bottom: 4px solid rgba(255,255,255,0.1);
 }
 
