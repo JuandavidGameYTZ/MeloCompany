@@ -1,4 +1,3 @@
-// --- Sidebar toggle logic ---
 const toggleBtn = document.getElementById('menu-toggle');
 const sidebar = document.getElementById('sidebar');
 const body = document.body;
