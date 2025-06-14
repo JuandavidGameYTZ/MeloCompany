@@ -582,3 +582,23 @@ main {
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
+
+
+.category {
+  margin-top: 60px;
+  text-align: left;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--text-color);
+  border-left: 4px solid var(--secondary-color);
+  padding-left: 10px;
+}
+
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
