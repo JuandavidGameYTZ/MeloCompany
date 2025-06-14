@@ -550,7 +550,6 @@ main {
 }
 .card {
   background: var(--card-background);
-  outline: var(--secondary-color) 2px solid;
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
@@ -561,8 +560,8 @@ main {
 }
 .card img {
   width: 100%;
-  object-fit: cover;
-  height: 160px;
+  object-fit:  cover;
+  height: 120px;
 }
 .info {
   padding: 16px;
@@ -582,6 +581,9 @@ main {
 .card:focus {
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    outline: var(--secondary-color) 2px solid;
+  outline-offset: 1px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, outline 0.1s ease;
 }
 
 
