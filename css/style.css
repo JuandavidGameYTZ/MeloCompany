@@ -649,15 +649,29 @@ max-height:  221px;
   display: block;
 }
 
-/* Hover / focus effect */
+.stars {
+  color: #e6d00c;
+  font-weight: bold;
+  font-size: 0.90rem;
+  margin-top: 0px;
+  display: block;
+}
+
+.card a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .card:hover,
 .card:focus {
   transform: scale(1.05);
   outline: 2px solid var(--secondary-color);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3); /* smaller and softer shadow */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3); 
 }
 
-/* Scroll buttons */
 .scroll-btn {
   position: relative;
   background-color: var(--card-background);
@@ -685,11 +699,19 @@ max-height:  221px;
   margin-left: 10px;
 }
 
+
+
+
+
+
+
+
+
+
 /* =======================
    MOBILE DEVICE STYLES
    ======================= */
 
-/* 1. JS-detected mobile devices: Android or iPhone */
 .mobile-device .scroll-btn {
   display: none !important;
 }
@@ -699,12 +721,12 @@ max-height:  221px;
   padding-left: 8px;
   padding-right: 8px;
   gap: 10px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
 }
 
 .mobile-device .cards.scrollable::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
+  display: none; 
 }
 
 
@@ -712,7 +734,6 @@ max-height:  221px;
   justify-content: flex-start;
 }
 
-/* 2. Media query fallback for touch devices if JS fails */
 @media (pointer: coarse) and (hover: none) {
   body:not(.mobile-device) .scroll-btn {
     display: none !important;
@@ -723,8 +744,8 @@ max-height:  221px;
     padding-left: 8px;  
     padding-right: 8px;
     gap: 10px; 
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
   }
   body:not(.mobile-device) .cards.scrollable::-webkit-scrollbar {
     display: none; 
@@ -737,7 +758,6 @@ max-height:  221px;
   }
 }
 
-/* 3. iOS Safari CSS-only fallback using @supports */
 @supports (-webkit-touch-callout: none) {
   body:not(.mobile-device) .scroll-btn {
     display: none !important;
@@ -748,8 +768,8 @@ max-height:  221px;
     padding-left: 8px;
     padding-right: 8px;
     gap: 10px;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
   }
 
   body:not(.mobile-device) .cards.scrollable::-webkit-scrollbar {
