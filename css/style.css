@@ -684,34 +684,96 @@ main {
   margin-left: 10px;
 }
 
-/* -- ANDROID SPECIFIC STYLES -- */
+/* =======================
+   MOBILE DEVICE STYLES
+   ======================= */
 
+/* 1. JS-detected mobile devices: Android or iPhone */
+.mobile-device .scroll-btn {
+  display: none !important;
+}
+
+.mobile-device .cards.scrollable {
+  width: 100vw;
+  padding-left: 10px;
+  padding-right: 10px;
+  gap: 14px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.mobile-device .cards.scrollable::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.mobile-device .card {
+  min-width: 150px;
+  max-width: 180px;
+  height: 240px; /* Adjusted height for mobile */
+}
+
+.mobile-device .carousel-wrapper {
+  justify-content: flex-start;
+}
+
+/* 2. Media query fallback for touch devices if JS fails */
 @media (pointer: coarse) and (hover: none) {
-  .scroll-btn {
+  body:not(.mobile-device) .scroll-btn {
     display: none !important;
   }
   
-  .cards.scrollable {
+  body:not(.mobile-device) .cards.scrollable {
     width: 100vw; 
     padding-left: 10px;  
     padding-right: 10px;
     gap: 14px; 
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
   }
-  .cards.scrollable::-webkit-scrollbar {
+  body:not(.mobile-device) .cards.scrollable::-webkit-scrollbar {
     display: none; 
   }
 
-  .card {
+  body:not(.mobile-device) .card {
     min-width: 150px;
     max-width: 180px;
     height: 240px; /* Adjusted height for mobile */
   }
 
-  .Scrollable {
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch; 
-  }
-  .carousel-wrapper {
+  body:not(.mobile-device) .carousel-wrapper {
     justify-content: flex-start;
   }
 }
+
+/* 3. iOS Safari CSS-only fallback using @supports */
+@supports (-webkit-touch-callout: none) {
+  body:not(.mobile-device) .scroll-btn {
+    display: none !important;
+  }
+
+  body:not(.mobile-device) .cards.scrollable {
+    width: 100vw;
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 14px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+
+  body:not(.mobile-device) .cards.scrollable::-webkit-scrollbar {
+    display: none;
+  }
+
+  body:not(.mobile-device) .card {
+    min-width: 150px;
+    max-width: 180px;
+    height: 240px;
+  }
+
+  body:not(.mobile-device) .carousel-wrapper {
+    justify-content: flex-start;
+  }
+}
+/* =======================
+   END MOBILE DEVICE STYLES
+   ======================= */

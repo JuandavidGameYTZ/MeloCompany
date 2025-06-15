@@ -60,5 +60,18 @@ function scrollRightBtn(id) {
   container.scrollBy({ left: 300, behavior: 'smooth' });
 }
   
+  (function() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+    const isAndroid = /Android/i.test(ua);
+
+    const isIPhone = /iPhone|iPad|iPod/i.test(ua);
+
+    if (isAndroid || isIPhone) {
+      document.body.classList.add('mobile-device');
+    }
+  })();
+
+
 }
 
