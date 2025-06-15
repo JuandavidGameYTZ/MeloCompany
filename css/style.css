@@ -696,9 +696,9 @@ max-height:  221px;
 
 .mobile-device .cards.scrollable {
   width: 100vw;
-  padding-left: 10px;
-  padding-right: 10px;
-  gap: 14px;
+  padding-left: 8px;
+  padding-right: 8px;
+  gap: 10px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
@@ -707,11 +707,6 @@ max-height:  221px;
   display: none; /* Chrome, Safari */
 }
 
-.mobile-device .card {
-  min-width: 150px;
-  max-width: 180px;
-  height: 240px; /* Adjusted height for mobile */
-}
 
 .mobile-device .carousel-wrapper {
   justify-content: flex-start;
@@ -725,9 +720,9 @@ max-height:  221px;
   
   body:not(.mobile-device) .cards.scrollable {
     width: 100vw; 
-    padding-left: 10px;  
-    padding-right: 10px;
-    gap: 14px; 
+    padding-left: 8px;  
+    padding-right: 8px;
+    gap: 10px; 
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
   }
@@ -735,11 +730,7 @@ max-height:  221px;
     display: none; 
   }
 
-  body:not(.mobile-device) .card {
-    min-width: 150px;
-    max-width: 180px;
-    height: 240px; /* Adjusted height for mobile */
-  }
+
 
   body:not(.mobile-device) .carousel-wrapper {
     justify-content: flex-start;
@@ -754,9 +745,9 @@ max-height:  221px;
 
   body:not(.mobile-device) .cards.scrollable {
     width: 100vw;
-    padding-left: 10px;
-    padding-right: 10px;
-    gap: 14px;
+    padding-left: 8px;
+    padding-right: 8px;
+    gap: 10px;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
   }
