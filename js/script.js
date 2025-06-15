@@ -50,6 +50,15 @@ if (profileIcon && profileDropdown) {
       profileDropdown.classList.remove('open');
     }
   });
+function scrollLeftBtn(id) {
+  const container = document.getElementById(id);
+  container.scrollBy({ left: -300, behavior: 'smooth' });
 }
 
+function scrollRightBtn(id) {
+  const container = document.getElementById(id);
+  container.scrollBy({ left: 300, behavior: 'smooth' });
+}
+  
+}
 

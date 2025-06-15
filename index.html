@@ -98,103 +98,263 @@
       
     </section>
 
-
-
-
-
-
-
-
-
 <!-- Marketplace -->
-
 <section class="marketplace">
   <h2>Explora Nuestros Autos Para Renta</h2>
 
-  <!-- Categoria 1 -->
+  <!-- Categoria 1: Eléctricos -->
   <div class="category" id="Electricos">
-    <h3 class="category-title">Electricos</h3>
-    <div class="cards">
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Eléctrico Eco">
-        <div class="info"><h3>Eléctrico Eco</h3><p>Ecológico, silencioso y de bajo consumo.</p></div>
-      </a>
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="SUV Eléctrico">
-        <div class="info"><h3>SUV Eléctrico</h3><p>Poder eficiente y ecológico.</p></div>
-      </a>
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Camión Eléctrico">
-        <div class="info"><h3>Camión Eléctrico</h3><p>Fuerza limpia para trabajo.</p></div>
-      </a>
+    <div class="category-title">Eléctricos</div>
+    <div class="carousel-wrapper">
+      <button class="scroll-btn left" onclick="scrollLeftBtn('electricos-scroll')">‹</button>
+      <div class="cards scrollable" id="electricos-scroll">
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Eco Compact A">
+          <div class="info">
+            <h3>Eco Compact A</h3>
+            <p>Pequeño y ágil, ideal para el tráfico urbano.</p>
+            <span class="price">$7/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Electro City B">
+          <div class="info">
+            <h3>Electro City B</h3>
+            <p>Batería duradera y diseño moderno.</p>
+            <span class="price">$9/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Volt Runner C">
+          <div class="info">
+            <h3>Volt Runner C</h3>
+            <p>Perfecto para viajes cortos en la ciudad.</p>
+            <span class="price">$8/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="NeoDrive D">
+          <div class="info">
+            <h3>NeoDrive D</h3>
+            <p>Comodidad, estilo y cero emisiones.</p>
+            <span class="price">$10/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Urban Spark E">
+          <div class="info">
+            <h3>Urban Spark E</h3>
+            <p>Silencioso y económico para la ciudad.</p>
+            <span class="price">$8/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="GreenMotion F">
+          <div class="info">
+            <h3>GreenMotion F</h3>
+            <p>Eficiencia energética con buen espacio.</p>
+            <span class="price">$9/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Mini EV G">
+          <div class="info">
+            <h3>Mini EV G</h3>
+            <p>Tamaño compacto, gran desempeño.</p>
+            <span class="price">$7/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Silent Cruiser H">
+          <div class="info">
+            <h3>Silent Cruiser H</h3>
+            <p>Conducción suave con carga rápida.</p>
+            <span class="price">$10/hora</span>
+          </div>
+        </a>
+
+      </div>
+      <button class="scroll-btn right" onclick="scrollRightBtn('electricos-scroll')">›</button>
     </div>
   </div>
 
-  <!-- Categoria 2 -->
-  <div class="category" id ="SUV">
-    <h3 class="category-title">Suv's</h3>
-    <div class="cards">
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="SUV Familiar">
-        <div class="info"><h3>SUV Familiar</h3><p>Espacio para toda la familia y equipaje.</p></div>
-      </a>
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Pickup Pro">
-        <div class="info"><h3>Pickup Pro</h3><p>Resistente para trabajo y aventura.</p></div>
-      </a>
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Todo Terreno">
-        <div class="info"><h3>Todo Terreno</h3><p>Listo para cualquier terreno.</p></div>
-      </a>
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Crossover">
-        <div class="info"><h3>Crossover</h3><p>Versatilidad para ciudad y campo.</p></div>
-      </a>
+  <!-- Categoria 2: SUVs -->
+  <div class="category" id="SUV">
+    <div class="category-title">SUVs</div>
+    <div class="carousel-wrapper">
+      <button class="scroll-btn left" onclick="scrollLeftBtn('suv-scroll')">‹</button>
+      <div class="cards scrollable" id="suv-scroll">
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="SUV Familiar">
+          <div class="info">
+            <h3>SUV Familiar</h3>
+            <p>Espacio para toda la familia y equipaje.</p>
+            <span class="price">$18/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Explorer X">
+          <div class="info">
+            <h3>Explorer X</h3>
+            <p>Conquista cualquier terreno con facilidad.</p>
+            <span class="price">$20/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Mountain Drive">
+          <div class="info">
+            <h3>Mountain Drive</h3>
+            <p>Aventura y potencia en cada viaje.</p>
+            <span class="price">$22/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Safari Pro">
+          <div class="info">
+            <h3>Safari Pro</h3>
+            <p>Ideal para caminos largos y difíciles.</p>
+            <span class="price">$21/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Urban Trail">
+          <div class="info">
+            <h3>Urban Trail</h3>
+            <p>Diseño moderno y tracción total.</p>
+            <span class="price">$19/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Family Wagon">
+          <div class="info">
+            <h3>Family Wagon</h3>
+            <p>Seguridad y confort para los niños.</p>
+            <span class="price">$18/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="AllRoad Max">
+          <div class="info">
+            <h3>AllRoad Max</h3>
+            <p>Versatilidad para ciudad y campo.</p>
+            <span class="price">$21/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Venture Z">
+          <div class="info">
+            <h3>Venture Z</h3>
+            <p>Potente, elegante y espacioso.</p>
+            <span class="price">$23/hora</span>
+          </div>
+        </a>
+
+      </div>
+      <button class="scroll-btn right" onclick="scrollRightBtn('suv-scroll')">›</button>
     </div>
   </div>
 
-  <!-- Categoria 2 -->
+  <!-- Categoria 3: Premium -->
   <div class="category" id="Premium">
-    <h3 class="category-title">Carros premium</h3>
-    <div class="cards">
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Sedán de Lujo">
-        <div class="info"><h3>Sedán de Lujo</h3><p>Viaja con estilo y confort premium.</p></div>
-      </a>
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Limusina">
-        <div class="info"><h3>Limusina</h3><p>Elegancia de alto nivel.</p></div>
-      </a>
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="SUV Premium">
-        <div class="info"><h3>SUV Premium</h3><p>Confort y lujo en cada detalle.</p></div>
-      </a>
-      <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Convertible">
-        <div class="info"><h3>Convertible</h3><p>Libertad máxima al aire libre.</p></div>
-      </a>
-            <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Convertible">
-        <div class="info"><h3>Convertible</h3><p>Libertad máxima al aire libre.</p></div>
-      </a>
-            <a href="#" class="card">
-        <img src="img/Carplaceholder.png" alt="Convertible">
-        <div class="info"><h3>Convertible</h3><p>Libertad máxima al aire libre.</p></div>
-      </a>
-      
+    <div class="category-title">Carros Premium</div>
+    <div class="carousel-wrapper">
+      <button class="scroll-btn left" onclick="scrollLeftBtn('premium-scroll')">‹</button>
+      <div class="cards scrollable" id="premium-scroll">
 
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Sedán de Lujo">
+          <div class="info">
+            <h3>Sedán de Lujo</h3>
+            <p>Viaja con estilo y confort premium.</p>
+            <span class="price">$28/hora</span>
+          </div>
+        </a>
 
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Executive Drive">
+          <div class="info">
+            <h3>Executive Drive</h3>
+            <p>Elegancia y tecnología de punta.</p>
+            <span class="price">$30/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Elite Cruiser">
+          <div class="info">
+            <h3>Elite Cruiser</h3>
+            <p>Experiencia de manejo superior.</p>
+            <span class="price">$32/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Luxury Star">
+          <div class="info">
+            <h3>Luxury Star</h3>
+            <p>Diseño sofisticado y acabados de lujo.</p>
+            <span class="price">$35/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Royal Sedan">
+          <div class="info">
+            <h3>Royal Sedan</h3>
+            <p>Clase y exclusividad en cada curva.</p>
+            <span class="price">$33/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Platinum Ride">
+          <div class="info">
+            <h3>Platinum Ride</h3>
+            <p>Conducción suave con detalles premium.</p>
+            <span class="price">$34/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Zenith X">
+          <div class="info">
+            <h3>Zenith X</h3>
+            <p>Lo mejor de la ingeniería automotriz.</p>
+            <span class="price">$36/hora</span>
+          </div>
+        </a>
+
+        <a href="#" class="card">
+          <img src="img/Carplaceholder.png" alt="Infinity GT">
+          <div class="info">
+            <h3>Infinity GT</h3>
+            <p>Potencia, lujo y presencia en la carretera.</p>
+            <span class="price">$38/hora</span>
+          </div>
+        </a>
+
+      </div>
+      <button class="scroll-btn right" onclick="scrollRightBtn('premium-scroll')">›</button>
     </div>
   </div>
 </section>
 
-
-      
-
-
-
-    
-  </main>
 
 
 
@@ -202,6 +362,8 @@
 
     <!--Footer-->
   <script src="js/script.js"></script>
+
+
 </body>
 </html>
 
