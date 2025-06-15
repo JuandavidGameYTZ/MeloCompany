@@ -534,7 +534,6 @@ main {
 
 
 /* Marketplace Styles */
-/* Marketplace Styles */
 .marketplace {
   padding: 40px 20px;
   max-width: 1200px;
@@ -552,7 +551,8 @@ main {
 }
 
 .category-title {
-  font-size: 1.5rem;
+  font-size: 1.8rem; /* bigger */
+  font-weight: 700;  /* bold */
   color: var(--text-color);
   border-left: 4.5px solid var(--secondary-color);
   padding-left: 10px;
@@ -561,6 +561,7 @@ main {
   text-align: left;
 }
 
+/* Carousel wrapper */
 .carousel-wrapper {
   position: relative;
   display: flex;
@@ -570,6 +571,7 @@ main {
   max-width: 100%;
 }
 
+/* Scrollable cards container */
 .cards.scrollable {
   display: flex;
   overflow-x: auto;
@@ -586,19 +588,20 @@ main {
   display: none; /* Chrome, Safari */
 }
 
+/* Card style */
 .card {
   background: var(--card-background);
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
   color: var(--text-color);
-  transition: transform 0.3s ease, box-shadow 0.9s ease;
+  transition: transform 0.3s ease, box-shadow 0.5s ease; /* faster and smaller shadow */
   flex-direction: column;
   min-width: 160px;
   max-width: 200px;
-  height: 260px; /* Fixed height to keep all cards even */
+  height: 260px; /* Fixed height */
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* smaller shadow */
   position: relative;
   z-index: 2;
   display: flex;
@@ -645,13 +648,15 @@ main {
   display: block;
 }
 
+/* Hover / focus effect */
 .card:hover,
 .card:focus {
   transform: scale(1.05);
   outline: 2px solid var(--secondary-color);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3); /* smaller and softer shadow */
 }
 
+/* Scroll buttons */
 .scroll-btn {
   position: relative;
   background-color: var(--card-background);
@@ -677,4 +682,36 @@ main {
 
 .scroll-btn.right {
   margin-left: 10px;
+}
+
+/* -- ANDROID SPECIFIC STYLES -- */
+
+@media (pointer: coarse) and (hover: none) {
+  .scroll-btn {
+    display: none !important;
+  }
+  
+  .cards.scrollable {
+    width: 100vw; 
+    padding-left: 10px;  
+    padding-right: 10px;
+    gap: 14px; 
+  }
+  .cards.scrollable::-webkit-scrollbar {
+    display: none; 
+  }
+
+  .card {
+    min-width: 150px;
+    max-width: 180px;
+    height: 240px; /* Adjusted height for mobile */
+  }
+
+  .Scrollable {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch; 
+  }
+  .carousel-wrapper {
+    justify-content: flex-start;
+  }
 }
