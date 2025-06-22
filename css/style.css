@@ -460,7 +460,7 @@ body{
   position: fixed;
   top: 80px; 
   left: 0;
-  width: 250px;
+  width: 240px;
   height: calc(100vh - 80px);
   background: var(--main-gradient); 
   backdrop-filter:var(--universal-blur);
@@ -497,7 +497,7 @@ body{
   color: var(--text-color);
   font-size: 44px;
   margin-top: 2px;
-  border-bottom: 4px solid var(--text-color);
+  border-bottom: 4px solid var(--secondary-color);
   border-radius: 2px;
   padding-bottom: 20px;
 }
@@ -578,7 +578,7 @@ main {
 }
 
 .category {
-  margin-top: 40px;
+  margin-top: 1px;
   width: 100%;
   padding: 0;
   text-align: left;
@@ -599,12 +599,12 @@ main {
 }
 
 
-/*
+
 .category-title:hover {
   background-color: var(--secondary-hover-color);
   border-left: 4.5px solid var(--primary-hover-color);
 }
-  */
+
 
 /* Carousel wrapper */
 .carousel-wrapper {

@@ -66,7 +66,7 @@ $conn->close();
 <header class="register-header">
 
        <!--Logo-->
-     <a href="index.html" class="logo-link" aria-label="Melo Logo">
+     <a href="index.php" class="logo-link" aria-label="Melo Logo">
      
         <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La pagina principal de melo" />
         </a>
@@ -95,7 +95,7 @@ $conn->close();
     </div>
     <button type="submit" class="boton">Registrarse</button>
 </form>
-        <p class="login-link">¿Ya tienes una cuenta? <a href="login.html">Iniciar sesión</a></p>
+        <p class="login-link">¿Ya tienes una cuenta? <a href="login.php">Iniciar sesión</a></p>
 
 
     </form>

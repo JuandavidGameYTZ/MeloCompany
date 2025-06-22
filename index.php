@@ -117,7 +117,7 @@ session_start();
 
 <!-- Marketplace -->
 <section class="marketplace">
-  <h2>Explora Nuestros Autos Para Renta</h2>
+  <h2></h2>
 
   <!-- Categoria 1: Eléctricos -->
   <div class="category" id="Electricos">
