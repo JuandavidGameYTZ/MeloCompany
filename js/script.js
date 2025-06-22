@@ -30,18 +30,17 @@ if (toggleBtn && sidebar) {
   });
 }
 
-
-const profileContainer = document.querySelector('.profile-container');
+const profileIcon = document.getElementById('profile-icon');
 const profileDropdown = document.getElementById('profile-dropdown');
 
-if (profileContainer && profileDropdown) {
-  profileContainer.addEventListener('click', (e) => {
+if (profileIcon && profileDropdown) {
+  profileIcon.addEventListener('click', (e) => {
     e.stopPropagation();
     profileDropdown.classList.toggle('open');
   });
 
   document.addEventListener('click', (e) => {
-    if (!profileDropdown.contains(e.target) && !profileContainer.contains(e.target)) {
+    if (!profileDropdown.contains(e.target) && !profileIcon.contains(e.target)) {
       profileDropdown.classList.remove('open');
     }
   });
@@ -51,7 +50,14 @@ if (profileContainer && profileDropdown) {
       profileDropdown.classList.remove('open');
     }
   });
+function scrollLeftBtn(id) {
+  const container = document.getElementById(id);
+  container.scrollBy({ left: -300, behavior: 'smooth' });
+}
 
+function scrollRightBtn(id) {
+  const container = document.getElementById(id);
+  container.scrollBy({ left: 300, behavior: 'smooth' });
 }
   
   (function() {
@@ -67,5 +73,5 @@ if (profileContainer && profileDropdown) {
   })();
 
 
-
+}
 
