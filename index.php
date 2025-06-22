@@ -1,5 +1,9 @@
 
 <!--No tocar-->
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,7 +30,7 @@
 
        <!--Logo-->
 
-     <a href="index.html" class="logo-link" aria-label="Melo Logo">
+     <a href="index.php" class="logo-link" aria-label="Melo Logo">
      
         <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La pagina principal de melo" />
 
@@ -49,16 +53,33 @@
     </div>
 
      <!-- Profile Icon -->
-
-     <div class="profile-container">
-<img src="img/Profile_Icon.png" alt="Imagen de perfil" class="profile-icon" title="Perfil de usuario" aria-label="Perfil" id="profile-icon" />  <div id="profile-dropdown" class="profile-dropdown">
-  <a href="#"><i class='bx  bx-user-circle'  ></i> Mi perfil</a>
-  <a href="#"><i class='bx bx-car'></i> Autos</a>
-    <a href="#"><i class='bx bx-cog'></i>Ajustes</a>
-    <a href="#"><i class='bx  bx-arrow-out-left-square-half'  ></i> Salir</a>
-  </div>
+<div class="profile-container">
+  <?php if (isset($_SESSION['usuario'])): ?>
+    <div class="profile-info" style="display: flex; align-items: center; gap: 10px;">
+      <img src="img/Profile_Icon.png" alt="Imagen de perfil" class="profile-icon" id="profile-icon" />
+      <span class="username"><?php echo htmlspecialchars($_SESSION['usuario']); ?></span>
+    </div>
+  <?php else: ?>
+    <div class="auth-buttons">
+      <a href="login.php" class="boton">Iniciar sesión</a>
+      <a href="register.php" class="boton">Registrarse</a>
+    </div>
+  <?php endif; ?>
 </div>
 
+
+
+
+<div id="profile-dropdown" class="profile-dropdown">
+  <?php if (isset($_SESSION['usuario'])): ?>
+    <a href="#"><i class='bx bx-user-circle'></i> Mi perfil</a>
+    <a href="#"><i class='bx bx-car'></i> Autos</a>
+    <a href="#"><i class='bx bx-cog'></i> Ajustes</a>
+    <a href="logout.php"><i class='bx bx-arrow-out-left-square-half'></i> Salir</a>
+  <?php else: ?>
+
+  <?php endif; ?>
+</div>
 
 
 
@@ -70,17 +91,13 @@
   <h1><i class='bx bx-menu'></i> Menú</h1>
   <ul>
     <li>
-      <a href="index.html"><i class='bx bx-home'></i> Inicio</a>
+      <a href="index.php"><i class='bx bx-home'></i> Inicio</a>
     </li>
     <li>
-      <a href="ajustes.html"><i class='bx bx-cog'></i> Ajustes</a>
+      <a href="ajustes.php"><i class='bx bx-cog'></i> Ajustes</a>
     </li>
-    <li>
-      <a href="register.html"><i class='bx bx-edit'></i> Registrarse</a>
-    </li>
-    <li>
-      <a href="login.html"><i class='bx bx-lock'></i> Iniciar Sesión</a>
-    </li>
+
+ 
     <li>
       <a href="contacto.html"><i class='bx bx-phone'></i> Contacto</a>
     </li>
@@ -108,6 +125,19 @@
     <div class="carousel-wrapper">
       <button class="scroll-btn left" onclick="scrollLeftBtn('electricos-scroll')"><i class='bx  bx-caret-left' ></i></button>
       <div class="cards scrollable" id="electricos-scroll">
+
+
+<a href="carprofile.html" class="card" onclick="openDetail(event, 'Eco Compact A', 'Pequeño y ágil, ideal para el tráfico urbano.', '$7/hora', '5', 'img/Carplaceholder.png')">
+  <img src="img/Carplaceholder.png" alt="Eco Compact A">
+  <div class="info">
+    <h3>Eco test  A</h3>
+    <p>Pequeño y ágil, ideal para el tráfico urbano.</p>
+    <span class="price">$7/hora</span>
+    <span class="stars"><i class='bx  bxs-star'></i> 5 </span>
+  </div>
+</a>
+
+
 
         <a href="#" class="card">
           <img src="img/Carplaceholder.png" alt="Eco Compact A">
@@ -382,11 +412,6 @@
     </div>
   </div>
 </section>
-
-
-
-
-
 
     <!--Footer-->
   <script src="js/script.js"></script>
