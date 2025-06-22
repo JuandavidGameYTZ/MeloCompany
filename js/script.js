@@ -87,12 +87,12 @@ function valorar(usuario, estrellas) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `usuario_valorado=${encodeURIComponent(usuario)}&estrellas=${estrellas}`
   })
-  .then(res => res.text())
-  .then(msg => {
-    alert(msg);
-    location.reload();
-  })
-  .catch(err => console.error("Error:", err));
+    .then(res => res.text())
+    .then(msg => {
+      alert(msg);
+      location.reload();
+    })
+    .catch(err => console.error("Error:", err));
 }
 
 
