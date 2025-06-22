@@ -1,4 +1,3 @@
-
 <!--No tocar-->
 <?php
 session_start();
@@ -11,35 +10,27 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Melo - Renta de autos</title>
   <link rel="stylesheet" href="css/style.css" />
-    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
   <link rel="icon" href="img/MeloIcon.png" type="image/png" />
-  
 </head>
 
 <body>
 
-      <!--Menu-->
-
+  <!--Menu-->
   <header class="main-header">
     <div class="toggle" id="menu-toggle" aria-label="Toggle menu" role="button" tabindex="0">
       <span></span>
       <span></span>
       <span></span>
-     </div>
+    </div>
 
+    <!--Logo-->
+    <a href="index.php" class="logo-link" aria-label="Melo Logo">
+      <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La pagina principal de Melo" />
+    </a>
 
-       <!--Logo-->
-
-     <a href="index.php" class="logo-link" aria-label="Melo Logo">
-     
-        <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La pagina principal de melo" />
-
-
-     </a>
-
-     <!--Buscador-->
-     
-     <div class="Buscador">
+    <!--Buscador-->
+    <div class="Buscador">
       <input
         type="search"
         id="search-input"
@@ -52,11 +43,31 @@ session_start();
       <i class='bx bx-search'></i>
     </div>
 
-     <!-- Profile Icon -->
+<!-- Profile Icon -->
 <div class="profile-container">
   <?php if (isset($_SESSION['usuario'])): ?>
+    <?php
+    $conexion = new mysqli("localhost", "root", "", "melocompany");
+    $usuario = $_SESSION['usuario'];
+    $sql = "SELECT imagen_perfil FROM registro WHERE Nombre = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("s", $usuario);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $img = $res->fetch_assoc();
+
+    $rutaPorDefecto = "img/Profile_Icon.png";
+
+    // Usar directamente la ruta si ya está guardada completa
+    if (!empty($img['imagen_perfil']) && file_exists($img['imagen_perfil'])) {
+      $imagenRuta = $img['imagen_perfil'];
+    } else {
+      $imagenRuta = $rutaPorDefecto;
+    }
+    ?>
+
     <div class="profile-info" style="display: flex; align-items: center; gap: 10px;">
-      <img src="img/Profile_Icon.png" alt="Imagen de perfil" class="profile-icon" id="profile-icon" />
+      <img src="<?php echo htmlspecialchars($imagenRuta); ?>" alt="Imagen de perfil" class="profile-icon" id="profile-icon" />
       <span class="username"><?php echo htmlspecialchars($_SESSION['usuario']); ?></span>
     </div>
   <?php else: ?>
@@ -68,20 +79,14 @@ session_start();
 </div>
 
 
-
-
-<div id="profile-dropdown" class="profile-dropdown">
-  <?php if (isset($_SESSION['usuario'])): ?>
-    <a href="#"><i class='bx bx-user-circle'></i> Mi perfil</a>
-    <a href="#"><i class='bx bx-car'></i> Autos</a>
-    <a href="#"><i class='bx bx-cog'></i> Ajustes</a>
-    <a href="logout.php"><i class='bx bx-arrow-out-left-square-half'></i> Salir</a>
-  <?php else: ?>
-
-  <?php endif; ?>
-</div>
-
-
+    <div id="profile-dropdown" class="profile-dropdown">
+      <?php if (isset($_SESSION['usuario'])): ?>
+        <a href="profile.php"><i class='bx bx-user-circle'></i> Mi perfil</a>
+        <a href="#"><i class='bx bx-car'></i> Autos</a>
+        <a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a>
+        <a href="logout.php"><i class='bx bx-arrow-out-left-square-half'></i> Salir</a>
+      <?php endif; ?>
+    </div>
 
   </header>
 

@@ -81,5 +81,19 @@ function scrollRightBtn(id) {
   })();
 
 
+function valorar(usuario, estrellas) {
+  fetch("scripts/guardar_valoracion.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `usuario_valorado=${encodeURIComponent(usuario)}&estrellas=${estrellas}`
+  })
+  .then(res => res.text())
+  .then(msg => {
+    alert(msg);
+    location.reload();
+  })
+  .catch(err => console.error("Error:", err));
+}
+
 
 
