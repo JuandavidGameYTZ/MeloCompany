@@ -85,6 +85,10 @@
   padding: 0;
   box-sizing: inherit;
 }
+
+
+
+
 .main-content {
   display: flex;
   flex-direction: column;
@@ -528,6 +532,227 @@ body{
   justify-content: space-between;
   width: 100%;
 }
+
+/* Contenedor principal del formulario */
+.wrapper {
+  max-width: 480px;
+  width: 90%;
+  margin: 100px auto 60px auto;
+  background: var(--main-gradient);
+  backdrop-filter: var(--universal-blur);
+  -webkit-backdrop-filter: var(--universal-blur);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  padding: 30px 25px;
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título */
+.wrapper h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+/* Formulario en columnas */
+.wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Estilo de los labels */
+label {
+  font-weight: 600;
+  color: var(--text-color); /* UNIFICADO */
+  margin-bottom: 8px;
+  display: block;
+  font-size: 0.95rem;
+}
+
+/* Contenedor visual de input o textarea */
+.input-container {
+  width: 100%;
+  background-color: var(--secondary-input-color);
+  border-radius: 10px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.input-container:focus-within {
+  box-shadow: 0 0 0 3px var(--aoutline-input-color);
+  background-color: var(--inside-input-color);
+}
+
+/* INPUTS Y TEXTAREA con mismos estilos */
+.input-container input,
+.input-container textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text-color); /* UNIFICADO */
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 12px 8px;
+  outline: none;
+  resize: none; /* Para evitar expansión accidental */
+  box-sizing: border-box;
+  min-height: 48px;
+}
+
+/* Textarea: mismo diseño pero adaptable si se quiere */
+.input-container textarea {
+  line-height: 1.4;
+  padding-top: 12px;
+  resize: vertical; /* Solo si deseas que pueda crecer */
+}
+
+/* Placeholder SIN opacidad, usando mismo color */
+.input-container input::placeholder,
+.input-container textarea::placeholder {
+  color: var(--text-color); /* UNIFICADO */
+}
+
+/* Botón de envío */
+input[type="submit"] {
+  margin-top: 15px;
+  background: var(--boton-static);
+  color: var(--main-solid-color);
+  font-weight: 700;
+  padding: 16px 0;
+  font-size: 1.15rem;
+  border-radius: 14px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  font-family: inherit;
+}
+
+input[type="submit"]:hover {
+  background: var(--boton-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+input[type="submit"]:active {
+  background: var(--boton-click);
+  transform: translateY(1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 25px 15px;
+  }
+
+  .wrapper h2 {
+    font-size: 1.6rem;
+  }
+}
+
+
+.car-detail-card {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 25px;
+  background: var(--main-gradient);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.car-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.car-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.car-description {
+  font-size: 1rem;
+  margin: 15px 0;
+  text-align: left;
+}
+
+.car-price,
+.car-rating {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 8px 0;
+  text-align: left;
+}
+
+.divider {
+  margin: 30px 0 20px 0;
+  border: none;
+  border-top: 1px solid var(--text-color);
+  opacity: 0.2;
+}
+
+.user-profile-mini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid var(--text-color);
+  object-fit: cover;
+}
+
+.username {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* Botón para volver */
+.back-button {
+  display: inline-block;
+  padding: 12px 25px;
+  background: var(--boton-static);
+  color: var(--main-solid-color);
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background: var(--boton-hover);
+  transform: translateY(-2px);
+}
+
+.back-button:active {
+  background: var(--boton-click);
+  transform: translateY(1px);
+}
+
+
 
 .toggle {
   flex-shrink: 0;        

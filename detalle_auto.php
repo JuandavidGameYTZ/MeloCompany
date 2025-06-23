@@ -30,19 +30,35 @@ if (!$auto) {
 </head>
 <body>
 
-<h1><?php echo htmlspecialchars($auto['nombre']); ?></h1>
-<img src="<?php echo htmlspecialchars($auto['imagen']); ?>" alt="<?php echo htmlspecialchars($auto['nombre']); ?>" style="max-width: 400px;">
-<p><strong>Descripción:</strong> <?php echo nl2br(htmlspecialchars($auto['descripcion'])); ?></p>
-<p><strong>Precio:</strong> <?php echo htmlspecialchars($auto['precio']); ?></p>
-<p><strong>Valoración:</strong> <?php echo intval($auto['estrellas']); ?> estrellas</p>
+<div class="car-detail-card">
 
-<hr>
+  <img src="<?php echo htmlspecialchars($auto['imagen']); ?>" alt="Imagen del auto" class="car-image">
 
-<h2>Perfil del usuario que agregó el auto</h2>
-<img src="<?php echo !empty($auto['imagen_perfil']) ? htmlspecialchars($auto['imagen_perfil']) : 'img/Profile_Icon.png'; ?>" alt="Imagen de perfil" style="width:100px; border-radius:50%;">
-<p><strong>Usuario:</strong> <?php echo htmlspecialchars($auto['Nombre']); ?></p>
+  <div class="car-info">
+    <h1 class="car-title"><?php echo htmlspecialchars($auto['nombre']); ?></h1>
 
-<a href="profile.php">Volver a mi perfil</a>
+    <p class="car-description">
+      <strong>Descripción:</strong><br>
+      <?php echo nl2br(htmlspecialchars($auto['descripcion'])); ?>
+    </p>
+
+    <p class="car-price"><strong>Precio:</strong> <?php echo htmlspecialchars($auto['precio']); ?></p>
+
+    <p class="car-rating">
+      <strong>Valoración:</strong>
+      <?php echo str_repeat("⭐", intval($auto['estrellas'])); ?>
+    </p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="user-profile-mini">
+    <img src="<?php echo !empty($auto['imagen_perfil']) ? htmlspecialchars($auto['imagen_perfil']) : 'img/Profile_Icon.png'; ?>" alt="Imagen de perfil" class="profile-pic">
+    <p class="username"><?php echo htmlspecialchars($auto['Nombre']); ?></p>
+  </div>
+
+  <a href="profile.php" class="back-button">Volver a mi perfil</a>
+</div>
 
 </body>
 </html>
