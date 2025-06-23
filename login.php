@@ -1,3 +1,55 @@
+<?php
+session_start();
+
+// Conexión a la base de datos
+$host = "localhost";
+$usuario = "root";
+$contrasena = ""; // Coloca tu contraseña si tienes
+$basedatos = "Melocompany";
+
+$conn = new mysqli($host, $usuario, $contrasena, $basedatos);
+
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Error de conexión: " . $conn->connect_error);
+}
+
+// Validar si se envió el formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $correo = trim($_POST["email"]);
+    $clave = $_POST["password"];
+
+    // Buscar el usuario por correo
+    $sql = "SELECT ID_Registro, Nombre, Contrasena FROM registro WHERE CorreoElectronico = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows === 1) {
+        $usuario = $resultado->fetch_assoc();
+
+        // Verificar la contraseña
+        if (password_verify($clave, $usuario["Contrasena"])) {
+            $_SESSION['usuario'] = $usuario["Nombre"];
+            $_SESSION['id'] = $usuario["ID_Registro"];
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "<script>alert('Contraseña incorrecta.'); window.location.href = 'login.php';</script>";
+        }
+    } else {
+        echo "<script>alert('Correo no encontrado.'); window.location.href = 'login.php';</script>";
+    }
+
+    $stmt->close();
+}
+
+$conn->close();
+?>
+
+
+
 <!--No tocar-->
 <!DOCTYPE html>
 <html lang="es">
@@ -21,7 +73,7 @@
 
   <div class="container">
     <div class="wrapper"> 
-      <form action="">
+<form method="POST" action="login.php">
         <h1>Iniciar Sesión</h1>
 
         <div class="input-container">

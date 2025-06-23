@@ -21,22 +21,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $clave = $_POST["password"];
 
     if (!empty($nombre) && !empty($correo) && !empty($clave)) {
-        $clave_segura = password_hash($clave, PASSWORD_DEFAULT);
+        // Verificar si el correo ya existe
+        $check_sql = "SELECT ID_Registro FROM registro WHERE CorreoElectronico = ?";
+        $check_stmt = $conn->prepare($check_sql);
+        $check_stmt->bind_param("s", $correo);
+        $check_stmt->execute();
+        $check_stmt->store_result();
 
-        $sql = "INSERT INTO registro (nombre, correoelectronico, contrasena) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $nombre, $correo, $clave_segura);
-
-        if ($stmt->execute()) {
-            // Guardar el nombre del usuario en sesión
-            $_SESSION['usuario'] = $nombre;
-            header("Location: index.php");
-            exit();
+        if ($check_stmt->num_rows > 0) {
+            echo "<script>alert('Este correo electrónico ya está registrado. Intenta iniciar sesión o usar otro.'); window.location.href = 'register.php';</script>";
         } else {
-            echo "Error al registrar: " . $stmt->error;
+            // Insertar nuevo usuario
+            $clave_segura = password_hash($clave, PASSWORD_DEFAULT);
+
+            $sql = "INSERT INTO registro (Nombre, CorreoElectronico, Contrasena) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sss", $nombre, $correo, $clave_segura);
+
+            if ($stmt->execute()) {
+                $_SESSION['usuario'] = $nombre;
+                header("Location: index.php");
+                exit();
+            } else {
+                echo "Error al registrar: " . $stmt->error;
+            }
+
+            $stmt->close();
         }
 
-        $stmt->close();
+        $check_stmt->close();
     } else {
         echo "Por favor, completa todos los campos.";
     }
@@ -44,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
+
 
 
 
@@ -112,4 +126,4 @@ $conn->close();
 
 
 </html>
-<?php
+    
