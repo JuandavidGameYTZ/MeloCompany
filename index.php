@@ -81,10 +81,10 @@ session_start();
 
     <div id="profile-dropdown" class="profile-dropdown">
       <?php if (isset($_SESSION['usuario'])): ?>
-        <a href="profile.php"><i class='bx bx-user-circle'></i> Mi perfil</a>
+        <a href="profile.php"><i class='bx  bx-user'  ></i> </i> Mi perfil</a>
         <a href="#"><i class='bx bx-car'></i> Autos</a>
         <a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a>
-        <a href="logout.php"><i class='bx bx-arrow-out-left-square-half'></i> Salir</a>
+        <a href="logout.php"><i class='bx  bx-user-x'  ></i> </i> Salir</a>
       <?php endif; ?>
     </div>
 

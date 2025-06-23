@@ -81,19 +81,33 @@ function scrollRightBtn(id) {
   })();
 
 
-function valorar(usuario, estrellas) {
-  fetch("scripts/guardar_valoracion.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `usuario_valorado=${encodeURIComponent(usuario)}&estrellas=${estrellas}`
-  })
-    .then(res => res.text())
-    .then(msg => {
-      alert(msg);
-      location.reload();
+document.querySelectorAll('.star-rating .star').forEach(star => {
+  star.addEventListener('click', () => {
+    const rating = star.getAttribute('data-star');
+    const container = star.closest('.star-rating');
+    const usuario = container.getAttribute('data-usuario');
+
+    // Enviar a PHP con fetch
+    fetch('scripts/guardar_valoracion.php', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `usuario_valorado=${encodeURIComponent(usuario)}&estrellas=${rating}`
     })
-    .catch(err => console.error("Error:", err));
-}
+    .then(res => res.text())
+    .then(() => {
+      // Actualizar visual inmediatamente
+      container.querySelectorAll('.star').forEach(s => {
+        const sRating = parseInt(s.getAttribute('data-star'));
+        if (sRating <= rating) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
 
-
-
+      // Actualizar texto promedio (opcional: puedes pedir al servidor de nuevo)
+      container.querySelector('.rating-label').textContent = `${rating} / 5`;
+    })
+    .catch(err => console.error('Error:', err));
+  });
+});
