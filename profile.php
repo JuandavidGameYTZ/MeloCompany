@@ -58,10 +58,26 @@ if ($usuario) {
   <a href="index.php" class="logo-link">
     <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" />
   </a>
-  <div class="Buscador">
-    <input type="search" id="search-input" class="buscardor-input" placeholder="Buscar autos..." />
-    <i class='bx bx-search'></i>
-  </div>
+
+
+  <!-- Buscador -->
+
+<div class="Buscador">
+  <form method="GET" action="index.php" style="display: flex; align-items: center; width: 100%; padding: 5px 10px;">
+    <input
+      type="search"
+      name="busqueda"
+      class="buscardor-input"
+      placeholder="Buscar autos..."
+      value="<?php echo $_GET['busqueda'] ?? ''; ?>"
+      title="Buscar autos disponibles"
+      aria-label="Buscar autos disponibles"
+    />
+    <button type="submit" style="background: none; border: none; cursor: pointer;">
+      <i class='bx bx-search'></i>
+    </button>
+  </form>
+</div>
 
   <!-- Icono perfil -->
   <div class="profile-container">

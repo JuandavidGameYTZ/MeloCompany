@@ -811,19 +811,6 @@ input[type="submit"]:active {
 
 /* Barra de busqueda */
 
-.Buscador i {
-  color: var(--text-color);
-  font-size: 18px;
-  margin-right: 6px;
-}
-
-.buscardor-input {
-  border: none;
-  color: var(--text-color);
-  background-color: transparent;
-  
-}
-
 .Buscador {
   width: 100%;
   max-width: 500px;
@@ -833,15 +820,13 @@ input[type="submit"]:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px 0px;
-  margin: 0 auto; 
+  padding: 0px;
+  margin: 0 auto;
 }
 
 .Buscador:hover {
-      border: var(--secondary-color) 1px solid;
-
+  border: var(--secondary-color) 1px solid;
 }
-
 
 .buscardor-input {
   width: 100%;
@@ -849,7 +834,16 @@ input[type="submit"]:active {
   border: none;
   border-radius: 10px;
   font-size: 16px;
+  color: var(--text-color);
+  background-color: transparent;
 }
+
+.Buscador i {
+  color: var(--text-color);
+  font-size: 18px;
+  margin-left: 8px;
+}
+
 
 
 /* Sidebar */

@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $descripcion = $_POST['descripcion'] ?? '';
     $precio = $_POST['precio'] ?? '';
     $estrellas = intval($_POST['estrellas'] ?? 5);
+    $categoria = $_POST['categoria'] ?? 'General';
 
     // Manejar la imagen
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
@@ -24,12 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $rutaFinal = $directorio . $usuario . "_" . time() . "_" . $nombreArchivo;
 
         if (move_uploaded_file($rutaTemporal, $rutaFinal)) {
-            // Guardar en la base de datos
-            $stmt = $conn->prepare("INSERT INTO autos (usuario, nombre, descripcion, precio, estrellas, imagen) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssds", $usuario, $nombre, $descripcion, $precio, $estrellas, $rutaFinal);
+            // Guardar en la base de datos con categoría incluida
+            $stmt = $conn->prepare("INSERT INTO autos (usuario, nombre, descripcion, precio, estrellas, imagen, categoria) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssdss", $usuario, $nombre, $descripcion, $precio, $estrellas, $rutaFinal, $categoria);
+            
             if ($stmt->execute()) {
                 $stmt->close();
-                header("Location: profile.php"); // o donde quieras redirigir después de agregar
+                header("Location: profile.php");
                 exit();
             } else {
                 echo "Error al guardar el auto en la base de datos.";
