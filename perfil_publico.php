@@ -38,6 +38,36 @@ if (!$datos) {
   <a href="index.php" class="logo-link">
     <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" />
   </a>
+  
+</header>
+<header class="main-header">
+  <div class="toggle" id="menu-toggle"><span></span><span></span><span></span></div>
+  <a href="index.php" class="logo-link">
+    <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" />
+  </a>
+
+  <!-- Buscador -->
+  <div class="Buscador">
+    <form method="GET" action="index.php" style="display: flex; align-items: center; width: 100%; padding: 5px 10px;">
+      <input
+        type="search"
+        name="busqueda"
+        class="buscardor-input"
+        placeholder="Buscar autos..."
+        value="<?php echo $_GET['busqueda'] ?? ''; ?>"
+        title="Buscar autos disponibles"
+        aria-label="Buscar autos disponibles"
+      />
+      <button type="submit" style="background: none; border: none; cursor: pointer;">
+        <i class='bx bx-search'></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Icono perfil -->
+  <div class="profile-container">
+    <!-- ... -->
+  </div>
 </header>
 
 <div class="profile-bg-container">
@@ -51,25 +81,37 @@ if (!$datos) {
       </div>
 
       <div class="name_bg">
-        <div class="name_and_rating">
+        
           <h2><?php echo htmlspecialchars($datos['Nombre']); ?></h2>
-          <div class="star-rating">
-            <?php
-              $stmt = $conn->prepare("SELECT AVG(estrellas) AS promedio FROM valoraciones WHERE usuario_valorado = ?");
-              $stmt->bind_param("s", $nombreUsuario);
-              $stmt->execute();
-              $resultado = $stmt->get_result();
-              $prom = $resultado->fetch_assoc();
-              $promedio = round($prom['promedio'], 1) ?: 0;
-              $stmt->close();
-              for ($i = 1; $i <= 5; $i++) {
-                  $active = ($i <= $promedio) ? 'active' : '';
-                  echo "<i class='bx bxs-star star $active'></i>";
-              }
-              echo "<p class='rating-label'>$promedio / 5</p>";
-            ?>
-          </div>
-        </div>
+          <!-- boton para mostrar el correo -->
+ <?php if (!empty($datos['CorreoElectronico'])): ?>
+  <div style="margin-top: 10px;">
+    <button onclick="copiarCorreo('<?php echo htmlspecialchars($datos['CorreoElectronico']); ?>')" class="boton">
+      Mostrar Correo
+    </button>
+  </div>
+<?php endif; ?>
+
+
+          <div class="star-rating" data-usuario="<?php echo htmlspecialchars($nombreUsuario); ?>">
+  <?php
+    $stmt = $conn->prepare("SELECT AVG(estrellas) AS promedio FROM calificausuario WHERE usuario_valorado = ?");
+    $stmt->bind_param("s", $nombreUsuario);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $prom = $res->fetch_assoc();
+    $promedio = round($prom['promedio'], 1) ?: 0;
+    $stmt->close();
+
+    for ($i = 1; $i <= 5; $i++) {
+        $active = ($i <= $promedio) ? 'active' : '';
+        echo "<i class='bx bxs-star star $active' data-star='$i'></i>";
+    }
+
+    echo "<p class='rating-label'>$promedio / 5</p>";
+  ?>
+</div>
+
 
         <?php if ($usuarioSesion === $nombreUsuario): ?>
           <div class="boton_profile">
@@ -121,5 +163,38 @@ if (!$datos) {
 </div>
 
 <script src="js/script.js"></script>
+<script>
+function copiarCorreo(correo) {
+  navigator.clipboard.writeText(correo).then(() => {
+    alert("Correo copiado al portapapeles:\n" + correo);
+  }).catch(err => {
+    console.error("Error al copiar:", err);
+    alert("No se pudo copiar el correo.");
+  });
+}
+</script>
+<script>
+document.querySelectorAll('.star-rating .star').forEach(star => {
+  star.addEventListener('click', function() {
+    const estrellas = this.getAttribute('data-star');
+    const usuario_valorado = document.querySelector('.star-rating').getAttribute('data-usuario');
+
+    fetch('guardar_valoracion.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `estrellas=${estrellas}&usuario_valorado=${usuario_valorado}`
+    })
+    .then(response => response.text())
+    .then(data => {
+      alert(data);
+      location.reload(); // Recargar para mostrar nueva calificación
+    })
+    .catch(err => alert("Error al enviar la valoración"));
+  });
+});
+</script>
+
 </body>
 </html>

@@ -16,11 +16,12 @@ if (!isset($_SESSION['usuario'])) {
 <body>
 
 <!--Logo-->
-<header class="register-header">
+<header class="register-header" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
   <a href="index.php" class="logo-link" aria-label="Melo Logo">
     <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La pagina principal de melo" />
   </a>
-</header>    
+  <a href="profile.php" class="boton-perfil" style="background-color: #1976d2; color: white; padding: 8px 16px; border-radius: 5px; text-decoration: none;">Volver</a>
+</header>
 
 <div class="wrapper">
   <h2>Agregar Auto para Rentar</h2>
