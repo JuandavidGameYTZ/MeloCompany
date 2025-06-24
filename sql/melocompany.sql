@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2025 at 05:22 PM
+-- Generation Time: Jun 24, 2025 at 10:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,18 +35,22 @@ CREATE TABLE `autos` (
   `precio` varchar(50) DEFAULT NULL,
   `estrellas` int(11) DEFAULT 5,
   `imagen` varchar(255) DEFAULT NULL,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `categoria` varchar(50) DEFAULT 'General',
+  `ubicacion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `autos`
 --
 
-INSERT INTO `autos` (`id`, `usuario`, `nombre`, `descripcion`, `precio`, `estrellas`, `imagen`, `fecha_creacion`) VALUES
-(1, 'Juan David', 'AUTO', 'AWDADAWDA', '12', 3, 'img/autos/Juan David_1750689042_Hibiki Screenshot 2024.10.26 - 20.29.20.40.png', '2025-06-23 14:30:42'),
-(2, 'Juan', 'Carro chino', 'El mejorl carro chino', '12', 3, 'img/autos/Juan_1750689366_DAZBHNH7XJFRBPVNZHTWF5DTHM.jpg', '2025-06-23 14:36:06'),
-(3, 'Juan David Santana', 'Roadster', 'Carro en buenas condiciones de death stranding', '18', 5, 'img/autos/Juan David Santana_1750689873_Roadster.png', '2025-06-23 14:44:33'),
-(4, 'Juan David', 'JuanMovil', 'El mejor carro de todos los tiempos', '12/hora', 5, 'img/autos/Juan David_1750691507_Red Dead Redemption 2 Screenshot 2024.05.30 - 21.41.17.58.png', '2025-06-23 15:11:47');
+INSERT INTO `autos` (`id`, `usuario`, `nombre`, `descripcion`, `precio`, `estrellas`, `imagen`, `fecha_creacion`, `categoria`, `ubicacion`) VALUES
+(1, 'Juan David', 'AUTO', 'AWDADAWDA', '12', 3, 'img/autos/Juan David_1750689042_Hibiki Screenshot 2024.10.26 - 20.29.20.40.png', '2025-06-23 14:30:42', 'General', NULL),
+(2, 'Juan', 'Carro chino', 'El mejorl carro chino', '12', 3, 'img/autos/Juan_1750689366_DAZBHNH7XJFRBPVNZHTWF5DTHM.jpg', '2025-06-23 14:36:06', 'General', NULL),
+(3, 'Juan David Santana', 'Roadster', 'Carro en buenas condiciones de death stranding', '18', 5, 'img/autos/Juan David Santana_1750689873_Roadster.png', '2025-06-23 14:44:33', 'General', NULL),
+(4, 'Juan David', 'JuanMovil', 'El mejor carro de todos los tiempos', '12/hora', 5, 'img/autos/Juan David_1750691507_Red Dead Redemption 2 Screenshot 2024.05.30 - 21.41.17.58.png', '2025-06-23 15:11:47', 'General', NULL),
+(5, 'Juan David', 'caballo', 'buenas condiciones', '$8/hora', 5, 'img/autos/Juan David_1750770810_Red Dead Redemption 2 Screenshot 2024.05.30 - 00.18.28.84.png', '2025-06-24 13:13:30', 'Deportivo', NULL),
+(6, 'Juan David', 'Carro deportivo', 'Lo que sea bro', '$9/hora', 5, 'img/autos/Juan David_1750773401_16432233107875.jpg', '2025-06-24 13:56:41', 'Deportivo', 'av. 27 de febrero santo domingo');
 
 -- --------------------------------------------------------
 
@@ -129,7 +133,7 @@ ALTER TABLE `valoraciones`
 -- AUTO_INCREMENT for table `autos`
 --
 ALTER TABLE `autos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `registro`
