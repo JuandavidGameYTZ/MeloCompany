@@ -31,7 +31,6 @@ if (!$auto) {
 <body>
 
 <div class="car-detail-card">
-
   <img src="<?php echo htmlspecialchars($auto['imagen']); ?>" alt="Imagen del auto" class="car-image">
 
   <div class="car-info">
@@ -48,16 +47,34 @@ if (!$auto) {
       <strong>Valoración:</strong>
       <?php echo str_repeat("⭐", intval($auto['estrellas'])); ?>
     </p>
+
+    <p class="car-location">
+      <strong>Ubicación:</strong>
+      <?php echo htmlspecialchars($auto['ubicacion'] ?? 'No especificada'); ?>
+    </p>
+
+    <?php if (!empty($auto['ubicacion'])): ?>
+      <iframe
+        width="100%"
+        height="300"
+        style="border:0; margin-top: 10px; border-radius: 10px;"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=<?php echo urlencode($auto['ubicacion']); ?>&output=embed">
+      </iframe>
+    <?php endif; ?>
   </div>
 
   <hr class="divider">
 
-  <div class="user-profile-mini">
+  <!-- Ir al perfil público del dueño del auto -->
+  <a href="perfil_publico.php?nombre=<?php echo urlencode($auto['Nombre']); ?>" class="user-profile-mini">
     <img src="<?php echo !empty($auto['imagen_perfil']) ? htmlspecialchars($auto['imagen_perfil']) : 'img/Profile_Icon.png'; ?>" alt="Imagen de perfil" class="profile-pic">
     <p class="username"><?php echo htmlspecialchars($auto['Nombre']); ?></p>
-  </div>
+  </a>
 
-  <a href="profile.php" class="back-button">Volver a mi perfil</a>
+  <a href="index.php" class="back-button">Volver al inicio</a>
 </div>
 
 </body>

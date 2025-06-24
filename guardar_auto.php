@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $precio = $_POST['precio'] ?? '';
     $estrellas = intval($_POST['estrellas'] ?? 5);
     $categoria = $_POST['categoria'] ?? 'General';
+    $ubicacion = $_POST['ubicacion'] ?? '';
 
     // Manejar la imagen
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
@@ -25,24 +26,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $rutaFinal = $directorio . $usuario . "_" . time() . "_" . $nombreArchivo;
 
         if (move_uploaded_file($rutaTemporal, $rutaFinal)) {
-            // Guardar en la base de datos con categoría incluida
-            $stmt = $conn->prepare("INSERT INTO autos (usuario, nombre, descripcion, precio, estrellas, imagen, categoria) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssdss", $usuario, $nombre, $descripcion, $precio, $estrellas, $rutaFinal, $categoria);
+            // Guardar en la base de datos incluyendo ubicación
+            $stmt = $conn->prepare("INSERT INTO autos (usuario, nombre, descripcion, precio, estrellas, imagen, categoria, ubicacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssdsss", $usuario, $nombre, $descripcion, $precio, $estrellas, $rutaFinal, $categoria, $ubicacion);
             
             if ($stmt->execute()) {
                 $stmt->close();
                 header("Location: profile.php");
                 exit();
             } else {
-                echo "Error al guardar el auto en la base de datos.";
+                echo "❌ Error al guardar el auto en la base de datos.";
             }
         } else {
-            echo "Error al subir la imagen.";
+            echo "❌ Error al subir la imagen.";
         }
     } else {
-        echo "No se subió ninguna imagen o hubo un error.";
+        echo "❌ No se subió ninguna imagen o hubo un error.";
     }
 } else {
-    echo "Método no permitido.";
+    echo "❌ Método no permitido.";
 }
-?>

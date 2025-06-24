@@ -15,17 +15,12 @@ if (!isset($_SESSION['usuario'])) {
 </head>
 <body>
 
-
-    <!--Logo-->
+<!--Logo-->
 <header class="register-header">
-
-       <!--Logo-->
-     <a href="index.php" class="logo-link" aria-label="Melo Logo">
-     
-        <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La pagina principal de melo" />
-        </a>
+  <a href="index.php" class="logo-link" aria-label="Melo Logo">
+    <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La pagina principal de melo" />
+  </a>
 </header>    
-
 
 <div class="wrapper">
   <h2>Agregar Auto para Rentar</h2>
@@ -51,23 +46,27 @@ if (!isset($_SESSION['usuario'])) {
       <input type="number" id="estrellas" name="estrellas" min="1" max="5" value="5">
     </div>
 
-<label for="categoria">Categoría:</label>
-<div class="input-container">
-  <select id="categoria" name="categoria" required>
-    <option value="Eléctrico">Eléctrico</option>
-    <option value="SUV">SUV</option>
-    <option value="4x4">4x4</option>
-    <option value="Deportivo">Deportivo</option>
-    <option value="Económico">Económico</option>
-    <option value="Premium">Premium</option>
-    <option value="Clásico">Clásico</option>
-    <option value="Camioneta">Camioneta</option>
-    <option value="Taxi">Taxi</option>
-    <option value="General">General</option>
-  </select>
-</div>
+    <label for="categoria">Categoría:</label>
+    <div class="input-container">
+      <select id="categoria" name="categoria" required>
+        <option value="Eléctrico">Eléctrico</option>
+        <option value="SUV">SUV</option>
+        <option value="4x4">4x4</option>
+        <option value="Deportivo">Deportivo</option>
+        <option value="Económico">Económico</option>
+        <option value="Premium">Premium</option>
+        <option value="Clásico">Clásico</option>
+        <option value="Camioneta">Camioneta</option>
+        <option value="Taxi">Taxi</option>
+        <option value="General">General</option>
+      </select>
+    </div>
 
-    
+    <label for="ubicacion">Ubicación:</label>
+    <div class="input-container">
+      <input type="text" id="ubicacion" name="ubicacion" placeholder="Ej: Av. 27 de Febrero, Santo Domingo" required>
+    </div>
+
     <label for="imagen">Imagen del auto:</label>
     <div class="input-container">
       <input type="file" id="imagen" name="imagen" accept="image/*" required>
@@ -77,6 +76,6 @@ if (!isset($_SESSION['usuario'])) {
   </form>
 </div>
 
-
 </body>
 </html>
+
