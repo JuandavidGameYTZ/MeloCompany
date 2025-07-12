@@ -951,10 +951,15 @@ input[type="submit"]:active {
 }
 .description-bubble.truncated {
   max-height: 6.8em;
+  overflow: hidden;
   display: -webkit-box;
+  display: box; 
   -webkit-line-clamp: 5;
+  line-clamp: 5; 
   -webkit-box-orient: vertical;
+  box-orient: vertical;
 }
+
 .description-bubble:hover {
   background-color: var(--primary-hover-color);
   border-color: var(--secondary-color);
