@@ -2,211 +2,322 @@
 session_start();
 require 'conexion.php';
 
-$id = $_GET['id'] ?? 0;
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) {
     echo "Auto inválido.";
     exit();
 }
 
-// Procesar nuevo comentario
 $error_comentario = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) && isset($_SESSION['usuario'])) {
-    $usuario = $_SESSION['usuario'];
-    $comentario = trim($_POST['nuevo_comentario']);
+$usuario = $_SESSION['usuario'] ?? null;
 
+// Procesar comentario
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) && $usuario) {
+    $comentario = trim($_POST['nuevo_comentario']);
     if (strlen($comentario) > 250) {
         $error_comentario = "El comentario no puede exceder 250 caracteres.";
     } else {
-        $stmt_insert = $conn->prepare("INSERT INTO comentarios (id_auto, usuario, comentario, fecha) VALUES (?, ?, ?, NOW())");
-        $stmt_insert->bind_param("iss", $id, $usuario, $comentario);
-        $stmt_insert->execute();
+        $stmt = $conn->prepare(
+            "INSERT INTO comentarios (id_auto, usuario, comentario, fecha) VALUES (?, ?, ?, NOW())"
+        );
+        $stmt->bind_param("iss", $id, $usuario, $comentario);
+        $stmt->execute();
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit();
     }
 }
 
 // Procesar valoración
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['valoracion']) && isset($_SESSION['usuario'])) {
-    $usuario = $_SESSION['usuario'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['valoracion']) && $usuario) {
     $valor = intval($_POST['valoracion']);
     if ($valor >= 1 && $valor <= 5) {
-        $stmt_check = $conn->prepare("SELECT id FROM valorarauto WHERE id_auto = ? AND usuario = ?");
-        $stmt_check->bind_param("is", $id, $usuario);
-        $stmt_check->execute();
-        $resultado_check = $stmt_check->get_result();
+        $stmt = $conn->prepare(
+            "SELECT id FROM valorarauto WHERE id_auto = ? AND usuario = ?"
+        );
+        $stmt->bind_param("is", $id, $usuario);
+        $stmt->execute();
+        $res = $stmt->get_result();
 
-        if ($resultado_check->num_rows > 0) {
-            $stmt_update = $conn->prepare("UPDATE valorarauto SET valor = ? WHERE id_auto = ? AND usuario = ?");
-            $stmt_update->bind_param("iis", $valor, $id, $usuario);
-            $stmt_update->execute();
+        if ($res->num_rows) {
+            $stmt = $conn->prepare(
+                "UPDATE valorarauto SET valor = ? WHERE id_auto = ? AND usuario = ?"
+            );
+            $stmt->bind_param("iis", $valor, $id, $usuario);
         } else {
-            $stmt_insert = $conn->prepare("INSERT INTO valorarauto (id_auto, usuario, valor) VALUES (?, ?, ?)");
-            $stmt_insert->bind_param("isi", $id, $usuario, $valor);
-            $stmt_insert->execute();
+            $stmt = $conn->prepare(
+                "INSERT INTO valorarauto (id_auto, usuario, valor) VALUES (?, ?, ?)"
+            );
+            $stmt->bind_param("isi", $id, $usuario, $valor);
         }
+        $stmt->execute();
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit();
     }
 }
 
-// Obtener auto
-$stmt = $conn->prepare("SELECT a.*, r.imagen_perfil, r.Nombre FROM autos a JOIN registro r ON a.usuario = r.Nombre WHERE a.id = ?");
+// Datos del auto y dueño
+$stmt = $conn->prepare(
+    "SELECT a.*, r.imagen_perfil, r.Nombre
+     FROM autos a
+     JOIN registro r ON a.usuario = r.Nombre
+     WHERE a.id = ?"
+);
 $stmt->bind_param("i", $id);
 $stmt->execute();
-$resultado = $stmt->get_result();
-$auto = $resultado->fetch_assoc();
-
+$auto = $stmt->get_result()->fetch_assoc();
 if (!$auto) {
     echo "Auto no encontrado.";
     exit();
 }
 
-// Obtener comentarios
-$stmt_comments = $conn->prepare("SELECT usuario, comentario, fecha FROM comentarios WHERE id_auto = ? ORDER BY fecha DESC");
-$stmt_comments->bind_param("i", $id);
-$stmt_comments->execute();
-$result_comments = $stmt_comments->get_result();
+// Comentarios
+$stmt = $conn->prepare(
+    "SELECT usuario, comentario, fecha
+     FROM comentarios
+     WHERE id_auto = ?
+     ORDER BY fecha DESC"
+);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result_comments = $stmt->get_result();
 
-// Obtener promedio de valoraciones
-$stmt_prom = $conn->prepare("SELECT AVG(valor) as promedio, COUNT(*) as total FROM valorarauto WHERE id_auto = ?");
-$stmt_prom->bind_param("i", $id);
-$stmt_prom->execute();
-$resultado_prom = $stmt_prom->get_result();
-$datos_prom = $resultado_prom->fetch_assoc();
-$promedio = round($datos_prom['promedio'] ?? 0, 1);
+// Promedio y total de valoraciones
+$stmt = $conn->prepare(
+    "SELECT AVG(valor) AS promedio, COUNT(*) AS total
+     FROM valorarauto
+     WHERE id_auto = ?"
+);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$datos_prom = $stmt->get_result()->fetch_assoc();
+$promedio = floatval($datos_prom['promedio'] ?? 0);
 $total_val = intval($datos_prom['total'] ?? 0);
-?>
 
+// Valoración del usuario actual
+$user_valor = 0;
+if ($usuario) {
+    $stmt = $conn->prepare(
+        "SELECT valor FROM valorarauto WHERE id_auto = ? AND usuario = ?"
+    );
+    $stmt->bind_param("is", $id, $usuario);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+    $user_valor = intval($row['valor'] ?? 0);
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <title>Detalle del Auto - <?php echo htmlspecialchars($auto['nombre']); ?></title>
   <link rel="stylesheet" href="css/style.css" />
+  <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
 
-<div class="car-detail-card">
-  <img src="<?php echo htmlspecialchars($auto['imagen']); ?>" alt="Imagen del auto" class="car-image">
+  <?php include 'header.php'; ?>
 
-  <div class="car-info">
-    <h1 class="car-title"><?php echo htmlspecialchars($auto['nombre']); ?></h1>
+  <div class="car-detail-card">
+    <img src="<?php echo htmlspecialchars($auto['imagen']); ?>" alt="Imagen del auto" class="car-image" />
 
-    <p class="car-description">
-      <strong>Descripción:</strong><br>
-      <?php echo nl2br(htmlspecialchars($auto['descripcion'])); ?>
-    </p>
+    <div class="car-info">
+      <h1 class="car-title"><?php echo htmlspecialchars($auto['nombre']); ?></h1>
+      <p class="car-price"><?php echo htmlspecialchars($auto['precio']); ?></p>
 
-    <p class="car-price"><strong>Precio:</strong> <?php echo htmlspecialchars($auto['precio']); ?></p>
-
-    <p class="car-rating">
-      <strong>Valoración:</strong>
-      <?php echo str_repeat("⭐", intval($auto['estrellas'])); ?>
-    </p>
-
-    <p class="car-location">
-      <strong>Ubicación:</strong>
-      <?php echo htmlspecialchars($auto['ubicacion'] ?? 'No especificada'); ?>
-    </p>
-
-<p class="car-rating">
-  <strong>Valoración promedio:</strong>
-  <?php echo str_repeat("⭐", floor($promedio)); ?>
-  <span style="color: #ccc;">(<?php echo $promedio; ?> / 5, <?php echo $total_val; ?> votos)</span>
-</p>
-
-<?php if (isset($_SESSION['usuario'])): ?>
-  <form method="post" style="margin-top: 5px;">
-    <label for="valoracion">Tu valoración:</label>
-    <select name="valoracion" id="valoracion" required style="background-color: #333; color: #fff; border: none; padding: 5px; border-radius: 4px;">
-      <option value="">Selecciona</option>
-      <option value="5">⭐ 5</option>
-      <option value="4">⭐ 4</option>
-      <option value="3">⭐ 3</option>
-      <option value="2">⭐ 2</option>
-      <option value="1">⭐ 1</option>
-    </select>
-    <button type="submit" style="background-color: #555; color: #eee; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Enviar</button>
+<?php if ($usuario): ?>
+  <form id="rating-form" method="post" style="display:inline;">
+    <div
+      class="stars estrellas-auto-detalle <?php echo $user_valor > 0 ? 'read-only' : ''; ?>"
+      id="rating-stars"
+      role="radiogroup"
+      aria-label="Valora este auto"
+      data-user-valued="<?php echo $user_valor > 0 ? '1' : '0'; ?>"
+      data-promedio="<?php echo htmlspecialchars(number_format($promedio,2)); ?>"
+    >
+      <?php 
+        $full = floor($promedio);
+        for ($i = 1; $i <= 5; $i++) {
+            $cls = ($i <= $full) ? 'bxs-star' : 'bx-star';
+            echo "<i class='bx {$cls}' data-star='{$i}' role='radio' tabindex='0' aria-label='{$i} estrellas' aria-checked='false'></i>";
+        }
+      ?>
+    </div>
+    <input type="hidden" name="valoracion" id="valoracion" value="<?php echo $user_valor; ?>" required />
   </form>
 <?php else: ?>
-  <p style="color: #aaa;">Inicia sesión para valorar.</p>
+  <div class="stars read-only estrellas-auto-detalle" aria-label="Valoración promedio">
+    <?php
+      $full = floor($promedio);
+      for ($i = 1; $i <= 5; $i++) {
+        $cls = $i <= $full ? 'bxs-star' : 'bx-star';
+        echo "<i class='bx {$cls}'></i>";
+      }
+    ?>
+  </div>
 <?php endif; ?>
 
+      <a href="perfil_publico.php?nombre=<?php echo urlencode($auto['Nombre']); ?>" class="public-profile-link">
+        <div class="public-profile-bubble">
+          <div class="public-profile-pic">
+            <img
+              src="<?php echo !empty($auto['imagen_perfil']) ? htmlspecialchars($auto['imagen_perfil']) : 'img/Profile_Icon.png'; ?>"
+              alt="Perfil del dueño"
+            />
+          </div>
+          <p class="public-username"><?php echo htmlspecialchars($auto['Nombre']); ?></p>
+        </div>
+      </a>
 
-    <?php if (!empty($auto['ubicacion'])): ?>
-      <iframe
-        width="100%"
-        height="300"
-        style="border:0; margin-top: 10px; border-radius: 10px;"
-        loading="lazy"
-        allowfullscreen
-        referrerpolicy="no-referrer-when-downgrade"
-        src="https://www.google.com/maps?q=<?php echo urlencode($auto['ubicacion']); ?>&output=embed">
-      </iframe>
-    <?php endif; ?>
-  </div>
+      <div class="description-bubble" id="description-bubble">
+        <p id="car-description"><?php echo nl2br(htmlspecialchars($auto['descripcion'])); ?></p>
+        <span class="show-more">ver más</span>
+      </div>
 
-  <hr class="divider">
+      <?php if (!empty($auto['ubicacion'])): ?>
+        <iframe
+        class="car-map"
+          title="Ubicación del auto"
+          width="100%"
+          height="300"
+          loading="lazy"
+          allowfullscreen
+          src="https://www.google.com/maps?q=<?php echo urlencode($auto['ubicacion']); ?>&output=embed"
+        ></iframe>
+      <?php endif; ?>
+    </div>
 
-  <!-- Ir al perfil público del dueño del auto -->
-  <a href="perfil_publico.php?nombre=<?php echo urlencode($auto['Nombre']); ?>" class="user-profile-mini">
-    <img src="<?php echo !empty($auto['imagen_perfil']) ? htmlspecialchars($auto['imagen_perfil']) : 'img/Profile_Icon.png'; ?>" alt="Imagen de perfil" class="profile-pic">
-    <p class="username"><?php echo htmlspecialchars($auto['Nombre']); ?></p>
-  </a>
+    <p class="car-location"><?php echo htmlspecialchars($auto['ubicacion'] ?? 'No especificada'); ?></p>
 
-  <a href="index.php" class="back-button">Volver al inicio</a>
- <!-- Sección comentarios -->
-<div class="comments-section" style="background-color: #222; color: #eee; padding: 15px; border-radius: 8px; margin-top: 20px;">
+    <a href="denuncias.php?id=<?php echo $auto['id']; ?>" class="boton">Denunciar</a>
+
+    <hr class="divider" />
+<div class="comentarios">
   <h2>Comentarios</h2>
 
   <?php if ($result_comments->num_rows === 0): ?>
-    <p>No hay comentarios todavía.</p>
+    <p class="sin-comentarios">No hay comentarios todavía.</p>
   <?php else: ?>
-    <?php while($coment = $result_comments->fetch_assoc()): ?>
-      <div class="comment" style="border-bottom: 1px solid #444; padding: 8px 0;">
-        <p style="margin: 0;"><strong><?php echo htmlspecialchars($coment['usuario']); ?></strong> <small style="color: #999;"><?php echo date('d/m/Y H:i', strtotime($coment['fecha'])); ?></small></p>
-        <p style="margin: 5px 0 0;"><?php echo nl2br(htmlspecialchars($coment['comentario'])); ?></p>
+    <?php while ($coment = $result_comments->fetch_assoc()): ?>
+      <div class="comentario">
+        <p class="comentario-cabecera">
+          <strong><?php echo htmlspecialchars($coment['usuario']); ?></strong>
+          <small><?php echo date('d/m/Y H:i', strtotime($coment['fecha'])); ?></small>
+        </p>
+        <p class="comentario-texto"><?php echo nl2br(htmlspecialchars($coment['comentario'])); ?></p>
       </div>
     <?php endwhile; ?>
   <?php endif; ?>
 
-  <?php if (isset($_SESSION['usuario'])): ?>
-    <form method="post" style="margin-top: 15px;">
-      <label for="nuevo_comentario">Añadir comentario (máximo 250 caracteres):</label><br>
-      <textarea
-        name="nuevo_comentario"
-        id="nuevo_comentario"
-        rows="3"
-        maxlength="250"
-        style="width: 100%; background-color: #333; color: #eee; border: none; padding: 8px; border-radius: 5px; resize: none;"
-        required
-        oninput="updateCounter()"
-      ></textarea>
-      <div style="text-align: right; font-size: 0.9em; color: #ccc;" id="charCounter">250 caracteres restantes</div>
-      
+  <?php if ($usuario): ?>
+    <form method="post" class="formulario-comentario">
+      <label for="nuevo_comentario">Añadir comentario</label>
+      <textarea id="nuevo_comentario" name="nuevo_comentario" maxlength="250" required oninput="updateCounter()"></textarea>
+      <div id="charCounter">250 caracteres restantes</div>
+
       <?php if ($error_comentario): ?>
-        <p style="color: #ff6666;"><?php echo $error_comentario; ?></p>
+        <p class="error"><?php echo $error_comentario; ?></p>
       <?php endif; ?>
 
-      <button type="submit" style="margin-top: 8px; background-color: #555; color: #eee; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">Enviar</button>
+      <button type="submit" class="boton">Enviar</button>
     </form>
-  <?php else: ?>
-    <p>Debe <a href="login.php" style="color: #66ccff;">iniciar sesión</a> para comentar.</p>
   <?php endif; ?>
 </div>
 
-<script>
-function updateCounter() {
-  const textarea = document.getElementById('nuevo_comentario');
-  const counter = document.getElementById('charCounter');
-  const max = 250;
-  const remaining = max - textarea.value.length;
-  counter.textContent = remaining + " caracteres restantes";
-}
-</script>
 
-</div>
+  <script src="js/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const txt = document.getElementById('nuevo_comentario');
+      const cnt = document.getElementById('charCounter');
+      if (txt && cnt) {
+        txt.addEventListener('input', () => {
+          cnt.textContent = (250 - txt.value.length) + " caracteres restantes";
+        });
+      }
 
+      const desc = document.getElementById('car-description');
+      const showMore = document.querySelector('.show-more');
 
+      function isTextTruncated(el) {
+        return el.scrollHeight > el.clientHeight + 1;
+      }
+
+      if (desc && showMore) {
+        if (isTextTruncated(desc)) {
+          showMore.style.display = 'inline';
+          showMore.addEventListener('click', () => {
+            desc.style.maxHeight = 'none';
+            desc.style.overflow = 'visible';
+            showMore.style.display = 'none';
+          });
+        } else {
+          showMore.style.display = 'none';
+        }
+      }
+
+      const ratingStars = document.getElementById('rating-stars');
+      if (!ratingStars) return;
+
+      const userValued = ratingStars.getAttribute('data-user-valued') === '1';
+      const promedio = parseFloat(ratingStars.getAttribute('data-promedio')) || 0;
+      const inputValor = document.getElementById('valoracion');
+      const form = document.getElementById('rating-form');
+      const stars = ratingStars.querySelectorAll('i');
+
+      function pintarEstrellas(valor) {
+        stars.forEach((star, idx) => {
+          if (idx < valor) {
+            star.classList.add('bxs-star');
+            star.classList.remove('bx-star');
+          } else {
+            star.classList.add('bx-star');
+            star.classList.remove('bxs-star');
+          }
+        });
+      }
+
+      pintarEstrellas(Math.floor(promedio));
+
+      if (!userValued) {
+        stars.forEach((star, idx) => {
+          star.setAttribute('tabindex', 0);
+          star.setAttribute('aria-checked', 'false');
+
+          star.addEventListener('click', () => {
+            const val = idx + 1;
+            inputValor.value = val;
+            pintarEstrellas(val);
+            form.submit();
+          });
+
+          star.addEventListener('mouseover', () => {
+            pintarEstrellas(idx + 1);
+          });
+
+          star.addEventListener('mouseout', () => {
+            pintarEstrellas(Math.floor(promedio));
+          });
+
+          star.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              const val = idx + 1;
+              inputValor.value = val;
+              pintarEstrellas(val);
+              form.submit();
+            }
+          });
+        });
+      } else {
+        stars.forEach(star => {
+          star.setAttribute('tabindex', -1);
+          star.setAttribute('aria-checked', 'false');
+        });
+      }
+
+    });
+  </script>
 </body>
 </html>
+

@@ -50,80 +50,12 @@ if ($usuario) {
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="icon" href="img/MeloIcon.png" type="image/png" />
 </head>
+
+
 <body>
 
-<!-- HEADER Y BARRA SUPERIOR -->
-<header class="main-header">
-  <div class="toggle" id="menu-toggle"><span></span><span></span><span></span></div>
-  <a href="index.php" class="logo-link">
-    <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" />
-  </a>
+<?php include 'header.php'; ?>
 
-
-  <!-- Buscador -->
-
-<div class="Buscador">
-  <form method="GET" action="index.php" style="display: flex; align-items: center; width: 100%; padding: 5px 10px;">
-    <input
-      type="search"
-      name="busqueda"
-      class="buscardor-input"
-      placeholder="Buscar autos..."
-      value="<?php echo $_GET['busqueda'] ?? ''; ?>"
-      title="Buscar autos disponibles"
-      aria-label="Buscar autos disponibles"
-    />
-    <button type="submit" style="background: none; border: none; cursor: pointer;">
-      <i class='bx bx-search'></i>
-    </button>
-  </form>
-</div>
-
-  <!-- Icono perfil -->
-  <div class="profile-container">
-    <?php if ($usuario):
-      $sql = "SELECT imagen_perfil FROM registro WHERE Nombre = ?";
-      $stmt = $conn->prepare($sql);
-      $stmt->bind_param("s", $usuario);
-      $stmt->execute();
-      $res = $stmt->get_result();
-      $img = $res->fetch_assoc();
-      $stmt->close();
-
-      $rutaPorDefecto = "img/Profile_Icon.png";
-      $imagenRuta = (!empty($img['imagen_perfil']) && file_exists($img['imagen_perfil'])) ? $img['imagen_perfil'] : $rutaPorDefecto;
-    ?>
-      <div class="profile-info" style="display: flex; align-items: center; gap: 10px;">
-        <img src="<?php echo htmlspecialchars($imagenRuta); ?>" class="profile-icon" />
-        <span class="username"><?php echo htmlspecialchars($usuario); ?></span>
-      </div>
-    <?php else: ?>
-      <div class="auth-buttons">
-        <a href="login.php" class="boton">Iniciar sesión</a>
-        <a href="register.php" class="boton">Registrarse</a>
-      </div>
-    <?php endif; ?>
-  </div>
-
-  <div id="profile-dropdown" class="profile-dropdown">
-    <?php if ($usuario): ?>
-      <a href="profile.php"><i class='bx bx-user'></i> Mi perfil</a>
-      <a href="#"><i class='bx bx-car'></i> Autos</a>
-      <a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a>
-      <a href="logout.php"><i class='bx bx-user-x'></i> Salir</a>
-    <?php endif; ?>
-  </div>
-</header>
-
-<!-- SIDEBAR -->
-<nav class="slidebar" id="sidebar">
-  <h1><i class='bx bx-menu'></i> Menú</h1>
-  <ul>
-    <li><a href="index.php"><i class='bx bx-home'></i> Inicio</a></li>
-    <li><a href="ajustes.php"><i class='bx bx-cog'></i> Ajustes</a></li>
-    <li><a href="contacto.html"><i class='bx bx-phone'></i> Contacto</a></li>
-  </ul>
-</nav>
 
 <!-- PERFIL -->
 <div class="profile-bg-container">
@@ -166,9 +98,7 @@ if ($usuario) {
             ?>
           </div>
         </div>
-        <div class="boton_profile">
-          <a href="agregar_auto.php" class="boton">Agregar Auto a rentar</a>
-        </div>
+
       </div>
     </div>
   </div>

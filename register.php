@@ -4,11 +4,13 @@ session_start();
 // Conexión a la base de datos
 $host = "localhost";
 $usuario = "root";
-$contrasena = "";
+$contrasena = ""; // Añade tu contraseña si tienes
 $basedatos = "Melocompany";
 
+// Crear conexión
 $conn = new mysqli($host, $usuario, $contrasena, $basedatos);
 
+// Verificar conexión
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }
@@ -112,10 +114,19 @@ $conn->close();
     <div class="input-container" style="position: relative;">
   <input type="password" id="password" name="password" placeholder="Contraseña" required />
   <i class='bx bx-show' id="toggleLoginPassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+
+
+
+
 </div>
 
+  <div>
+
+      <button type="submit" class="boton">Registrarse</button>
+
+  </div>
+
     </div>
-    <button type="submit" class="boton">Registrarse</button>
 </form>
         <p class="login-link">¿Ya tienes una cuenta? <a href="login.php">Iniciar sesión</a></p>
 
@@ -144,3 +155,4 @@ $conn->close();
 </script>
 </body>
 </html>
+    

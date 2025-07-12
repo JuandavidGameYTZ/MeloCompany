@@ -111,3 +111,51 @@ document.querySelectorAll('.star-rating .star').forEach(star => {
     .catch(err => console.error('Error:', err));
   });
 });
+const input = document.getElementById("busquedaInput");
+const lista = document.getElementById("sugerencias");
+
+input.addEventListener("input", async () => {
+  const valor = input.value.trim();
+
+  if (!valor) {
+    lista.innerHTML = "";
+    return;
+  }
+
+  try {
+    const response = await fetch(`buscar_autos.php?q=${encodeURIComponent(valor)}`);
+    if (!response.ok) throw new Error("Error en la respuesta");
+
+    const resultados = await response.json();
+
+    lista.innerHTML = "";
+
+    if (resultados.length === 0) {
+      lista.innerHTML = "<li>No se encontraron autos</li>";
+      return;
+    }
+
+    resultados.forEach(nombre => {
+      const li = document.createElement("li");
+      li.textContent = nombre;
+      li.tabIndex = 0; // para accesibilidad y que pueda focus
+      li.addEventListener("click", () => {
+        input.value = nombre;
+        lista.innerHTML = "";
+      });
+      lista.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Error al obtener sugerencias:", err);
+  }
+});
+
+// Ocultar sugerencias si se hace clic fuera del buscador
+document.addEventListener("click", e => {
+  if (!e.target.closest(".Buscador")) {
+    lista.innerHTML = "";
+  }
+});
+
+
+

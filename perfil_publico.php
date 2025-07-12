@@ -34,41 +34,7 @@ if (!$datos) {
 </head>
 <body>
 
-<header class="main-header">
-  <a href="index.php" class="logo-link">
-    <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" />
-  </a>
-  
-</header>
-<header class="main-header">
-  <div class="toggle" id="menu-toggle"><span></span><span></span><span></span></div>
-  <a href="index.php" class="logo-link">
-    <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" />
-  </a>
-
-  <!-- Buscador -->
-  <div class="Buscador">
-    <form method="GET" action="index.php" style="display: flex; align-items: center; width: 100%; padding: 5px 10px;">
-      <input
-        type="search"
-        name="busqueda"
-        class="buscardor-input"
-        placeholder="Buscar autos..."
-        value="<?php echo $_GET['busqueda'] ?? ''; ?>"
-        title="Buscar autos disponibles"
-        aria-label="Buscar autos disponibles"
-      />
-      <button type="submit" style="background: none; border: none; cursor: pointer;">
-        <i class='bx bx-search'></i>
-      </button>
-    </form>
-  </div>
-
-  <!-- Icono perfil -->
-  <div class="profile-container">
-    <!-- ... -->
-  </div>
-</header>
+<?php include 'header.php'; ?>
 
 <div class="profile-bg-container">
   <div class="background_and_profile">
@@ -83,42 +49,50 @@ if (!$datos) {
       <div class="name_bg">
         
           <h2><?php echo htmlspecialchars($datos['Nombre']); ?></h2>
-          <!-- boton para mostrar el correo -->
- <?php if (!empty($datos['CorreoElectronico'])): ?>
-  <div style="margin-top: 10px;">
-    <button onclick="copiarCorreo('<?php echo htmlspecialchars($datos['CorreoElectronico']); ?>')" class="boton">
-      Mostrar Correo
-    </button>
-  </div>
-<?php endif; ?>
 
+          <!-- Botón para mostrar correo -->
+          <?php if (!empty($datos['CorreoElectronico'])): ?>
+          <div style="margin-top: 10px;">
+            <button onclick="copiarCorreo('<?php echo htmlspecialchars($datos['CorreoElectronico']); ?>')" class="boton">
+              Mostrar Correo
+            </button>
+          </div>
+          <?php endif; ?>
+
+          <!-- ✅ BOTÓN DE CHAT AÑADIDO -->
+          <?php if (!empty($datos['CorreoElectronico']) && isset($_SESSION['usuario']) && $usuarioSesion !== $nombreUsuario): ?>
+          <div style="margin-top: 10px;">
+            <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class="boton">Chat</a>
+          </div>
+          <?php endif; ?>
+          <?php if (!isset($_SESSION['usuario'])): ?>
+            <p><a href="login.php">Inicia sesión para enviar mensajes</a></p>
+          <?php endif; ?>
 
           <div class="star-rating" data-usuario="<?php echo htmlspecialchars($nombreUsuario); ?>">
-  <?php
-    $stmt = $conn->prepare("SELECT AVG(estrellas) AS promedio FROM calificausuario WHERE usuario_valorado = ?");
-    $stmt->bind_param("s", $nombreUsuario);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $prom = $res->fetch_assoc();
-    $promedio = round($prom['promedio'], 1) ?: 0;
-    $stmt->close();
+          <?php
+            $stmt = $conn->prepare("SELECT AVG(estrellas) AS promedio FROM calificausuario WHERE usuario_valorado = ?");
+            $stmt->bind_param("s", $nombreUsuario);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $prom = $res->fetch_assoc();
+            $promedio = round($prom['promedio'], 1) ?: 0;
+            $stmt->close();
 
-    for ($i = 1; $i <= 5; $i++) {
-        $active = ($i <= $promedio) ? 'active' : '';
-        echo "<i class='bx bxs-star star $active' data-star='$i'></i>";
-    }
+            for ($i = 1; $i <= 5; $i++) {
+                $active = ($i <= $promedio) ? 'active' : '';
+                echo "<i class='bx bxs-star star $active' data-star='$i'></i>";
+            }
 
-    echo "<p class='rating-label'>$promedio / 5</p>";
-  ?>
-</div>
-
-
-        <?php if ($usuarioSesion === $nombreUsuario): ?>
-          <div class="boton_profile">
-            <a href="agregar_auto.php" class="boton">Agregar Auto a rentar</a>
+            echo "<p class='rating-label'>$promedio / 5</p>";
+          ?>
           </div>
-        <?php endif; ?>
 
+          <?php if ($usuarioSesion === $nombreUsuario): ?>
+            <div class="boton_profile">
+              <a href="agregar_auto.php" class="boton">Agregar Auto a rentar</a>
+            </div>
+          <?php endif; ?>
       </div>
     </div>
   </div>
@@ -154,7 +128,6 @@ if (!$datos) {
           }
           $stmt->close();
           ?>
-
         </div>
         <button class="scroll-btn right" onclick="scrollRightBtn('user-autos-scroll')"><i class='bx bx-caret-right'></i></button>
       </div>
@@ -172,8 +145,7 @@ function copiarCorreo(correo) {
     alert("No se pudo copiar el correo.");
   });
 }
-</script>
-<script>
+
 document.querySelectorAll('.star-rating .star').forEach(star => {
   star.addEventListener('click', function() {
     const estrellas = this.getAttribute('data-star');
@@ -189,7 +161,7 @@ document.querySelectorAll('.star-rating .star').forEach(star => {
     .then(response => response.text())
     .then(data => {
       alert(data);
-      location.reload(); // Recargar para mostrar nueva calificación
+      location.reload();
     })
     .catch(err => alert("Error al enviar la valoración"));
   });
