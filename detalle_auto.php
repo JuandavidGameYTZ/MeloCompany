@@ -113,7 +113,7 @@ if ($usuario) {
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="img/MeloIcon.png" type="image/png" />
+  <link rel="icon" href="img/MeloIcon.png" type="image/png" />
 </head>
 <body>
 
