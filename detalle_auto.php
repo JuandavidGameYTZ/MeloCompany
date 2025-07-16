@@ -70,6 +70,18 @@ if (!$auto) {
     exit();
 }
 
+// Procesar botón de ocultar/mostrar si es el dueño
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_oculto']) && $usuario === $auto['usuario']) {
+    $nuevo_estado = $auto['oculto'] ? 0 : 1;
+    $stmt = $conn->prepare("UPDATE autos SET oculto = ? WHERE id = ?");
+    $stmt->bind_param("ii", $nuevo_estado, $id);
+    $stmt->execute();
+
+    // Recargar la página para reflejar el nuevo estado
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit();
+}
+
 // Comentarios
 $stmt = $conn->prepare(
     "SELECT usuario, comentario, fecha
@@ -191,6 +203,16 @@ if ($usuario) {
     <p class="car-location"><?php echo htmlspecialchars($auto['ubicacion'] ?? 'No especificada'); ?></p>
 
     <a href="denuncias.php?id=<?php echo $auto['id']; ?>" class="boton">Denunciar</a>
+    
+    <?php if ($usuario === $auto['usuario']): ?>
+  <form method="post" style="display:inline;">
+    <input type="hidden" name="toggle_oculto" value="1">
+    <button type="submit" class="boton">
+      <?php echo $auto['oculto'] ? 'Mostrar auto' : 'Ocultar auto'; ?>
+    </button>
+  </form>
+<?php endif; ?>
+
 
     <hr class="divider" />
 <div class="comentarios">

@@ -108,8 +108,16 @@ if (!$datos) {
         <div class="cards scrollable" id="user-autos-scroll">
 
           <?php
-          $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ?");
-          $stmt->bind_param("s", $nombreUsuario);
+if ($usuarioSesion === $nombreUsuario) {
+    // Si el perfil lo está viendo el propio dueño
+    $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ?");
+    $stmt->bind_param("s", $nombreUsuario);
+} else {
+    // Si otro usuario lo está viendo
+    $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ? AND oculto = 0");
+    $stmt->bind_param("s", $nombreUsuario);
+}
+
           $stmt->execute();
           $resultado = $stmt->get_result();
 

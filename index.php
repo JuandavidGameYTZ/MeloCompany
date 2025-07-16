@@ -4,6 +4,9 @@ session_start();
 require 'conexion.php';
 ?>
 
+$usuario = $_SESSION['usuario'] ?? '';
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,10 +30,10 @@ require 'conexion.php';
 
   <!-- Resultados de búsqueda -->
   <?php
-  if (!empty($_GET['busqueda'])) {
-    $busqueda = $_GET['busqueda'];
-    $stmt = $conn->prepare("SELECT * FROM autos WHERE nombre LIKE CONCAT('%', ?, '%') ORDER BY fecha_creacion DESC");
-    $stmt->bind_param("s", $busqueda);
+if (!empty($_GET['busqueda'])) {
+  $busqueda = $_GET['busqueda'];
+  $stmt = $conn->prepare("SELECT * FROM autos WHERE nombre LIKE CONCAT('%', ?, '%') AND (oculto = 0 OR usuario = ?) ORDER BY fecha_creacion DESC");
+  $stmt->bind_param("ss", $busqueda, $usuario);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -56,8 +59,8 @@ require 'conexion.php';
     <?php
     $categorias = ["Eléctrico", "SUV", "4x4", "Deportivo", "Económico", "Premium", "Clásico", "Camioneta", "Taxi", "General"];
     foreach ($categorias as $cat):
-      $stmt = $conn->prepare("SELECT * FROM autos WHERE categoria = ? ORDER BY fecha_creacion DESC");
-      $stmt->bind_param("s", $cat);
+$stmt = $conn->prepare("SELECT * FROM autos WHERE categoria = ? AND (oculto = 0 OR usuario = ?) ORDER BY fecha_creacion DESC");
+$stmt->bind_param("ss", $cat, $usuario);
       $stmt->execute();
       $res = $stmt->get_result();
       if ($res->num_rows > 0):
@@ -85,6 +88,7 @@ require 'conexion.php';
     <?php endif; endforeach; ?>
   </section>
 </main>
+
 
 <!-- JS -->
 <script src="js/script.js"></script>

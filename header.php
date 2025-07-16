@@ -90,7 +90,7 @@ require 'conexion.php';
   <h1><i class='bx bx-menu'></i> Menú</h1>
   <ul>
     <li><a href="index.php"><i class='bx bx-home'></i> Inicio</a></li>
-    <li><a href="ajustes.php"><i class='bx bx-cog'></i> Ajustes</a></li>
-    <li><a href="contacto.html"><i class='bx bx-phone'></i> Contacto</a></li>
+    <li><a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a></li>
+    <li><a href="contacto.php"><i class='bx bx-phone'></i> Contacto</a></li>
   </ul>
 </nav>

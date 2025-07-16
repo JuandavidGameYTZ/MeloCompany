@@ -160,8 +160,16 @@ if ($usuario) {
 
           <?php
           if ($usuario_valorado) {
-              $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ?");
-              $stmt->bind_param("s", $usuario_valorado);
+    if ($usuario_valorado === $usuario) {
+        // Si el dueño está viendo su propio perfil, ve todos los autos
+        $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ?");
+        $stmt->bind_param("s", $usuario_valorado);
+    } else {
+        // Si otro usuario lo ve, solo muestra los no ocultos
+        $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ? AND oculto = 0");
+        $stmt->bind_param("s", $usuario_valorado);
+    }
+
               $stmt->execute();
               $resultado = $stmt->get_result();
 
