@@ -37,22 +37,24 @@ $resultado = $stmt->get_result();
 <body>
     <?php include 'header.php'; ?>
 
+    <div class="chat-list-container">
+      <h2 class="chat-title">Mis chats <i class='bx bx-message-dots'></i></h2>
+      <ul class="chat-list">
+        <?php if ($resultado->num_rows > 0): ?>
+            <?php while ($row = $resultado->fetch_assoc()): ?>
+              <li class="chat-item" onclick="window.location.href='comentdex.php?con=<?php echo urlencode($row['contacto']); ?>'">
+                <img src="<?php echo $row['imagen_perfil'] ? htmlspecialchars($row['imagen_perfil']) : 'img/Profile_Icon.png'; ?>" 
+                     alt="Perfil" class="chat-avatar">
+                <a href="comentdex.php?con=<?php echo urlencode($row['contacto']); ?>" class="chat-name">
+                  <?php echo htmlspecialchars($row['contacto']); ?>
+                </a>
+              </li>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <li class="chat-item no-contactos">Aún no tienes contactos.</li>
+        <?php endif; ?>
+      </ul>
+    </div>
 
-
-
-
-<div class="chat-list-container">
-  <h2 class="chat-title">Mis chats</h2>
-  <ul class="chat-list">
-    <?php while ($row = $resultado->fetch_assoc()): ?>
-      <li class="chat-item">
-        <img src="<?php echo $row['imagen_perfil'] ? htmlspecialchars($row['imagen_perfil']) : 'img/Profile_Icon.png'; ?>" 
-             alt="Perfil" class="chat-avatar">
-        <a href="comentdex.php?con=<?php echo urlencode($row['contacto']); ?>" class="chat-name">
-          <?php echo htmlspecialchars($row['contacto']); ?>
-        </a>
-      </li>
-    <?php endwhile; ?>
-  </ul>
-</div>
-      
+</body>
+</html>

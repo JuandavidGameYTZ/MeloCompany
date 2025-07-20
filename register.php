@@ -99,7 +99,7 @@ $conn->close();
 
 <form method="POST" action="">
 
-    <h1>Registrarse</h1>
+    <h1>Registrarse <i class='bx  bx-user-plus'  ></i> </h1> 
     <?php if (!empty($mensaje)): ?>
   <div class="mensaje"><?php echo $mensaje; ?></div>
 <?php endif; ?>
@@ -120,20 +120,17 @@ $conn->close();
 
 </div>
 
-  <div>
 
       <button type="submit" class="boton">Registrarse</button>
 
-  </div>
+
+        <p class="login-link">¿Ya tienes una cuenta? <a href="login.php"  >Iniciar sesión</a></p>
+
+
+
 
     </div>
 </form>
-        <p class="login-link">¿Ya tienes una cuenta? <a href="login.php">Iniciar sesión</a></p>
-
-
-    
-
-
 </div>
 </div>
 <script>

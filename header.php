@@ -13,8 +13,9 @@ require 'conexion.php';
     <span></span><span></span><span></span>
   </div>
 
+
   <!-- Logo -->
-  <a href="index.php" class="logo-link" aria-label="Melo Logo">
+  <a href="index.php" onclick="if(window.location.pathname.endsWith('index.php')) return false class="logo-link" aria-label="Melo Logo">
     <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La pagina principal de Melo" />
   </a>
 
@@ -77,7 +78,7 @@ require 'conexion.php';
   <!-- Menú desplegable -->
   <div id="profile-dropdown" class="profile-dropdown">
     <?php if (isset($_SESSION['usuario'])): ?>
-      <a href="profile.php"><i class='bx bx-user'></i> Mi perfil</a>
+      <a href="profile.php" > <i class='bx bx-user'></i> Mi perfil</a>
       <a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a>
       <a href="contacto.php"><i class='bx  bx-message-dots'  ></i> Contactos</a>
       <a href="logout.php"><i class='bx bx-user-x'></i> Salir</a>
@@ -89,8 +90,10 @@ require 'conexion.php';
 <nav class="slidebar" id="sidebar">
   <h1><i class='bx bx-menu'></i> Menú</h1>
   <ul>
-    <li><a href="index.php"><i class='bx bx-home'></i> Inicio</a></li>
+    <li><a href="index.php" onclick="if(window.location.pathname.endsWith('index.php')) return false" ><i class='bx bx-home'></i> Inicio</a></li>
     <li><a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a></li>
     <li><a href="contacto.php"><i class='bx bx-phone'></i> Contacto</a></li>
   </ul>
 </nav>
+
+<script src="js/script.js"></script>

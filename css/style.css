@@ -22,6 +22,7 @@
   /* Colors */
   --main-color: #d2d0d0;
   --secondary-color: #59bdd1;
+  --secondary-color-dark: #37acc3;
   --secondary-color-gradient: linear-gradient(to right, rgb(89, 189, 209), rgb(8, 68, 81));
   --text-color: #000000;
   --secondary-hover-color: rgba(0, 0, 0, 0.285);
@@ -37,9 +38,9 @@
   --color-money: #18c964;
 
   /* Input Styles */
-  --secondary-input-color: rgb(164, 157, 157);
+  --secondary-input-color: rgb(196, 196, 196);
   --aoutline-input-color: rgba(255, 255, 255, 0.5);
-  --inside-input-color: rgb(180, 170, 170);
+  --inside-input-color: rgb(224, 224, 224);
 
   /* Button Styles */
   --boton-static: linear-gradient(to right, #59bdd1, #2f6772);
@@ -60,6 +61,7 @@
    --main-solid-color: rgb(20, 20, 20);
    --main-color: #1f1f1f;
    --secondary-color: #59bdd1;
+     --secondary-color-dark: #388b9c;
    --secondary-color-gradient: linear-gradient(to right, rgb(89, 189, 209), rgb(8, 68, 81));
    --text-color: #f0f0f0;
    --secondary-hover-color: rgba(255, 255, 255, 0.1);
@@ -274,9 +276,9 @@ body {
   gap: 10px;
   background-color: var(--main-color);
   border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   padding: 6px 14px;
   border-radius: 999px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 .profile-container:hover {
@@ -495,7 +497,6 @@ body {
   background: var(--main-gradient);
   backdrop-filter: var(--universal-blur);
   -webkit-backdrop-filter: var(--universal-blur);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   border-radius: 12px;
   padding: 30px 25px;
   color: var(--text-color);
@@ -532,9 +533,10 @@ label {
   transition: box-shadow 0.3s ease, background-color 0.3s ease;
   min-height: 48px;
   box-sizing: border-box;
+  appearance: none;
 }
 .input-container:focus-within {
-  box-shadow: 0 0 0 3px var(--aoutline-input-color);
+  box-shadow: 0 0 0 3px var(--secondary-color);
   background-color: var(--inside-input-color);
 }
 .input-container input,
@@ -562,7 +564,7 @@ label {
   opacity: 0.7;
 }
 .input-container i {
-  color: var(--main-solid-color);
+  color: var(--text-color);
   margin-right: 10px;
   font-size: 1.2rem;
 }
@@ -869,28 +871,6 @@ input[type="submit"]:active {
   gap: 20px;
   flex-wrap: wrap;
 }
-.star-rating {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.star-rating .star {
-  font-size: 24px;
-  color: #ccc;
-  cursor: pointer;
-  transition: color 0.3s ease, transform 0.2s ease;
-}
-.star-rating .star:hover {
-  transform: scale(1.2);
-}
-.star-rating .star.active {
-  color: var(--color-stars);
-}
-.rating-label {
-  font-size: 14px;
-  margin-left: 8px;
-  color: var(--text-color);
-}
 
 /* ==========================================================
   CAR DETAIL PAGE
@@ -1008,34 +988,7 @@ input[type="submit"]:active {
 /* ==========================================================
   RATING STARS
   ========================================================== */
-.simple-rating {
-  display: inline-flex;
-  direction: rtl;
-  gap: 5px;
-  cursor: pointer;
-}
-.simple-rating i {
-  font-size: 2rem;
-  color: #ccc;
-  transition: color 0.3s ease, transform 0.2s ease;
-}
-.simple-rating i.bxs-star {
-  color: #ffcc00;
-}
-.simple-rating i.hovered {
-  color: #ffd700;
-  transform: scale(1.2);
-}
-.simple-rating.rated i.bxs-star {
-  color: var(--color-money);
-}
-.simple-rating.rated {
-  cursor: default;
-}
-.simple-rating.rated i:hover {
-  transform: none;
-  color: inherit;
-}
+
 .car-price,
 .car-rating {
   font-size: 1.05rem;
@@ -1061,7 +1014,7 @@ input[type="submit"]:active {
 }
 .stars i.bxs-star,
 .stars i.hovered {
-  color: gold;
+  color: var(--color-stars);
   transform: scale(1.1);
 }
 .stars.read-only i {
@@ -1164,19 +1117,27 @@ input[type="submit"]:active {
   CHAT LIST PAGE
   ========================================================== */
 .chat-list-container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 100px auto 20px auto;
   padding: 20px 15px;
   background-color: var(--main-solid-color);
   border-radius: 12px;
-  border: 2px solid var(--secondary-color, #4caf50);
+  border: 2px solid var(--secondary-hover-color);
   font-family: inherit;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s, box-shadow 0.1s;
 }
+
+.chat-list-container:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  transition: transform 0.1s, box-shadow 0.2s;
+}
+
 .chat-title {
-  color: var(--text-color, #f1f1f1);
+  color: var(--text-color);
   font-size: 1.6rem;
   margin-bottom: 12px;
-  text-align: left;
+  text-align: center;
 }
 .chat-list {
   list-style: none;
@@ -1186,35 +1147,328 @@ input[type="submit"]:active {
 .chat-item {
   display: flex;
   align-items: center;
-  background-color: var(--backgroundcolorspecific, #2a2a2a);
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 50px;
   margin-bottom: 6px;
-  border: 1.8px solid var(--secondary-color, #4caf50);
   transition: background-color 0.2s ease;
   cursor: pointer;
+  background-color: var(--main-color);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 .chat-item:hover {
-  background-color: var(--secondary-hover-color, #333);
+    background-color: var(--primary-hover-color);
+  border-color: var(--secondary-color);
 }
 .chat-avatar {
-  width: 42px;
-  height: 42px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 10px;
-  border: 2px solid var(--secondary-color, #4caf50);
+  border: 2px solid var(--text-color);
+    transition: transform 0.1s ease-in;
 }
+
+.chat-avatar:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+
 .chat-name {
-  font-size: 15px;
-  color: var(--text-color, #f1f1f1);
-  font-weight: 500;
+  font-size: 1.11rem;
+  color: var(--text-color);
+  font-weight: 600 ;
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ==========================================================
+TEXT CHAT 
+ ============================================================ */
+.comentdex-wrapper {
+  background-color: var(--main-background-color);
+  color: var(--text-color);
+}
+
+.comentdex-wrapper .comentdex-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.comentdex-wrapper .comentdex-sidebar {
+  width: 260px;
+  background-color: var(--main-solid-color);
+  padding: 20px;
+  border-right: var(--secondary-hover-color);
+  overflow-y: auto;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 30px;
+  margin-bottom: 18px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.comentdex-wrapper .comentdex-sidebar:hover {
+  background-color: var(--primary-hover-color);
+  border-color: var(--secondary-color); 
+
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.comentdex-wrapper .comentdex-sidebar h3 {
+  color: var(--text-color);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  margin-top: 90px;
+  text-align: center;
+}
+
+.comentdex-wrapper .comentdex-list {
+  list-style: none;
+  padding: 0;
+}
+
+.comentdex-wrapper .comentdex-list li {
+  margin-bottom: 8px;
+}
+
+.comentdex-wrapper .comentdex-list a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-color)  ;
+  transition: 0.3s;
+  padding: 10px 12px;
+  border-radius: 50px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  background-color: var(--main-color);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.comentdex-wrapper .comentdex-list a:hover {
+    background-color: var(--primary-hover-color);
+  border-color: var(--secondary-color);
+}
+
+.comentdex-wrapper .comentdex-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 2px solid var(--text-color);
+  transition: transform 0.1s ease-in;
+}
+
+.comentdex-wrapper .comentdex-avatar:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+.comentdex-wrapper .comentdex-main {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.comentdex-wrapper .comentdex-main h2 {
+  margin-bottom: 15px;
+  color: var(--secondary-color);
+}
+
+.comentdex-wrapper .comentdex-box {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: var(--main-solid-color);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--secondary-hover-color);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  z-index: 1;
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+.comentdex-wrapper .comentdex-box::-webkit-scrollbar {
+  display: none; 
+}
+.comentdex-wrapper .comentdex-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comentdex-wrapper .comentdex-box::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-hover-color);
+  border-radius: 4px;
+}
+.comentdex-wrapper .comentdex-box::-webkit-scrollbar-thumb:hover {
+  background-color: var(--secondary-color);
+}
+
+.comentdex-wrapper .message {
+  max-width: 60%;
+  padding: 10px 16px;
+  border-radius: 16px;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid var(--secondary-color);
+  background: var(--main-solid-color);
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+  word-break: break-word;
+  position: relative;
+  overflow-wrap: break-word;
+  font-size: 1rem;
+  padding: 10px 16px;
+}
+.comentdex-wrapper .message::after {
+  display: none;
+}
+.comentdex-wrapper .message.user {
+  border-color: var(--secondary-color-dark);
+  background: var(--secondary-color);
+  color: var(--main-solid-color);
+}
+.comentdex-wrapper .message.other {
+  border-color: var(--secondary-hover-color);
+  background: var(--main-color);
+  color: var(--text-color);
+}
+.comentdex-wrapper .message:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  border-color: var(--secondary-color);
+  background: var(--main-solid-color);
+}
+
+.comentdex-wrapper .message.user {
+  background-color: var(--secondary-color-dark);
+  color:var(--text-color);
+  align-self: flex-end;
+  border-bottom-right-radius: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comentdex-wrapper .message.user:hover {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.comentdex-wrapper .message.other {
+  background-color:  var(--secondary-hover-color);
+  color: var(--text-color);
+  align-self: flex-start;
+  border-bottom-left-radius: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.comentdex-wrapper .message.other:hover {
+  background-color: var(--secondary-input-color);
+  color: var(--text-color);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.comentdex-wrapper form {
+  display: flex;
+  margin-top: 15px;
+}
+
+.comentdex-wrapper form input[type="text"] {
+  flex: 1;
+  padding: 12px;
+  background-color: var(--secondary-input-color);
+  color: var(--text-color);
+  border: 1px solid var(--secondary-hover-color);
+  border-radius: 5px 0 0 5px;
+  font-size: 14px;
+  outline: none;
+  text-decoration: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.comentdex-wrapper .boton:hover {
+  background: var(--boton-hover);
+}
+
+/* Scroll personalizado */
+.comentdex-wrapper .comentdex-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comentdex-wrapper .comentdex-box::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 4px;
+}
+
+.comentdex-wrapper .comentdex-box::-webkit-scrollbar-thumb:hover {
+  background-color: #444;
+}
+
+/* Contenedor del formulario */
+#form-mensaje {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--secondary-hover-color);
+  border-radius: 6px;
+  background-color: var(--secondary-input-color);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  margin-top: 10px;
+}
+
+/* Campo de texto */
+#mensaje {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 15px;
+  color: var(--text-color);
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+/* Botón con ícono de enviar */
+.comentdex-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 22px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover en todo el formulario */
+#form-mensaje:hover {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+}
+
+.comentdex-btn:hover {
+  transform: scale(1.1);
+  color: var(--secondary-color);
+}
+
+
+
 
 /* ==========================================================
   COMMENTS SECTION
@@ -1318,6 +1572,9 @@ input[type="submit"]:active {
   ========================================================== */
 
 
+
+
+
 /* =======================
    MOBILE DEVICE STYLES
    ======================= */
@@ -1399,3 +1656,11 @@ input[type="submit"]:active {
 /* =======================
    END MOBILE DEVICE STYLES
    ======================= */
+
+
+
+
+
+
+
+   /* Busqueda, wrappper */

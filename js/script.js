@@ -194,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Interactive star rating system
+  document.addEventListener('DOMContentLoaded', () => {
   const ratingStars = document.getElementById('rating-stars');
   if (!ratingStars) return;
 
@@ -253,9 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
       star.setAttribute('aria-checked', 'false');
     });
   }
-
 });
-
 
 
 
@@ -293,4 +292,5 @@ document.addEventListener("DOMContentLoaded", () => {
       showMore.style.display = "none";
     }
   });
+});
 });

@@ -74,7 +74,7 @@ $conn->close();
   <div class="container">
     <div class="wrapper"> 
 <form method="POST" action="login.php">
-        <h1>Iniciar Sesión</h1>
+        <h1>Iniciar Sesión <i class='bx bx-user'></i> </h1>
 
         <div class="input-container">
           <input type="email" id="email" name="email" placeholder="Correo electrónico" required />
