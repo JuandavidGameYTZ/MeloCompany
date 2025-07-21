@@ -168,7 +168,7 @@ function cargarMensajes() {
   });
 }
 
-setInterval(cargarMensajes, 1239000);
+setInterval(cargarMensajes, 2000);
 cargarMensajes();
 </script>
 </body>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2025 at 06:34 PM
+-- Generation Time: Jul 21, 2025 at 03:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -37,19 +37,21 @@ CREATE TABLE `autos` (
   `imagen` varchar(255) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `categoria` varchar(50) DEFAULT 'General',
-  `ubicacion` varchar(255) DEFAULT NULL
+  `ubicacion` varchar(255) DEFAULT NULL,
+  `oculto` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `autos`
 --
 
-INSERT INTO `autos` (`id`, `usuario`, `nombre`, `descripcion`, `precio`, `estrellas`, `imagen`, `fecha_creacion`, `categoria`, `ubicacion`) VALUES
-(7, 'Juan David', 'JiYue Robo X Electric Hypercar', 'Muy buen, veiculo, vistoso y llamativo', '$40/hora', 5, 'img/autos/Juan David_1750868297_DAZBHNH7XJFRBPVNZHTWF5DTHM.jpg', '2025-06-25 16:18:17', 'Eléctrico', 'El faro, Santo Domingo Este'),
-(8, 'Michael de santa', 'El Honda CR-V', 'Carro moderno', '$20/hora', 5, 'img/autos/Michael de santa_1750869138_m_174560943802513139.jpg', '2025-06-25 16:32:18', 'SUV', 'condominio el rosal I, apartamento 1B, Santo Domingo Este'),
-(9, 'Jhon', 'Lambo ', 'El mejor carro', '$100/hora', 5, 'img/autos/Jhon_1750873557_16530388017130.jpg', '2025-06-25 17:45:57', 'Deportivo', 'boca chica'),
-(10, 'Juan David', 'TEST', 'dadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawd', '8', 5, 'img/autos/Juan David_1751819698_Captura de pantalla 2025-07-04 125000.png', '2025-07-06 16:34:58', 'Económico', 'bayaguana'),
-(11, 'Juan David', 'dadadaw', 'adwadadadwddddddddddddddddddddddddddd\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na', '2', 5, 'img/autos/Juan David_1751820923_Captura de pantalla 2024-01-11 135833.png', '2025-07-06 16:55:23', 'Eléctrico', 'bayaguana');
+INSERT INTO `autos` (`id`, `usuario`, `nombre`, `descripcion`, `precio`, `estrellas`, `imagen`, `fecha_creacion`, `categoria`, `ubicacion`, `oculto`) VALUES
+(7, 'Juan David', 'JiYue Robo X Electric Hypercar', 'Muy buen, veiculo, vistoso y llamativo', '$40/hora', 5, 'img/autos/Juan David_1750868297_DAZBHNH7XJFRBPVNZHTWF5DTHM.jpg', '2025-06-25 16:18:17', 'Eléctrico', 'El faro, Santo Domingo Este', 0),
+(8, 'Michael de santa', 'El Honda CR-V', 'Carro moderno', '$20/hora', 5, 'img/autos/Michael de santa_1750869138_m_174560943802513139.jpg', '2025-06-25 16:32:18', 'SUV', 'condominio el rosal I, apartamento 1B, Santo Domingo Este', 0),
+(9, 'Jhon', 'Lambo ', 'El mejor carro', '$100/hora', 5, 'img/autos/Jhon_1750873557_16530388017130.jpg', '2025-06-25 17:45:57', 'Deportivo', 'boca chica', 0),
+(10, 'Juan David', 'TEST', 'dadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawddadadadadawd', '8', 5, 'img/autos/Juan David_1751819698_Captura de pantalla 2025-07-04 125000.png', '2025-07-06 16:34:58', 'Económico', 'bayaguana', 0),
+(11, 'Juan David', 'dadadaw', 'adwadadadwddddddddddddddddddddddddddd\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na\r\na', '2', 5, 'img/autos/Juan David_1751820923_Captura de pantalla 2024-01-11 135833.png', '2025-07-06 16:55:23', 'Eléctrico', 'bayaguana', 0),
+(12, 'Holabuenas', 'fefsefsef', 'sefsefsefse', '77', 5, 'img/autos/Holabuenas_1753054743_ChatGPT Image Jul 6, 2025, 09_01_51 PM.png', '2025-07-20 23:39:03', 'Eléctrico', 'bayaguana', 0);
 
 -- --------------------------------------------------------
 
@@ -71,7 +73,8 @@ CREATE TABLE `calificausuario` (
 
 INSERT INTO `calificausuario` (`id`, `usuario_que_valora`, `usuario_valorado`, `estrellas`, `fecha`) VALUES
 (0, 'Michael de santa', 'Juan David', 4, '2025-06-25 16:37:10'),
-(0, 'Juan David', 'Jhon', 4, '2025-07-06 14:59:29');
+(0, 'Juan David', 'Jhon', 5, '2025-07-12 17:33:40'),
+(0, 'Juan David', 'Michael de santa', 2, '2025-07-12 17:33:31');
 
 -- --------------------------------------------------------
 
@@ -104,7 +107,12 @@ INSERT INTO `comentarios` (`id`, `id_auto`, `usuario`, `comentario`, `fecha`) VA
 (10, 8, 'Manuel', 'exelente', '2025-07-09 16:02:06'),
 (11, 8, 'Manuel', 'nooi9hoi', '2025-07-12 15:15:58'),
 (12, 7, 'Juan David', 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss', '2025-07-12 16:14:13'),
-(13, 7, 'Juan David', 'hd;waijjd;haw;daw;iwdh;wah;fhaw;fh;hwalhf;alwwf;lawhfkhawlhf;lwafh;klwahk;flawhkl\'fh;awfhk;awh;kfh;awhkfklawfhkawwk;hf;ahwfhawk;hfka;wf;hkaf', '2025-07-12 16:19:09');
+(13, 7, 'Juan David', 'hd;waijjd;haw;daw;iwdh;wah;fhaw;fh;hwalhf;alwwf;lawhfkhawlhf;lwafh;klwahk;flawhkl\'fh;awfhk;awh;kfh;awhkfklawfhkawwk;hf;ahwfhawk;hfka;wf;hkaf', '2025-07-12 16:19:09'),
+(14, 10, 'Juan David', 'BJKJGKGJGKJGKJ', '2025-07-12 17:35:45'),
+(15, 10, 'Juan David', 'KKAKDADAWDAW', '2025-07-12 17:35:51'),
+(16, 7, 'Juan David', 'adawdaw', '2025-07-12 20:58:24'),
+(17, 7, 'Juan David', 'ssss', '2025-07-12 20:58:29'),
+(18, 7, 'Juan David', 'xsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxsssssssxs', '2025-07-12 20:58:43');
 
 -- --------------------------------------------------------
 
@@ -138,16 +146,96 @@ CREATE TABLE `mensajes` (
   `emisor` varchar(50) NOT NULL,
   `receptor` varchar(50) NOT NULL,
   `mensaje` text NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tipo` enum('texto','imagen') DEFAULT 'texto',
+  `hora` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `mensajes`
 --
 
-INSERT INTO `mensajes` (`id`, `emisor`, `receptor`, `mensaje`, `fecha`) VALUES
-(1, 'Dylan', 'Juan David Santana', 'Momo esta buenisima', '2025-07-07 02:56:03'),
-(2, 'Dylan', 'Juan David', 'tu mami', '2025-07-07 02:58:09');
+INSERT INTO `mensajes` (`id`, `emisor`, `receptor`, `mensaje`, `fecha`, `tipo`, `hora`) VALUES
+(3, 'Juan David', 'Jhon', 'fafaf', '2025-07-12 17:33:51', 'texto', '2025-07-20 19:49:50'),
+(4, 'Juan David', 'Jhon', 'cCWDADAWDAWD', '2025-07-12 17:33:55', 'texto', '2025-07-20 19:49:50'),
+(5, 'Juan David', 'Michael de santa', 'HOIPHUHOIOHPIHOI', '2025-07-12 17:35:12', 'texto', '2025-07-20 19:49:50'),
+(6, 'Jose manuel', 'Juan David', 'segawfawd', '2025-07-20 21:05:28', 'texto', '2025-07-20 19:49:50'),
+(7, 'Juan David', 'Jose manuel', 'Hey tu SAJWDJAJWFJWAF no yo DJWADAWJDAWS', '2025-07-20 21:08:01', 'texto', '2025-07-20 19:49:50'),
+(8, 'Jose manuela', 'Juan David', 'kigugoipbi', '2025-07-20 21:10:20', 'texto', '2025-07-20 19:49:50'),
+(9, 'Juan David', 'Jose manuela', 'WEAWDAWDAW', '2025-07-20 21:45:36', 'texto', '2025-07-20 19:49:50'),
+(10, 'Juan David', 'Jose manuela', 'AWDAWAWDAW', '2025-07-20 21:45:38', 'texto', '2025-07-20 19:49:50'),
+(11, 'Juan David', 'Michael de santa', 'dawdawa', '2025-07-20 21:49:57', 'texto', '2025-07-20 19:49:50'),
+(12, 'Juan David', 'Jose manuela', 'aawdawdwa', '2025-07-20 21:52:53', 'texto', '2025-07-20 19:49:50'),
+(13, 'Juan David', 'Jose manuela', 'awdawd', '2025-07-20 21:52:53', 'texto', '2025-07-20 19:49:50'),
+(14, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:54', 'texto', '2025-07-20 19:49:50'),
+(15, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:54', 'texto', '2025-07-20 19:49:50'),
+(16, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:55', 'texto', '2025-07-20 19:49:50'),
+(17, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:55', 'texto', '2025-07-20 19:49:50'),
+(18, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:55', 'texto', '2025-07-20 19:49:50'),
+(19, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:55', 'texto', '2025-07-20 19:49:50'),
+(20, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:56', 'texto', '2025-07-20 19:49:50'),
+(21, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:56', 'texto', '2025-07-20 19:49:50'),
+(22, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:56', 'texto', '2025-07-20 19:49:50'),
+(23, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:57', 'texto', '2025-07-20 19:49:50'),
+(24, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:57', 'texto', '2025-07-20 19:49:50'),
+(25, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:57', 'texto', '2025-07-20 19:49:50'),
+(26, 'Juan David', 'Jose manuela', 'a', '2025-07-20 21:52:57', 'texto', '2025-07-20 19:49:50'),
+(27, 'Jose manuela', 'Jhon', 'awdawdawd', '2025-07-20 22:08:55', 'texto', '2025-07-20 19:49:50'),
+(28, 'Juan David', 'Michael de santa', 'aadawda', '2025-07-20 22:14:19', 'texto', '2025-07-20 19:49:50'),
+(29, 'Jose manuela', 'Jhon', 'awdawdaw', '2025-07-20 22:18:34', 'texto', '2025-07-20 19:49:50'),
+(30, 'Jose manuela', 'Juan David', 'DADAWDA', '2025-07-20 22:19:08', 'texto', '2025-07-20 19:49:50'),
+(31, 'Juan David', 'Jose manuela', 'dada', '2025-07-20 22:42:36', 'texto', '2025-07-20 19:49:50'),
+(32, 'Juan David', 'Jose manuela', 'aawdaw', '2025-07-20 22:42:37', 'texto', '2025-07-20 19:49:50'),
+(33, 'Juan David', 'Jose manuela', 'Hola', '2025-07-20 22:45:27', 'texto', '2025-07-20 19:49:50'),
+(34, 'Juan David', 'Michael de santa', 'HOLA', '2025-07-20 22:53:27', 'texto', '2025-07-20 19:49:50'),
+(35, 'Juan David', 'Michael de santa', 'dawdawdwa', '2025-07-20 22:53:31', 'texto', '2025-07-20 19:49:50'),
+(36, 'Juan David', 'Michael de santa', 'awdawdawd', '2025-07-20 22:53:32', 'texto', '2025-07-20 19:49:50'),
+(37, 'Juan David', 'Michael de santa', 'awdawdawd', '2025-07-20 22:53:33', 'texto', '2025-07-20 19:49:50'),
+(38, 'Juan David', 'Michael de santa', 'awdawaw', '2025-07-20 22:53:34', 'texto', '2025-07-20 19:49:50'),
+(39, 'Juan David', 'Michael de santa', 'aa', '2025-07-20 22:53:35', 'texto', '2025-07-20 19:49:50'),
+(40, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:35', 'texto', '2025-07-20 19:49:50'),
+(41, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:35', 'texto', '2025-07-20 19:49:50'),
+(42, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:36', 'texto', '2025-07-20 19:49:50'),
+(43, 'Juan David', 'Michael de santa', 'aa', '2025-07-20 22:53:36', 'texto', '2025-07-20 19:49:50'),
+(44, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:36', 'texto', '2025-07-20 19:49:50'),
+(45, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:36', 'texto', '2025-07-20 19:49:50'),
+(46, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:36', 'texto', '2025-07-20 19:49:50'),
+(47, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:37', 'texto', '2025-07-20 19:49:50'),
+(48, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:37', 'texto', '2025-07-20 19:49:50'),
+(49, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:37', 'texto', '2025-07-20 19:49:50'),
+(50, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:37', 'texto', '2025-07-20 19:49:50'),
+(51, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:37', 'texto', '2025-07-20 19:49:50'),
+(52, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:37', 'texto', '2025-07-20 19:49:50'),
+(53, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:37', 'texto', '2025-07-20 19:49:50'),
+(54, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:38', 'texto', '2025-07-20 19:49:50'),
+(55, 'Juan David', 'Michael de santa', 'a', '2025-07-20 22:53:38', 'texto', '2025-07-20 19:49:50'),
+(56, 'Juan David', 'Jose manuel', 'AWDWAJAWNDNAW', '2025-07-20 23:16:15', 'texto', '2025-07-20 19:49:50'),
+(57, 'Juan David', 'Jose manuel', 'DAWMNDIAWDWA', '2025-07-20 23:16:16', 'texto', '2025-07-20 19:49:50'),
+(58, 'Juan David', 'Jose manuel', 'NAWIDIAWNDW', '2025-07-20 23:16:17', 'texto', '2025-07-20 19:49:50'),
+(59, 'Juan David', 'Jose manuel', 'adwadawdawaw', '2025-07-20 23:44:42', 'texto', '2025-07-20 19:49:50'),
+(60, 'Juan David', 'Jose manuel', 'fwfafawfwa', '2025-07-20 23:44:44', 'texto', '2025-07-20 19:49:50'),
+(61, 'Juan David', 'Jose manuel', 'afawfawf', '2025-07-20 23:44:47', 'texto', '2025-07-20 19:49:50'),
+(62, 'Juan David', 'Jose manuel', 'wawdawdawwa', '2025-07-20 23:45:09', 'texto', '2025-07-20 19:49:50'),
+(63, 'Juan David', 'Michael de santa', 'dwadawdawd', '2025-07-20 23:45:20', 'texto', '2025-07-20 19:49:50'),
+(64, 'Juan David', 'Michael de santa', 'klllkl', '2025-07-20 23:45:24', 'texto', '2025-07-20 19:49:50'),
+(65, 'Jose manuela', 'Juan David', 'adawda', '2025-07-21 00:58:12', 'texto', '2025-07-20 20:58:12'),
+(66, 'Jose manuela', 'Juan David', 'awawdwa', '2025-07-21 00:58:16', 'texto', '2025-07-20 20:58:16'),
+(67, 'Juan David', 'Jose manuela', 'Lol, no me digas', '2025-07-21 01:10:45', 'texto', '2025-07-20 21:10:45'),
+(68, 'Juan David', 'Jose manuela', 'XD', '2025-07-21 01:10:47', 'texto', '2025-07-20 21:10:47'),
+(69, 'Juan David', 'Jose manuela', 'Es que no', '2025-07-21 01:10:50', 'texto', '2025-07-20 21:10:50'),
+(70, 'Juan David', 'Jose manuela', 'Lol', '2025-07-21 01:10:51', 'texto', '2025-07-20 21:10:51'),
+(71, 'Juan David', 'Jose manuela', 'bueno si', '2025-07-21 01:10:53', 'texto', '2025-07-20 21:10:53'),
+(72, 'Juan David', 'Jose manuela', 'pero no', '2025-07-21 01:10:55', 'texto', '2025-07-20 21:10:55'),
+(73, 'Juan David', 'Jose manuela', 'Pero si', '2025-07-21 01:10:57', 'texto', '2025-07-20 21:10:57'),
+(74, 'Juan David', 'Jose manuela', 'Pero no', '2025-07-21 01:11:00', 'texto', '2025-07-20 21:11:00'),
+(75, 'Juan David', 'Jose manuela', 'Pero si', '2025-07-21 01:11:01', 'texto', '2025-07-20 21:11:01'),
+(76, 'Juan David', 'Jose manuela', 'Pero no', '2025-07-21 01:11:03', 'texto', '2025-07-20 21:11:03'),
+(77, 'Juan David', 'Jose manuela', 'XD', '2025-07-21 01:11:04', 'texto', '2025-07-20 21:11:04'),
+(78, 'Jose manuela', 'Juan David', 'Hey shut up', '2025-07-21 01:11:18', 'texto', '2025-07-20 21:11:18'),
+(79, 'Jose manuela', 'Juan David', 'What', '2025-07-21 01:11:40', 'texto', '2025-07-20 21:11:40'),
+(80, 'Juan David', 'Jose manuela', 'No you shut up', '2025-07-21 01:11:47', 'texto', '2025-07-20 21:11:47'),
+(81, 'Jose manuela', 'Juan David', 'En fin', '2025-07-21 01:12:04', 'texto', '2025-07-20 21:12:04'),
+(82, 'Jose manuela', 'Juan David', 'Cosas de la vida', '2025-07-21 01:12:06', 'texto', '2025-07-20 21:12:06');
 
 -- --------------------------------------------------------
 
@@ -171,12 +259,16 @@ CREATE TABLE `registro` (
 INSERT INTO `registro` (`ID_Registro`, `Nombre`, `CorreoElectronico`, `Contrasena`, `imagen_perfil`, `imagen_fondo`) VALUES
 (1, 'Quendry', 'quendry@gmail.com', '$2y$10$waQyo/IYs68FxScGUUecPOcNz.C.ftp27p.wGbzfr/94ulgVRHizi', NULL, NULL),
 (2, 'quendry viloria soto', 'jquendry@gmail.com', '$2y$10$TfPzDwD8ySJ88AHVKTBoLOfZZqQLMxeZVQEsD6duZ3YIX5gWJRtky', NULL, NULL),
-(37, 'Juan David', 'JuandavidMRT@gmail.com', '$2y$10$Y424d4TGLV77znUMdJKTjurXhqG3OmvSEJ2Thkc7r358oOOdMEY3u', 'uploads/perfiles/perfil_685c203d2730e.png', 'img/perfiles/fondo_Juan David_190253-1.jpg'),
+(37, 'Juan David', 'JuandavidMRT@gmail.com', '$2y$10$GNmlEJxDueuKYj4ZdUibD.be1IsMrrIxgVD1Ngu.FHXwfRuwkuQmK', 'uploads/perfiles/perfil_685c203d2730e.png', 'img/perfiles/fondo_Juan David_190253-1.jpg'),
 (38, 'Juan', 'JuandavidMsT@gmail.com', '$2y$10$BMZlp2hi.Q3hENu9rhTkd.GO9w4dX21SKL7thPJVX5HNOmRZD3dhO', 'uploads/perfiles/perfil_68596612d601e.png', 'img/perfiles/fondo_Juan_Ccff7r Screenshot 2025.02.21 - 19.16.55.13.png'),
 (39, 'Juan David Santana', 'Juandavid2RT@gmail.com', '$2y$10$I7VTSFgFaN0MnY3CrOxctOLsrL2WsUL3JwwS4JsdPqdmIipOECQPW', 'uploads/perfiles/perfil_685967ac83680.png', 'img/perfiles/fondo_Juan David Santana_Death Stranding Screenshot 2024.11.28 - 21.04.26.22.png'),
 (40, 'Michael de santa', 'Michaelds@gmail.com', '$2y$10$HuFzzZOVUABj/9kGcJMyUuonD44U/h9KuAUlwLHLAKvGRankTa9Pm', 'uploads/perfiles/perfil_685c235e6dfe1.png', 'img/perfiles/fondo_Michael de santa_nduksi52zrs41.webp'),
 (41, 'Jhon', 'Jhon@gmail.com', '$2y$10$rmo8BFjR3f0qB9CC5ZzFNuhUhOrywirMBCrr338h1uUUFujOsnk32', 'uploads/perfiles/perfil_685c357d34fce.jpg', 'img/perfiles/fondo_Jhon_landscape-photography-settings-164919.png'),
-(42, 'Manuel', 'iwi@gmail.com', '$2y$10$XHzo43SqAnrkPKrwngkS5.FbR1nKaxqumORVSFhzIOj/y9Mme4Cte', NULL, NULL);
+(42, 'Manuel', 'iwi@gmail.com', '$2y$10$XHzo43SqAnrkPKrwngkS5.FbR1nKaxqumORVSFhzIOj/y9Mme4Cte', NULL, NULL),
+(43, 'awdawdaw', 'q39ztt294@mozmail.com', '$2y$10$9d9SAEU/fM6iHCxiaqWYFemkjhQ/J28mV0w/NQLul9sqezHuzEJWK', NULL, NULL),
+(44, 'Jose manuel', 'JAUDNAWDNA@gmail.com', '$2y$10$Na0Koz7FhBKAld2/hnKfj.7OQn1s.gCeVSKh2IhnSrDwLHoRQN6jO', NULL, NULL),
+(45, 'Jose manuela', 'JAJAJA@gmaill.com', '$2y$10$ogc2DAJSEU/cXaekqWlrpOws5VZVrkR7xdY.NxbYOBMewoykVmqn.', NULL, NULL),
+(46, 'Holabuenas', 'Holabuneas@gmail.com', '$2y$10$31V7RI9bMEu3c1hTbeJ8EOY9gz0DbXtWVxA7cDkazfZdFNqqzYN2y', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -199,12 +291,15 @@ CREATE TABLE `valoraciones` (
 INSERT INTO `valoraciones` (`id`, `usuario_valorado`, `usuario_que_valora`, `estrellas`, `fecha`) VALUES
 (1, 'JuanDavidYTZ', 'JuanDavidYTZ', 5, '2025-06-23 04:18:29'),
 (2, 'JuanDavidMRT', 'JuanDavidMRT', 4, '2025-06-23 04:28:04'),
-(3, 'Juan David', 'Juan David', 4, '2025-07-12 15:33:04'),
+(3, 'Juan David', 'Juan David', 1, '2025-07-13 01:28:21'),
 (4, 'Juan', 'Juan', 4, '2025-06-23 14:36:41'),
 (5, 'Juan David Santana', 'Juan David Santana', 4, '2025-06-23 14:41:59'),
 (6, 'Michael de santa', 'Michael de santa', 3, '2025-06-25 16:36:32'),
 (7, 'Juan David', 'Michael de santa', 4, '2025-06-25 16:37:10'),
-(8, 'Jhon', 'Juan David', 4, '2025-07-06 14:59:29');
+(8, 'Jhon', 'Juan David', 5, '2025-07-12 17:33:40'),
+(9, 'Michael de santa', 'Juan David', 2, '2025-07-12 17:33:31'),
+(10, 'awdawdaw', 'awdawdaw', 4, '2025-07-13 01:34:33'),
+(11, 'Manuel', 'Manuel', 2, '2025-07-13 02:50:01');
 
 -- --------------------------------------------------------
 
@@ -237,7 +332,8 @@ INSERT INTO `valorarauto` (`id`, `id_auto`, `usuario`, `valor`, `fecha`) VALUES
 (10, 10, 'Juan David Santana', 5, '2025-07-07 00:50:49'),
 (11, 11, 'Michael de santa', 5, '2025-07-09 13:36:51'),
 (12, 11, 'Juan David', 2, '2025-07-09 13:37:26'),
-(13, 8, 'Manuel', 2, '2025-07-09 16:01:24');
+(13, 8, 'Manuel', 2, '2025-07-09 16:01:24'),
+(14, 7, 'Manuel', 5, '2025-07-13 02:49:54');
 
 --
 -- Indexes for dumped tables
@@ -294,13 +390,13 @@ ALTER TABLE `valorarauto`
 -- AUTO_INCREMENT for table `autos`
 --
 ALTER TABLE `autos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `denuncias`
@@ -312,25 +408,25 @@ ALTER TABLE `denuncias`
 -- AUTO_INCREMENT for table `mensajes`
 --
 ALTER TABLE `mensajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `registro`
 --
 ALTER TABLE `registro`
-  MODIFY `ID_Registro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `ID_Registro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `valoraciones`
 --
 ALTER TABLE `valoraciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `valorarauto`
 --
 ALTER TABLE `valorarauto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
