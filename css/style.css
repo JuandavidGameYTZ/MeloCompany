@@ -465,13 +465,13 @@ body {
   font-family: inherit;
   font-size: 1rem;
   font-weight: 600;
-  border: none;
+  border: noe;
   border-radius: 9px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
 }
