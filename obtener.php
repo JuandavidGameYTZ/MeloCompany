@@ -18,7 +18,13 @@ $result = $stmt->get_result();
 
 while ($row = $result->fetch_assoc()) {
     $clase = $row['emisor'] === $emisor ? 'user' : 'other';
-    echo "<div class='message $clase'><strong>{$row['emisor']}:</strong> " . htmlspecialchars($row['mensaje']) . "</div>";
-}
 
+    // Formatea la fecha/hora a formato 12 horas con AM/PM
+    $fecha_formateada = date("h:i A", strtotime($row['fecha']));
+
+    echo "<div class='message $clase' style='position: relative; padding-right: 50px;'>";
+    echo "<strong>" . htmlspecialchars($row['emisor']) . ":</strong> " . htmlspecialchars($row['mensaje']);
+    echo "<span class='hora'>$fecha_formateada</span>";
+    echo "</div>";
+}
 ?>
