@@ -34,6 +34,5 @@ if ($stmt->execute()) {
 } else {
     echo "Error al guardar.";
 }
-?>
 
 

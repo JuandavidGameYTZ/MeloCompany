@@ -40,7 +40,6 @@ $stmt->bind_param("s", $receptor);
 $stmt->execute();
 $stmt->store_result();
 if ($stmt->num_rows === 0) {
-  // Elimina todos los mensajes relacionados con el usuario inexistente
   $delStmt = $conn->prepare("DELETE FROM mensajes WHERE emisor = ? OR receptor = ?");
   $delStmt->bind_param("ss", $receptor, $receptor);
   $delStmt->execute();
@@ -61,15 +60,48 @@ $stmt->close();
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="icon" href="img/MeloIcon.png" type="image/png" />
 </head>
-<body>
+
+
+<body class="no-scroll">
 
 <?php include 'header.php'; ?>
 
+
+
+
 <div class="comentdex-wrapper">
   <div class="comentdex-layout">
-  <!-- Sidebar de chats -->
   <div class="comentdex-sidebar">
+
+  <h4>Chat de</h4>
+
+  <?php
+
+// Obtener imagen del receptor
+$stmt3 = $conn->prepare("SELECT imagen_perfil FROM registro WHERE Nombre = ?");
+$stmt3->bind_param("s", $receptor);
+$stmt3->execute();
+$r3 = $stmt3->get_result();
+$imgReceptor = $r3->fetch_assoc()['imagen_perfil'] ?? 'img/Profile_Icon.png';
+$stmt3->close();
+
+
+
+// Mostrar al receptor como si fuera un item de lista
+echo "<li class='comentdex-list'>
+  <a href='perfil_publico.php?nombre=" . urlencode($receptor) . "'>
+    <img src='$imgReceptor' class='comentdex-avatar'> 
+    <span>$receptor</span>
+  </a>
+</li>";
+?>
+
+
   <h3>Chats <i class='bx bx-message-dots'></i></h3>
+  
+
+
+  
   <ul class="comentdex-list">
   <?php
   // Obtiene la lista de chats únicos del usuario
@@ -104,7 +136,6 @@ $stmt->close();
 
   <!-- Chat principal -->
   <div class="comentdex-main">
-  <h2>Chat con <?php echo htmlspecialchars($receptor); ?></h2>
   <div class="comentdex-box" id="chat-box"></div>
   <form id="form-mensaje" autocomplete="off" method="post">
   <input type="text" name="mensaje" id="mensaje" placeholder="Escribe tu mensaje..." required>
@@ -168,6 +199,9 @@ function cargarMensajes() {
   }
   });
 }
+
+
+
 
 setInterval(cargarMensajes, 2000);
 cargarMensajes();

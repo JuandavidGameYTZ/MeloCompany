@@ -2,14 +2,12 @@
 session_start();
 require 'conexion.php';
 
+// Validar ID
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if ($id <= 0) {
-    echo "Auto inválido.";
-    exit();
-}
+if ($id <= 0) { echo "Auto inválido."; exit(); }
 
-$error_comentario = '';
 $usuario = $_SESSION['usuario'] ?? null;
+$error_comentario = '';
 
 // Procesar comentario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) && $usuario) {
@@ -17,13 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) &
     if (strlen($comentario) > 250) {
         $error_comentario = "El comentario no puede exceder 250 caracteres.";
     } else {
-        $stmt = $conn->prepare(
-            "INSERT INTO comentarios (id_auto, usuario, comentario, fecha) VALUES (?, ?, ?, NOW())"
-        );
+        $stmt = $conn->prepare("INSERT INTO comentarios (id_auto, usuario, comentario, fecha) VALUES (?, ?, ?, NOW())");
         $stmt->bind_param("iss", $id, $usuario, $comentario);
         $stmt->execute();
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit();
+        header("Location: " . $_SERVER['REQUEST_URI']); exit();
     }
 }
 
@@ -31,44 +26,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) &
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['valoracion']) && $usuario) {
     $valor = intval($_POST['valoracion']);
     if ($valor >= 1 && $valor <= 5) {
-        $stmt = $conn->prepare(
-            "SELECT id FROM valorarauto WHERE id_auto = ? AND usuario = ?"
-        );
+        $stmt = $conn->prepare("SELECT id FROM valorarauto WHERE id_auto = ? AND usuario = ?");
         $stmt->bind_param("is", $id, $usuario);
         $stmt->execute();
         $res = $stmt->get_result();
-
         if ($res->num_rows) {
-            $stmt = $conn->prepare(
-                "UPDATE valorarauto SET valor = ? WHERE id_auto = ? AND usuario = ?"
-            );
+            $stmt = $conn->prepare("UPDATE valorarauto SET valor = ? WHERE id_auto = ? AND usuario = ?");
             $stmt->bind_param("iis", $valor, $id, $usuario);
         } else {
-            $stmt = $conn->prepare(
-                "INSERT INTO valorarauto (id_auto, usuario, valor) VALUES (?, ?, ?)"
-            );
+            $stmt = $conn->prepare("INSERT INTO valorarauto (id_auto, usuario, valor) VALUES (?, ?, ?)");
             $stmt->bind_param("isi", $id, $usuario, $valor);
         }
         $stmt->execute();
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit();
+        header("Location: " . $_SERVER['REQUEST_URI']); exit();
     }
 }
 
-// Datos del auto y dueño
-$stmt = $conn->prepare(
-    "SELECT a.*, r.imagen_perfil, r.Nombre
-     FROM autos a
-     JOIN registro r ON a.usuario = r.Nombre
-     WHERE a.id = ?"
-);
+// Obtener datos del auto
+$stmt = $conn->prepare("SELECT a.*, r.imagen_perfil, r.Nombre FROM autos a JOIN registro r ON a.usuario = r.Nombre WHERE a.id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $auto = $stmt->get_result()->fetch_assoc();
-if (!$auto) {
-    echo "Auto no encontrado.";
-    exit();
-}
+if (!$auto) { echo "Auto no encontrado."; exit(); }
 
 // Ocultar/mostrar auto
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_oculto']) && $usuario === $auto['usuario']) {
@@ -76,41 +55,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_oculto']) && $
     $stmt = $conn->prepare("UPDATE autos SET oculto = ? WHERE id = ?");
     $stmt->bind_param("ii", $nuevo_estado, $id);
     $stmt->execute();
-    header("Location: " . $_SERVER['REQUEST_URI']);
-    exit();
+    header("Location: " . $_SERVER['REQUEST_URI']); exit();
 }
 
-// Comentarios
-$stmt = $conn->prepare(
-    "SELECT usuario, comentario, fecha
-     FROM comentarios
-     WHERE id_auto = ?
-     ORDER BY fecha DESC"
-);
-$stmt->bind_param("i", $id);
-$stmt->execute();
+// Procesar renta
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rentar_auto']) && $usuario && $usuario !== $auto['usuario']) {
+    $fecha_inicio = $_POST['fecha_inicio'] ?? '';
+    $fecha_fin = $_POST['fecha_fin'] ?? '';
+    if ($fecha_inicio && $fecha_fin && $fecha_fin >= $fecha_inicio) {
+        $dias = (new DateTime($fecha_inicio))->diff(new DateTime($fecha_fin))->days + 1;
+        $total = $dias * floatval($auto['precio']);
+        $stmt = $conn->prepare("INSERT INTO rentas (auto_id, cliente, fecha_inicio, fecha_fin, total) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssd", $id, $usuario, $fecha_inicio, $fecha_fin, $total);
+        $stmt->execute();
+        header("Location: rentas_realizadas.php"); exit();
+    } else {
+        echo "<p style='color:red'>Fechas inválidas.</p>";
+    }
+}
+
+// Comentarios y valoraciones
+$stmt = $conn->prepare("SELECT usuario, comentario, fecha FROM comentarios WHERE id_auto = ? ORDER BY fecha DESC");
+$stmt->bind_param("i", $id); $stmt->execute();
 $result_comments = $stmt->get_result();
 
-// Valoraciones
-$stmt = $conn->prepare(
-    "SELECT AVG(valor) AS promedio, COUNT(*) AS total
-     FROM valorarauto
-     WHERE id_auto = ?"
-);
-$stmt->bind_param("i", $id);
-$stmt->execute();
+$stmt = $conn->prepare("SELECT AVG(valor) AS promedio, COUNT(*) AS total FROM valorarauto WHERE id_auto = ?");
+$stmt->bind_param("i", $id); $stmt->execute();
 $datos_prom = $stmt->get_result()->fetch_assoc();
 $promedio = floatval($datos_prom['promedio'] ?? 0);
 $total_val = intval($datos_prom['total'] ?? 0);
 
-// Valoración actual del usuario
 $user_valor = 0;
 if ($usuario) {
-    $stmt = $conn->prepare(
-        "SELECT valor FROM valorarauto WHERE id_auto = ? AND usuario = ?"
-    );
-    $stmt->bind_param("is", $id, $usuario);
-    $stmt->execute();
+    $stmt = $conn->prepare("SELECT valor FROM valorarauto WHERE id_auto = ? AND usuario = ?");
+    $stmt->bind_param("is", $id, $usuario); $stmt->execute();
     $row = $stmt->get_result()->fetch_assoc();
     $user_valor = intval($row['valor'] ?? 0);
 }
@@ -119,6 +97,7 @@ if ($usuario) {
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
   <title>Detalle del Auto - <?php echo htmlspecialchars($auto['nombre']); ?></title>
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet">
@@ -200,7 +179,6 @@ if ($usuario) {
   </form>
   <?php endif; ?>
 
-  <hr class="divider" />
 
   <div class="comentarios">
     <h2>Comentarios</h2>

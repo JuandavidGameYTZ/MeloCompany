@@ -91,76 +91,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <title>Ajustes de cuenta</title>
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
-    }
-    .ajustes-box {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-    input, label {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    input[type="submit"] {
-      background: #4caf50;
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-    }
-    .mensaje {
-      color: green;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-    .img-perfil {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
-    }
-  </style>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="icon" href="img/MeloIcon.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
+
 </head>
+
+<?php include 'header.php'; ?>
+
 <body>
 
-<div class="ajustes-box">
-  <h2>Ajustes de cuenta</h2>
+
+
+<div class="ajustes-contenedor">
+<div class="ajuste-ctn">
+  <div class="ajustes-titulo"><h2>Ajustes de cuenta</h2></div>
 
   <?php if (!empty($datos['imagen_perfil'])): ?>
-    <img src="<?php echo htmlspecialchars($datos['imagen_perfil']); ?>" class="img-perfil" alt="Perfil">
+    <img src="<?php echo htmlspecialchars($datos['imagen_perfil']); ?>" class="ajustes-imagen-perfil" alt="Perfil">
   <?php else: ?>
-    <img src="img/Profile_Icon.png" class="img-perfil" alt="Perfil por defecto">
+    <img src="img/Profile_Icon.png" class="ajustes-imagen-perfil" alt="Perfil por defecto">
   <?php endif; ?>
+</div>
+
 
   <form method="POST">
-    <label for="nombre">Nombre de usuario:</label>
-    <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($datos['Nombre']); ?>" required>
+    <label for="nombre" class="ajustes-label">Nombre de usuario:</label>
+    <input type="text" id="nombre" name="nombre" class="input-container" value="<?php echo htmlspecialchars($datos['Nombre']); ?>" required>
 
-    <label for="correo">Correo electrónico:</label>
-    <input type="email" id="correo" name="correo" value="<?php echo htmlspecialchars($datos['CorreoElectronico']); ?>" required>
+    <label for="correo" class="ajustes-label">Correo electrónico:</label>
+    <input type="email" id="correo" name="correo" class="input-container" value="<?php echo htmlspecialchars($datos['CorreoElectronico']); ?>" required>
 
-    <label for="contrasena">Nueva contraseña (opcional):</label>
-    <input type="password" id="contrasena" name="contrasena" placeholder="Dejar en blanco para no cambiar">
+    <label for="contrasena" class="ajustes-label">Nueva contraseña (opcional):</label>
+    <input type="password" id="contrasena" name="contrasena" class="input-container" placeholder="Dejar en blanco para no cambiar">
 
-    <input type="submit" value="Guardar cambios">
+    <input type="submit" class="boton" value="Guardar cambios">
   </form>
 
   <?php if ($mensaje): ?>
-    <div class="mensaje"><?php echo $mensaje; ?></div>
+    <div class="ajustes-mensaje"><?php echo $mensaje; ?></div>
   <?php endif; ?>
 </div>
 
 </body>
 </html>
+
 
 

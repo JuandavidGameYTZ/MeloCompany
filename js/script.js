@@ -297,3 +297,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const input = document.getElementById('busquedaInput');
+  const profileContainer = document.querySelector('.profile-container');
+
+  input.addEventListener('focus', () => {
+    if (window.innerWidth <= 700 && profileContainer) {
+      profileContainer.classList.add('fade-out');
+      setTimeout(() => {
+        profileContainer.style.display = 'none';
+      }, 300); // Espera a que termine la animación
+    }
+  });
+
+  input.addEventListener('blur', () => {
+    if (window.innerWidth <= 700 && profileContainer) {
+      profileContainer.style.display = ''; // o 'block', según el caso
+      // Forzar reflow para que la animación funcione correctamente
+      void profileContainer.offsetWidth;
+      profileContainer.classList.remove('fade-out');
+    }
+  });
+});

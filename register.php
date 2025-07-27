@@ -124,10 +124,11 @@ $conn->close();
       <a type="submit" class="boton">Registrarse</a>
 
 
-        <p class="login-link">¿Ya tienes una cuenta? <a href="login.php"  >Iniciar sesión</a></p>
+        <p class="login-link">¿Ya tienes una cuenta? <a class = goodhef href="login.php"  >Iniciar sesión</a></p>
 
 
-
+    <p class="terms">Al registrarte, aceptas nuestros <a class = goodhef href="terms.php">Términos de Servicio</a> y <a class = goodhef href="privacy.php">Política de Privacidad</a>.</p>
+</form>
 
     </div>
 </form>

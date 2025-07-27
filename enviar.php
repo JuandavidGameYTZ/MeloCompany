@@ -24,4 +24,3 @@ if ($emisor && $receptor && $mensaje) {
     header("Location: mensajes.php?status=empty");
     exit();
 }
-?>

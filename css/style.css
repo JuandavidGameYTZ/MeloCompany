@@ -134,8 +134,7 @@ body {
   HEADER & NAVIGATION
   ========================================================== */
 /* Main header bar */
-.main-header,
-.register-header {
+.main-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -154,6 +153,40 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
+.register-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: var(--main-gradient);
+  backdrop-filter: var(--universal-blur);
+  -webkit-backdrop-filter: var(--universal-blur);
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  display: flex;
+  align-items: center;      /* Centra verticalmente */
+  justify-content: center;  /* Centra horizontalmente */
+  gap: 15px;
+  padding: 0 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-align: center; /* Centrado de texto dentro de los elementos */
+}
+
+
+@media (max-width: 600px) {
+.main-header {
+  position: fixed;
+  height: 80px;
+  gap: 8px;
+  padding: 0 5px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+}
+
+
 /* Header container for content alignment */
 .main-header .container {
   display: flex;
@@ -170,7 +203,31 @@ body {
   width: auto;
   display: block;
   user-select: none;
+    transition: transform 0.3s ease;
 }
+
+/* Logo image */
+.titulo-img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 500px) {
+  .titulo-img {
+      max-width: 100px;
+      max-height: 80px;
+  }
+}
+
+@media (max-width: 300px) {
+  .titulo-img {
+      max-width: 80px;
+      max-height: 80px;
+  }
+}
+
+
+
 
 /* Toggle (hamburger) button for sidebar/menu */
 .toggle {
@@ -269,6 +326,22 @@ body {
   PROFILE & USER COMPONENTS
   ========================================================== */
 /* Profile container in header */
+
+
+@media (max-width: 1050px) {
+ .profile-container {
+      padding: 4px 10px !important;
+  }
+}
+
+@media (max-width: 700px) {
+ .profile-container{
+  padding: 10px 10px !important;
+      transform: scale(0.85); /* Disminuye visualmente el tamaño */
+  
+  }
+}
+
 .profile-container {
   display: flex;
   align-items: center;
@@ -279,7 +352,27 @@ body {
   padding: 6px 14px;
   border-radius: 999px;
   transition: background-color 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+    opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: auto;
+  opacity: 1;
 }
+
+.profile-container.fade-out {
+  opacity: 0;
+      transition: opacity 0.3s ease;
+
+}
+
+
+.profile-container.hidden {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
 .profile-container:hover {
   background-color: var(--primary-hover-color);
   border-color: var(--secondary-color);
@@ -307,6 +400,20 @@ body {
 .profile-icon:hover {
   transform: scale(1.09);
 }
+
+@media (max-width: 1050px) {
+ .username {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1px!important;
+  }
+}
+
+@media (max-width: 700px) {
+ .username {
+  display: none !important;
+  }
+}
 .username {
   color: var(--text-color);
   font-size: 16px;
@@ -333,7 +440,22 @@ body {
   transition: all 0.3s ease;
   border-radius: 8px;
   z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
+
+
+.profile-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-dropdown:hover{
+border: var(--secondary-color)  1px solid;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+
 .profile-dropdown.open {
   opacity: 1;
   transform: translateY(0);
@@ -377,6 +499,18 @@ body {
 .Buscador:hover {
   border-color: var(--secondary-color);
 }
+
+@media (max-width: 500px) {
+  .buscardor-input {
+    width: 100%;
+    padding: 8px 6px;
+    font-size: 13px;
+   flex: 1; 
+  transition: flex 0.3s ease;
+
+  }
+}
+
 .buscardor-input {
   width: 100%;
   padding: 10px 14px;
@@ -389,8 +523,12 @@ body {
   box-sizing: border-box;
   position: relative;
   z-index: 15;
- text-decoration: none;
+  white-space: nowrap;    
+  overflow: hidden;        
+  text-overflow: ellipsis;   
+  
 }
+
 .buscardor-input:focus {
   outline: none;
 }
@@ -491,9 +629,96 @@ body {
 
 
 
+
+
+.botonE{
+  background: var(--boton-static);
+  display: inline-block;
+  padding: 8px 24px;
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.botonE:hover {
+  background: var(--boton-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.botonE:active {
+  background: var(--boton-click);
+  transform: translateY(1px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.botonE:focus {
+  outline: none;
+}
+
+
+
+
+/* En pantallas pequeñas */
+@media (max-width: 1250px) {
+  /* Ocultar texto */
+  .auth-buttons .btn-text {
+    display: none;
+  }
+  /* Mostrar iconos */
+  .auth-buttons .boton i {
+    display: inline;
+    font-size: 1.5rem; /* Ajusta tamaño si quieres */
+  }
+
+  /* Opcional: centra los iconos y ajusta padding para que no queden muy grandes */
+  .auth-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  .auth-buttons .boton {
+    padding: 8px 12px;
+    font-size: 0; /* Oculta texto sobrante */
+  }
+}
+
+
 /* ==========================================================
   FORM & INPUTS
   ========================================================== */
+
+
+  .goodhef {
+  display: inline-flex;
+  color: var(--text-color);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+  text-decoration: underline;
+}
+
+.goodhef:hover {
+  color: var(--secondary-color);
+    text-decoration-color: var(--secondary-color);
+  text-decoration-thickness: 2px;
+  text-decoration: none;
+}
+
+
+
+
 
 
 .categoria {
@@ -557,6 +782,7 @@ label {
   font-size: 0.95rem;
 }
 .input-container {
+  all: unset;
   width: 100%;
   background-color: var(--secondary-input-color);
   border-radius: 50px;
@@ -566,20 +792,27 @@ label {
   transition: box-shadow 0.3s ease, background-color 0.3s ease;
   min-height: 48px;
   box-sizing: border-box;
-  appearance: none;
 }
 
 .input-container textarea {
+  resize: none !important; 
+  all: unset;
   width: 100%;
   background-color: var(--secondary-input-color);
   border-radius: 5px;
-  padding: 0 12px;
-  display: flex;
-  align-items: center;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  padding: 12px;
   min-height: 48px;
   box-sizing: border-box;
-  appearance: none;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1px solid var(--border-color, #ccc);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+
+.input-container textarea :focus-within {
+  box-shadow: 0 0 0 3px var(--secondary-color);
+  background-color: var(--inside-input-color);
 }
 
 
@@ -620,7 +853,8 @@ label {
 
 
 .input-container:focus-within select {
-  background-color: var(--inside-input-color);
+ background-color: var(--inside-input-color);
+color: var(--text-color);
 }
 
 
@@ -644,10 +878,11 @@ label {
   margin-right: 10px;
   font-size: 1.2rem;
 }
+
 input[type="submit"] {
   margin-top: 15px;
   background: var(--boton-static);
-  color: var(--main-solid-color);
+  color: var(--text-color);
   font-weight: 700;
   padding: 16px 0;
   font-size: 1.15rem;
@@ -1293,14 +1528,24 @@ TEXT CHAT
 
 .comentdex-wrapper .comentdex-layout {
   display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 6px;
   height: 100vh;
 }
+@media (max-width: 800px) {
+  .comentdex-wrapper .comentdex-sidebar {
+    display: none !important;
+  }
+}
+
 
 .comentdex-wrapper .comentdex-sidebar {
+  margin-top: 99px;
   width: 260px;
   background-color: var(--main-solid-color);
   padding: 20px;
-  border-right: var(--secondary-hover-color);
+  border: 1px solid var(--secondary-hover-color);
   overflow-y: auto;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   border-radius: 30px;
@@ -1312,8 +1557,8 @@ TEXT CHAT
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
+
 
 .comentdex-wrapper .comentdex-sidebar:hover {
   background-color: var(--primary-hover-color);
@@ -1325,7 +1570,7 @@ TEXT CHAT
   color: var(--text-color);
   font-size: 1.5rem;
   margin-bottom: 20px;
-  margin-top: 90px;
+  margin-top: 10px;
   text-align: center;
 }
 
@@ -1362,6 +1607,7 @@ TEXT CHAT
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  background-color: var(--text-color);
   object-fit: cover;
   margin-right: 10px;
   border: 2px solid var(--text-color);
@@ -1376,6 +1622,7 @@ TEXT CHAT
 .comentdex-wrapper .comentdex-main {
   flex: 1;
   padding: 20px;
+  padding-top: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1397,7 +1644,7 @@ TEXT CHAT
   gap: 10px;
   border: 1px solid var(--secondary-hover-color);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   transition: background-color 0.3s ease, border-color 0.3s ease;
   position: relative;
   z-index: 1;
@@ -1587,6 +1834,7 @@ TEXT CHAT
   padding: 20px;
   background-color: var(--main-color);
   color: var(--text-color);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   font-family: inherit;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -1594,7 +1842,7 @@ TEXT CHAT
 .comentarios h2 {
   font-size: 1.8rem;
   margin-bottom: 20px;
-  border-bottom: 2px solid var(--main-color);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
   padding-bottom: 10px;
 }
 .comentarios h2:hover {
@@ -1606,7 +1854,9 @@ TEXT CHAT
   margin-bottom: 15px;
 }
 .comentario {
-  border: 1px solid var(--main-color);
+  border: 1px solid var(--secondary-hover-color);
+  background-color: var(--card-background);
+  margin-bottom: 5px;
   padding: 16px 20px;
   border-radius: 8px;
   word-wrap: break-word;
@@ -1641,7 +1891,7 @@ TEXT CHAT
   background-color: var(--card-background);
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid var(--main-color);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 .formulario-comentario label {
   font-weight: bold;
@@ -1674,6 +1924,230 @@ TEXT CHAT
   margin-top: 6px;
   color: var(--text-color);
 }
+
+
+
+/* ==========================================================
+  SETTINGS PAGE
+  ========================================================== */
+
+.ajustes-contenedor {
+  max-width: 500px;
+  width: 90%;                
+  margin: 100px auto 40px;    
+  background: var(--main-solid-color);
+  border: 2px solid var(--secondary-hover-color);
+  padding: 20px;
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+
+.ajustes {
+  padding: 20px;
+  background: var(--main-solid-color);
+  color: var(--text-color);
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.ajustes-titulo {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+
+.ajustes-mensaje {
+  color: var(--text-color);
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}
+
+
+.ajustes-imagen-perfil {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--text-color);
+  object-fit: cover;
+  margin: 0 auto 15px; 
+  display: flex;
+  border: 2px solid var(--text-color);
+  transition: transform 0.3s ease;
+}
+
+.ajuste-ctn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: var(--main-color);
+  border: 1px solid var(--secondary-hover-color);
+  border-radius: 9999px;  /* para forma cápsula */
+  padding: 10px 20px; 
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+    transition: transform 0.3s ease;
+  
+}
+
+.ajuste-ctn:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  background-color: var(--primary-hover-color);
+  border-color: var(--secondary-color);
+}
+
+/* ==========================================================
+DENUNCIAS
+========================================================== */
+
+
+.auto-info {
+  background-color: var(--main-color);
+  border: 1px solid var(--secondary-hover-color);
+  padding: 20px;
+  border-radius: 90px;
+  margin-bottom: 16px;
+  margin-top: 58px;
+  margin-left: 140px;
+  margin-right: 140px;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+}
+.auto-info:hover {
+  border-color: var(--secondary-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.auto-info1 {
+  background-color: var(--main-solid-color);
+  border: 1px solid var(--secondary-hover-color);
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  margin-top: 58px;
+  margin-left: 140px;
+  margin-right: 140px;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.autoinfoh2  {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  font-weight: bold;
+  text-align: center;
+}
+
+.auto-info p {
+  color: var(--text-color);
+  margin-bottom: 10px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.auto-info label {
+  color: var(--text-color);
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+
+
+.auto-info p {
+  line-height: 1.5;
+  font-size: 16px;
+  margin: 0;
+}
+
+.auto-info img {
+  width: 60%;
+  max-width: 300px;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  margin: 10px auto 0;
+  display: block;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.auto-info img:hover {
+  transform: scale(1.03);
+}
+
+
+.auto-info label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 15px;
+}
+
+.auto-info textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 100px;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  line-height: 1.4;
+  font-family: inherit;
+}
+
+.auto-info button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.auto-info .mensaje {
+  font-size: 14px;
+  margin-top: 12px;
+  font-style: italic;
+}
+
+.auto-info .error {
+  font-size: 14px;
+  color: var(--color-error);
+  margin-top: 10px;
+}
+
+.formulario-denuncia {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+
+
+
+
 
 /* ==========================================================
   END OF STYLES

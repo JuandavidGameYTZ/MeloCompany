@@ -20,4 +20,3 @@ while ($fila = $resultado->fetch_assoc()) {
 }
 
 echo json_encode($autos);
-?>

@@ -45,8 +45,17 @@ require 'conexion.php';
 
 
   <!-- Botón para agregar auto -->
-          <a href="agregar_auto.php" class="boton"><i class='bx  bx-plus'  ></i> Agregar Auto a rentar</a>
-   
+ <a href="agregar_auto.php" class="botonE"><i class='bx  bx-plus'  ></i> Agregar Auto a rentar</a>
+
+   <style>
+
+@media (max-width: 1050px) {
+  .botonE {
+    display: none !important;
+  }
+}
+
+   </style>
 
   <!-- Perfil -->
   <div class="profile-container">
@@ -68,10 +77,16 @@ require 'conexion.php';
         <span class="username"><?php echo htmlspecialchars($_SESSION['usuario']); ?></span>
       </div>
     <?php else: ?>
-      <div class="auth-buttons">
-        <a href="login.php" class="boton">Iniciar sesión</a>
-        <a href="register.php" class="boton">Registrarse</a>
-      </div>
+<div class="auth-buttons">
+  <a href="login.php" class="boton login-btn">
+    <i class='bx  bx-user-check'  ></i> </i>
+    <span class="btn-text">Iniciar sesión</span>
+  </a>
+  <a href="register.php" class="boton register-btn">
+    <i class='bx  bx-user-plus'  ></i> </i>
+    <span class="btn-text">Registrarse</span>
+  </a>
+</div>
     <?php endif; ?>
   </div>
 

@@ -38,4 +38,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['fondo'])) {
 } else {
     echo "No se recibió ninguna imagen.";
 }
-?>

@@ -74,7 +74,7 @@ $conn->close();
   <div class="container">
     <div class="wrapper"> 
 <form method="POST" action="login.php">
-        <h1>Iniciar Sesión <i class='bx bx-user'></i> </h1>
+        <h1>Iniciar Sesión  <i class='bx  bx-user-check'  ></i> </h1>
 
         <div class="input-container">
           <input type="email" id="email" name="email" placeholder="Correo electrónico" required />
@@ -88,7 +88,7 @@ $conn->close();
 
         <button type="submit" class="boton">Iniciar Sesión</button>
 
-        <p class="login-link">¿No tienes una cuenta? <a href="register.php">Registrarse</a></p>
+        <p class="login-link">¿No tienes una cuenta? <a class = goodhef href="register.php">Registrarse</a></p>
       </form>   
     </div>
   </div>

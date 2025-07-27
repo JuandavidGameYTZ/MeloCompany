@@ -65,19 +65,21 @@ if (!$datos) {
           <div class="star-rating" data-usuario="<?php echo htmlspecialchars($nombreUsuario); ?>">
           <?php
             $stmt = $conn->prepare("SELECT AVG(estrellas) AS promedio FROM calificausuario WHERE usuario_valorado = ?");
-            $stmt->bind_param("s", $nombreUsuario);
-            $stmt->execute();
-            $res = $stmt->get_result();
-            $prom = $res->fetch_assoc();
-            $promedio = round($prom['promedio'], 1) ?: 0;
-            $stmt->close();
+$stmt->bind_param("s", $nombreUsuario);
+$stmt->execute();
+$res = $stmt->get_result();
+$prom = $res->fetch_assoc();
+$stmt->close();
 
-            for ($i = 1; $i <= 5; $i++) {
-                $active = ($i <= $promedio) ? 'active' : '';
-                echo "<i class='bx bxs-star star $active' data-star='$i'></i>";
-            }
+$promedio = round($prom['promedio'] ?? 0, 1);
 
-            echo "<p class='rating-label'>$promedio / 5</p>";
+for ($i = 1; $i <= 5; $i++) {
+    $active = ($i <= $promedio) ? 'active' : '';
+    echo "<i class='bx bxs-star star $active' data-star='$i'></i>";
+}
+
+echo "<p class='rating-label'>$promedio / 5</p>";
+
           ?>
           </div>
 
