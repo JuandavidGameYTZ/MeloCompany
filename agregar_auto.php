@@ -10,6 +10,7 @@ if (!isset($_SESSION['usuario'])) {
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=0.85, user-scalable=no">
   <title>Agregar Auto</title>
   <link rel="stylesheet" href="css/style.css" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -30,23 +31,8 @@ if (!isset($_SESSION['usuario'])) {
     <div class="input-container">
       <input type="text" id="nombre" name="nombre" placeholder="Ej: Toyota Corolla" required>
     </div>
-    
-    <label for="descripcion">Descripción:</label>
-    <div class="input-container">
-      <textarea id="descripcion" name="descripcion" placeholder="Descripción detallada..." required></textarea>
-    </div>
-    
-    <label for="precio">Precio (ej. $7/hora):</label>
-    <div class="input-container">
-      <input type="text" id="precio" name="precio" placeholder="$7/hora" required>
-    </div>
-    
-    <label for="estrellas">Valoración (1-5):</label>
-    <div class="input-container">
-      <input type="number" id="estrellas" name="estrellas" min="1" max="5" value="5">
-    </div>
 
-    <label for="categoria">Categoría:</label>
+        <label for="categoria">Categoría:</label>
     <div class="input-container">
       <select id="categoria" name="categoria" required>
         <option value="Eléctrico">Eléctrico</option>
@@ -61,10 +47,23 @@ if (!isset($_SESSION['usuario'])) {
         <option value="General">General</option>
       </select>
     </div>
-
-    <label for="ubicacion">Ubicación:</label>
+    
+    <label for="precio">Precio (ej. $7/hora):</label>
     <div class="input-container">
-      <input type="text" id="ubicacion" name="ubicacion" placeholder="Ej: Av. 27 de Febrero, Santo Domingo" required>
+      <input type="text" id="precio" name="precio" placeholder="$7/hora" required>
+    </div>
+
+
+<label for="ubicacion">Ubicación:</label>
+<div class="input-container">
+  <input type="text" id="ubicacion" name="ubicacion" placeholder="Haz clic en el mapa para seleccionar ubicación" required readonly>
+</div>
+<div id="mapa" style="height: 400px; width: 100%; border-radius: 10px; margin-top: 10px;"></div>
+
+
+    <label for="descripcion">Descripción:</label>
+    <div class="input-container">
+      <textarea id="descripcion" name="descripcion" placeholder="Descripción detallada del veiculo" required></textarea>
     </div>
 
     <label for="imagen">Imagen del auto:</label>
@@ -76,12 +75,83 @@ if (!isset($_SESSION['usuario'])) {
   </form>
 </div>
 
-
-
-
-
 </body>
 <script src="js/script.js"></script>
+
+
+
+
+<!-- Estilos de Leaflet -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<!-- Script de Leaflet -->
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Coordenadas iniciales: Santo Domingo
+    const centro = [18.4861, -69.9312];
+
+    const mapa = L.map("mapa").setView(centro, 13);
+
+    // Agregar mapa base desde OpenStreetMap
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap",
+    }).addTo(mapa);
+
+    // Marcador inicial
+    let marcador = L.marker(centro, { draggable: true }).addTo(mapa);
+
+    // Actualiza input al hacer clic en el mapa
+    mapa.on("click", function (e) {
+      marcador.setLatLng(e.latlng);
+      actualizarInput(e.latlng);
+    });
+
+    // También si el marcador se arrastra
+    marcador.on("dragend", function (e) {
+      actualizarInput(marcador.getLatLng());
+    });
+
+    function actualizarInput(latlng) {
+      const lat = latlng.lat.toFixed(6);
+      const lng = latlng.lng.toFixed(6);
+      document.getElementById("ubicacion").value = `${lat}, ${lng}`;
+    }
+
+    // Inicializa el valor
+    actualizarInput(centro);
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </html>

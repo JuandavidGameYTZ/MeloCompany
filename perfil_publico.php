@@ -27,6 +27,7 @@ if (!$datos) {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
   <title>Melo - Perfil de <?php echo htmlspecialchars($nombreUsuario); ?></title>
   <link rel="stylesheet" href="css/style.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -50,19 +51,11 @@ if (!$datos) {
         
           <h2><?php echo htmlspecialchars($datos['Nombre']); ?></h2>
 
-          <!-- Botón para mostrar correo -->
-          <?php if (!empty($datos['CorreoElectronico'])): ?>
-          <div style="margin-top: 10px;">
-            <button onclick="copiarCorreo('<?php echo htmlspecialchars($datos['CorreoElectronico']); ?>')" class="boton">
-              Mostrar Correo
-            </button>
-          </div>
-          <?php endif; ?>
 
           <!-- ✅ BOTÓN DE CHAT AÑADIDO -->
           <?php if (!empty($datos['CorreoElectronico']) && isset($_SESSION['usuario']) && $usuarioSesion !== $nombreUsuario): ?>
           <div style="margin-top: 10px;">
-            <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class="boton">Chat</a>
+            <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class="boton"><i class='bx  bx-message-dots'  ></i>  </a>
           </div>
           <?php endif; ?>
           <?php if (!isset($_SESSION['usuario'])): ?>

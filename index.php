@@ -10,7 +10,7 @@ $usuario = $_SESSION['usuario'] ?? '';
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
   <title>Melo - Renta de autos</title>
   <link rel="stylesheet" href="css/style.css" />
   <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>

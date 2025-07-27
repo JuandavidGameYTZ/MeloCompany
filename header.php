@@ -79,8 +79,8 @@ require 'conexion.php';
   <div id="profile-dropdown" class="profile-dropdown">
     <?php if (isset($_SESSION['usuario'])): ?>
       <a href="profile.php" > <i class='bx bx-user'></i> Mi perfil</a>
+     <a href="contacto.php"><i class='bx  bx-message-dots'  ></i> Chats</a>
       <a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a>
-      <a href="contacto.php"><i class='bx  bx-message-dots'  ></i> Contactos</a>
       <a href="logout.php"><i class='bx bx-user-x'></i> Salir</a>
     <?php endif; ?>
   </div>
@@ -92,7 +92,8 @@ require 'conexion.php';
   <ul>
     <li><a href="index.php" onclick="if(window.location.pathname.endsWith('index.php')) return false" ><i class='bx bx-home'></i> Inicio</a></li>
     <li><a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a></li>
-    <li><a href="contacto.php"><i class='bx bx-phone'></i> Contacto</a></li>
+    <li><a href="contacto.php"><i class='bx  bx-message-dots'  ></i></i> Chats</a></li>
+   <li><a href="agregar_auto.php"><i class='bx bx-plus'></i> Agregar Auto</a></li> 
   </ul>
 </nav>
 

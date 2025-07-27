@@ -69,7 +69,7 @@ $conn->close();
 <head>
  
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
   <title>Melo - Registrarse</title>
   <link rel="stylesheet" href="css/style.css" />
   <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
@@ -121,7 +121,7 @@ $conn->close();
 </div>
 
 
-      <button type="submit" class="boton">Registrarse</button>
+      <a type="submit" class="boton">Registrarse</a>
 
 
         <p class="login-link">¿Ya tienes una cuenta? <a href="login.php"  >Iniciar sesión</a></p>
