@@ -47,24 +47,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
-
-
-
-<!--No tocar-->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Melo - Login</title>
   <link rel="stylesheet" href="css/style.css" />
   <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-    <link rel="icon" href="img/MeloIcon.png" type="image/png" />
-
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="icon" href="img/MeloIcon.png" type="image/png" />
 </head>
 <body>
 
-  <!--Logo-->
+  <!-- Logo -->
   <header class="register-header">
     <a href="index.php" class="logo-link" aria-label="Melo Logo">
       <img src="img/MeloFrontPagetext.png" alt="Melo Logo" class="titulo-img" title="La página principal de Melo" />
@@ -73,8 +69,8 @@ $conn->close();
 
   <div class="container">
     <div class="wrapper"> 
-<form method="POST" action="login.php">
-        <h1>Iniciar Sesión  <i class='bx  bx-user-check'  ></i> </h1>
+      <form method="POST" action="login.php">
+        <h1>Iniciar Sesión <i class='bx bx-user'></i></h1>
 
         <div class="input-container">
           <input type="email" id="email" name="email" placeholder="Correo electrónico" required />
@@ -83,15 +79,28 @@ $conn->close();
 
         <div class="input-container">
           <input type="password" id="password" name="password" placeholder="Contraseña" required />
-          <i class='bx bx-lock'></i> 
+          <i class='bx bx-show' id="toggleLoginPassword" style="cursor: pointer;"></i>
         </div>
 
         <button type="submit" class="boton">Iniciar Sesión</button>
 
-        <p class="login-link">¿No tienes una cuenta? <a class = goodhef href="register.php">Registrarse</a></p>
+        <p class="login-link">¿No tienes una cuenta? <a class="goodhef" href="register.php">Registrarse</a></p>
       </form>   
     </div>
   </div>
+
+  <script>
+    const toggleLogin = document.getElementById('toggleLoginPassword');
+    const loginPassword = document.getElementById('password');
+
+    toggleLogin?.addEventListener('click', function () {
+      const tipo = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+      loginPassword.setAttribute('type', tipo);
+
+      this.classList.toggle('bx-show');
+      this.classList.toggle('bx-hide');
+    });
+  </script>
 
 </body>
 </html>

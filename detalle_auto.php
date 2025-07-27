@@ -9,6 +9,38 @@ if ($id <= 0) { echo "Auto inválido."; exit(); }
 $usuario = $_SESSION['usuario'] ?? null;
 $error_comentario = '';
 
+
+// Procesar eliminación del auto si es el dueño
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_auto']) && $usuario === $auto['usuario']) {
+
+
+    // Eliminar valoraciones, comentarios, denuncias, etc. relacionadas
+
+    $stmt = $conn->prepare("DELETE FROM valorarauto WHERE id_auto = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt = $conn->prepare("DELETE FROM comentarios WHERE id_auto = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt = $conn->prepare("DELETE FROM denuncias WHERE id_auto = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    // Finalmente, eliminar el auto
+
+    $stmt = $conn->prepare("DELETE FROM autos WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    // Redirigir a inicio o perfil
+
+    header("Location: perfil_publico.php?nombre=" . urlencode($usuario));
+
+    exit();
+
+}
+
 // Procesar comentario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) && $usuario) {
     $comentario = trim($_POST['nuevo_comentario']);
@@ -196,6 +228,14 @@ if ($usuario) {
         </div>
       <?php endwhile; ?>
     <?php endif; ?>
+
+<?php if ($usuario === $auto['usuario']): ?>
+  <form method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este auto? Esta acción no se puede deshacer.');" style="display:inline;">
+    <input type="hidden" name="eliminar_auto" value="1">
+    <button type="submit" class="boton rojo">Eliminar auto</button>
+  </form>
+<?php endif; ?>
+
 
     <?php if ($usuario): ?>
     <form method="post" class="formulario-comentario">

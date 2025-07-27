@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['usuario'])) {
 </div>
 
     <?php if (!isset($_SESSION['usuario'])): ?>
-      <p class="error"> Debes <a href="login.php">iniciar sesión</a> para enviar una denuncia.</p>
+      <p class="error"> Debes <a class= goodhef href="login.php">iniciar sesión</a> para enviar una denuncia.</p>
     <?php else: ?>
   <label for="descripcion">Descripción de la Denuncia:</label>
   <div class="input-container">
