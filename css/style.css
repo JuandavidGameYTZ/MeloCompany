@@ -195,6 +195,8 @@ body {
   width: 100%;
 }
 
+
+
 /* Logo image */
 .titulo-img {
   max-width: 120px;
@@ -441,6 +443,26 @@ body {
   border-radius: 8px;
   z-index: 1000;
   border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.profile-dropdown h3 {
+  padding-left: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-bottom: 1px solid var(--secondary-hover-color);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+display: none;
+
+}
+
+
+@media (max-width: 700px) {
+  .profile-dropdown h3 {
+    display: block!important;
+  }
 }
 
 
@@ -1768,7 +1790,7 @@ TEXT CHAT
   display: flex;
   align-items: center;
   border: 1px solid var(--secondary-hover-color);
-  border-radius: 6px;
+  border-radius: 10px;
   background-color: var(--secondary-input-color);
   overflow: hidden;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
@@ -1941,6 +1963,7 @@ TEXT CHAT
   border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+    text-decoration: none;
   transition: all 0.3s ease;
 }
 
@@ -1951,6 +1974,8 @@ TEXT CHAT
   color: var(--text-color);
   border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+
 }
 
 
@@ -1960,6 +1985,17 @@ TEXT CHAT
   margin-bottom: 20px;
   text-align: center;
   color: var(--text-color);
+    text-decoration: none;
+
+}
+
+.ajustes-titulo h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--text-color);
+    text-decoration: none;
+
 }
 
 
@@ -1968,6 +2004,8 @@ TEXT CHAT
   font-weight: bold;
   margin-top: 10px;
   text-align: center;
+    text-decoration: none;
+
 }
 
 
@@ -1997,7 +2035,8 @@ TEXT CHAT
   margin-left: auto;
   margin-right: auto;
     transition: transform 0.3s ease;
-  
+    text-decoration: none;
+
 }
 
 .ajuste-ctn:hover {
@@ -2005,7 +2044,31 @@ TEXT CHAT
   transition: transform 0.3s ease;
   background-color: var(--primary-hover-color);
   border-color: var(--secondary-color);
+    text-decoration: none;
+  cursor: pointer;
+
 }
+
+.ajuste-ctn a {
+  text-decoration: none;
+  color: inherit;
+  display: block; 
+    text-decoration: none;
+      width: 100%;
+}
+
+
+.ajustes-link {
+  display: block;     
+  width: 100%;         
+  height: 100%;       
+  text-decoration: none !important;
+  color: inherit !important;
+  cursor: default;
+}
+
+
+
 
 /* ==========================================================
 DENUNCIAS
@@ -2030,13 +2093,7 @@ DENUNCIAS
   position: relative;
   z-index: 1;
   overflow: hidden;
-
 }
-.auto-info:hover {
-  border-color: var(--secondary-color);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
 .auto-info1 {
   background-color: var(--main-solid-color);
   border: 1px solid var(--secondary-hover-color);
@@ -2052,11 +2109,16 @@ DENUNCIAS
   gap: 14px;
 }
 
-.autoinfoh2  {
+.auto-info:hover {
+  border-color: var(--secondary-color);
+}
+
+.autoinfoh2 {
   font-size: 1.5rem;
   color: var(--text-color);
   font-weight: bold;
   text-align: center;
+  text-decoration: none;
 }
 
 .auto-info p {
@@ -2064,24 +2126,19 @@ DENUNCIAS
   margin-bottom: 10px;
   font-size: 16px;
   text-align: center;
+  line-height: 1.5;
 }
 
 .auto-info label {
   color: var(--text-color);
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-
-
-.auto-info p {
-  line-height: 1.5;
-  font-size: 16px;
-  margin: 0;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 15px;
 }
 
 .auto-info img {
-  width: 60%;
+  width: 100%;
   max-width: 300px;
   height: auto;
   aspect-ratio: 4 / 3;
@@ -2095,14 +2152,6 @@ DENUNCIAS
 
 .auto-info img:hover {
   transform: scale(1.03);
-}
-
-
-.auto-info label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  display: block;
-  font-size: 15px;
 }
 
 .auto-info textarea {
@@ -2144,6 +2193,23 @@ DENUNCIAS
   margin-bottom: 2rem;
 }
 
+
+@media (max-width: 500px) {
+  .auto-info {
+    border-radius: 30px;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .auto-info img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .auto-info button {
+    width: 100%;
+  }
+}
 
 
 

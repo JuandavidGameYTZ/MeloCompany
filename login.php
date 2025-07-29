@@ -1,25 +1,52 @@
 <?php
 session_start();
 
-// Conexión a la base de datos
+// --- CONFIGURACIÓN DE CONEXIÓN SEGURA ---
+// Reemplaza estos datos con los de tu usuario seguro de MySQL
 $host = "localhost";
-$usuario = "root";
-$contrasena = ""; // Coloca tu contraseña si tienes
+$usuario = "root"; // ⚠️ NO uses "root"
+$contrasena = "";
 $basedatos = "Melocompany";
 
 $conn = new mysqli($host, $usuario, $contrasena, $basedatos);
 
-// Verificar conexión
+// Verificar conexión sin exponer datos al usuario
 if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
+    error_log("Error DB: " . $conn->connect_error); // Log interno
+    die("Error de conexión. Intente más tarde.");
 }
 
-// Validar si se envió el formulario
+// --- SEGURIDAD: CSRF y fuerza bruta ---
+if (!isset($_SESSION['intentos_login'])) {
+    $_SESSION['intentos_login'] = 0;
+}
+
+if ($_SESSION['intentos_login'] >= 5) {
+    die("Demasiados intentos. Intenta más tarde.");
+}
+
+// Generar token CSRF si no existe
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// --- PROCESO DE LOGIN ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar token CSRF
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Acceso no autorizado.");
+    }
+
     $correo = trim($_POST["email"]);
     $clave = $_POST["password"];
 
-    // Buscar el usuario por correo
+    // Validar formato del correo
+    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Correo o contraseña incorrectos.'); window.location.href = 'login.php';</script>";
+        exit;
+    }
+
+    // Consultar usuario por correo
     $sql = "SELECT ID_Registro, Nombre, Contrasena FROM registro WHERE CorreoElectronico = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $correo);
@@ -29,24 +56,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($resultado->num_rows === 1) {
         $usuario = $resultado->fetch_assoc();
 
-        // Verificar la contraseña
         if (password_verify($clave, $usuario["Contrasena"])) {
+            // Autenticación exitosa
             $_SESSION['usuario'] = $usuario["Nombre"];
             $_SESSION['id'] = $usuario["ID_Registro"];
+            $_SESSION['intentos_login'] = 0;
             header("Location: index.php");
             exit();
-        } else {
-            echo "<script>alert('Contraseña incorrecta.'); window.location.href = 'login.php';</script>";
         }
-    } else {
-        echo "<script>alert('Correo no encontrado.'); window.location.href = 'login.php';</script>";
     }
 
+    // Falla de autenticación
+    $_SESSION['intentos_login']++;
+    echo "<script>alert('Correo o contraseña incorrectos.'); window.location.href = 'login.php';</script>";
     $stmt->close();
 }
 
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -82,8 +110,10 @@ $conn->close();
           <i class='bx bx-show' id="toggleLoginPassword" style="cursor: pointer;"></i>
         </div>
 
-        <button type="submit" class="boton">Iniciar Sesión</button>
+        <!-- CSRF Token -->
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
+        <button type="submit" class="boton">Iniciar Sesión</button>
         <p class="login-link">¿No tienes una cuenta? <a class="goodhef" href="register.php">Registrarse</a></p>
       </form>   
     </div>
@@ -96,7 +126,6 @@ $conn->close();
     toggleLogin?.addEventListener('click', function () {
       const tipo = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password';
       loginPassword.setAttribute('type', tipo);
-
       this.classList.toggle('bx-show');
       this.classList.toggle('bx-hide');
     });

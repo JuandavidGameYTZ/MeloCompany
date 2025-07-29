@@ -102,19 +102,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
 
-
-<div class="ajustes-contenedor">
-<div class="ajuste-ctn">
-  <div class="ajustes-titulo"><h2>Ajustes de cuenta</h2></div>
-
-  <?php if (!empty($datos['imagen_perfil'])): ?>
-    <img src="<?php echo htmlspecialchars($datos['imagen_perfil']); ?>" class="ajustes-imagen-perfil" alt="Perfil">
-  <?php else: ?>
-    <img src="img/Profile_Icon.png" class="ajustes-imagen-perfil" alt="Perfil por defecto">
-  <?php endif; ?>
-</div>
-
-
+<a href="profile.php " class="ajustes-link"> 
+  <div class="ajustes-contenedor">
+    <div class="ajuste-ctn">
+      <div class="ajustes-titulo"><h2>Ajustes de cuenta</h2></div>
+      <?php if (!empty($datos['imagen_perfil'])): ?>
+        <img src="<?php echo htmlspecialchars($datos['imagen_perfil']); ?>" class="ajustes-imagen-perfil" alt="Perfil">
+      <?php else: ?>
+        <img src="img/Profile_Icon.png" class="ajustes-imagen-perfil" alt="Perfil por defecto">
+      <?php endif; ?>
+    </div>
+</a>
   <form method="POST">
     <label for="nombre" class="ajustes-label">Nombre de usuario:</label>
     <input type="text" id="nombre" name="nombre" class="input-container" value="<?php echo htmlspecialchars($datos['Nombre']); ?>" required>

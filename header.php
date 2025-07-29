@@ -93,6 +93,8 @@ require 'conexion.php';
   <!-- Menú desplegable -->
   <div id="profile-dropdown" class="profile-dropdown">
     <?php if (isset($_SESSION['usuario'])): ?>
+
+      <h3> <?php  echo $usuario?></h3>
       <a href="profile.php" > <i class='bx bx-user'></i> Mi perfil</a>
      <a href="contacto.php"><i class='bx  bx-message-dots'  ></i> Chats</a>
       <a href="settings.php"><i class='bx bx-cog'></i> Ajustes</a>
