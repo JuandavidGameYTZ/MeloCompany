@@ -321,3 +321,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+
+function actualizarNotificaciones() {
+  fetch('notificaciones_contador.php')
+    .then(response => response.text())
+    .then(data => {
+      const notifCount = document.getElementById('notifCount');
+      const count = parseInt(data);
+      if (count > 0) {
+        notifCount.style.display = 'inline-block';
+        notifCount.textContent = count;
+      } else {
+        notifCount.style.display = 'none';
+      }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Run on load
+actualizarNotificaciones();
+// And every 10 seconds
+setInterval(actualizarNotificaciones, 10000);

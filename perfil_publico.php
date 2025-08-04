@@ -10,16 +10,55 @@ if (empty($nombreUsuario)) {
     exit();
 }
 
+// Procesar valoración si viene por POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['valoracion'], $_POST['usuario_valorado']) && $usuarioSesion) {
+    $val = intval($_POST['valoracion']);
+    $valorado = $_POST['usuario_valorado'];
+    if ($val >= 1 && $val <= 5 && $valorado !== $usuarioSesion) {
+        $stmt = $conn->prepare("SELECT id FROM calificausuario WHERE usuario_valorado = ? AND usuario_que_valora = ?");
+        $stmt->bind_param("ss", $valorado, $usuarioSesion);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($res->num_rows) {
+            $stmt = $conn->prepare("UPDATE calificausuario SET estrellas = ? WHERE usuario_valorado = ? AND usuario_que_valora = ?");
+            $stmt->bind_param("iss", $val, $valorado, $usuarioSesion);
+        } else {
+            $stmt = $conn->prepare("INSERT INTO calificausuario (usuario_valorado, usuario_que_valora, estrellas) VALUES (?, ?, ?)");
+            $stmt->bind_param("ssi", $valorado, $usuarioSesion, $val);
+        }
+        $stmt->execute();
+        header("Location: perfil_publico.php?nombre=" . urlencode($valorado));
+        exit();
+    }
+}
+
+// Obtener datos del perfil
 $stmt = $conn->prepare("SELECT * FROM registro WHERE Nombre = ?");
 $stmt->bind_param("s", $nombreUsuario);
 $stmt->execute();
-$resultado = $stmt->get_result();
-$datos = $resultado->fetch_assoc();
+$datos = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 if (!$datos) {
     echo "Usuario no encontrado.";
     exit();
+}
+
+// Obtener promedio de estrellas y si el usuario ya votó
+$stmt = $conn->prepare("SELECT AVG(estrellas) AS promedio, COUNT(*) AS total FROM calificausuario WHERE usuario_valorado = ?");
+$stmt->bind_param("s", $nombreUsuario);
+$stmt->execute();
+$valInfo = $stmt->get_result()->fetch_assoc();
+$promedio = round($valInfo['promedio'] ?? 0, 2);
+$total_val = $valInfo['total'] ?? 0;
+
+$user_valor = 0;
+if ($usuarioSesion && $usuarioSesion !== $nombreUsuario) {
+    $stmt = $conn->prepare("SELECT estrellas FROM calificausuario WHERE usuario_valorado = ? AND usuario_que_valora = ?");
+    $stmt->bind_param("ss", $nombreUsuario, $usuarioSesion);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+    $user_valor = intval($row['estrellas'] ?? 0);
 }
 ?>
 
@@ -27,7 +66,7 @@ if (!$datos) {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9">
   <title>Melo - Perfil de <?php echo htmlspecialchars($nombreUsuario); ?></title>
   <link rel="stylesheet" href="css/style.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -39,55 +78,62 @@ if (!$datos) {
 
 <div class="profile-bg-container">
   <div class="background_and_profile">
-    <div class="bp_header" style="background-image: url('<?php echo $datos['imagen_fondo'] ?? 'img/default-bg.jpg'; ?>');">
-    </div>
+
+
+  
+    <div class="bp_header" style="background-image: url('<?php echo $datos['imagen_fondo'] ?? 'img/default-bg.jpg'; ?>');"></div>
 
     <div class="profile-content">
+      
       <div class="profile_icon_big">
         <img src="<?php echo !empty($datos['imagen_perfil']) ? $datos['imagen_perfil'] : 'img/Profile_Icon.png'; ?>" class="profile-img">
       </div>
 
       <div class="name_bg">
-        
-          <h2><?php echo htmlspecialchars($datos['Nombre']); ?></h2>
-
-
-          <!-- ✅ BOTÓN DE CHAT AÑADIDO -->
-          <?php if (!empty($datos['CorreoElectronico']) && isset($_SESSION['usuario']) && $usuarioSesion !== $nombreUsuario): ?>
-          <div style="margin-top: 10px;">
-            <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class="boton"><i class='bx  bx-message-dots'  ></i>  </a>
-          </div>
-          <?php endif; ?>
-          <?php if (!isset($_SESSION['usuario'])): ?>
-            <p><a href="login.php">Inicia sesión para enviar mensajes</a></p>
-          <?php endif; ?>
-
-          <div class="star-rating" data-usuario="<?php echo htmlspecialchars($nombreUsuario); ?>">
+        <h2><?php echo htmlspecialchars($datos['Nombre']); ?></h2>
+        <!-- VALORACIÓN DE USUARIO -->
+        <div class="stars estrellas-auto-detalle <?php echo $user_valor > 0 ? 'read-only' : ''; ?>"
+             id="rating-stars"
+             role="radiogroup"
+             aria-label="Valora este usuario"
+             data-user-valued="<?php echo $user_valor > 0 ? '1' : '0'; ?>"
+             data-promedio="<?php echo htmlspecialchars(number_format($promedio, 2)); ?>">
           <?php
-            $stmt = $conn->prepare("SELECT AVG(estrellas) AS promedio FROM calificausuario WHERE usuario_valorado = ?");
-$stmt->bind_param("s", $nombreUsuario);
-$stmt->execute();
-$res = $stmt->get_result();
-$prom = $res->fetch_assoc();
-$stmt->close();
-
-$promedio = round($prom['promedio'] ?? 0, 1);
-
-for ($i = 1; $i <= 5; $i++) {
-    $active = ($i <= $promedio) ? 'active' : '';
-    echo "<i class='bx bxs-star star $active' data-star='$i'></i>";
-}
-
-echo "<p class='rating-label'>$promedio / 5</p>";
-
+            $full = floor($promedio);
+            for ($i = 1; $i <= 5; $i++) {
+                $cls = ($i <= $full) ? 'bxs-star' : 'bx-star';
+                echo "<i class='bx {$cls}' data-star='{$i}' role='radio' tabindex='0' aria-label='{$i} estrellas' aria-checked='false'></i>";
+            }
           ?>
+        </div>
+        <?php if (!empty($datos['CorreoElectronico']) && $usuarioSesion && $usuarioSesion !== $nombreUsuario): ?>
+          <div style="margin-top: 10px;">
+            <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class="boton"><i class='bx bx-message-dots'></i></a>
           </div>
+        <?php elseif (!$usuarioSesion): ?>
+          <p><a href="login.php">Inicia sesión para enviar mensajes</a></p>
+        <?php endif; ?>
 
-          <?php if ($usuarioSesion === $nombreUsuario): ?>
-            <div class="boton_profile">
-              <a href="agregar_auto.php" class="boton">Agregar Auto a rentar</a>
-            </div>
-          <?php endif; ?>
+
+
+        <!-- <p class="rating-label"><?php echo "$promedio / 5 ($total_val votos)"; ?></p>-->
+
+        <form id="rating-form" method="post" style="display:none;">
+          <input type="hidden" name="valoracion" id="valoracion" value="<?php echo $user_valor; ?>" />
+          <input type="hidden" name="usuario_valorado" value="<?php echo htmlspecialchars($nombreUsuario); ?>" />
+        </form>
+
+        <?php if ($usuarioSesion === $nombreUsuario): ?>
+          <div class="boton_profile">
+            <a href="agregar_auto.php" class="boton">Agregar Auto a rentar</a>
+
+
+            
+
+
+
+          </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>
@@ -101,35 +147,28 @@ echo "<p class='rating-label'>$promedio / 5</p>";
       <div class="carousel-wrapper">
         <button class="scroll-btn left" onclick="scrollLeftBtn('user-autos-scroll')"><i class='bx bx-caret-left'></i></button>
         <div class="cards scrollable" id="user-autos-scroll">
-
           <?php
-if ($usuarioSesion === $nombreUsuario) {
-    // Si el perfil lo está viendo el propio dueño
-    $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ?");
-    $stmt->bind_param("s", $nombreUsuario);
-} else {
-    // Si otro usuario lo está viendo
-    $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ? AND oculto = 0");
-    $stmt->bind_param("s", $nombreUsuario);
-}
+            if ($usuarioSesion === $nombreUsuario) {
+                $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ?");
+            } else {
+                $stmt = $conn->prepare("SELECT * FROM autos WHERE usuario = ? AND oculto = 0");
+            }
+            $stmt->bind_param("s", $nombreUsuario);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
 
-          $stmt->execute();
-          $resultado = $stmt->get_result();
-
-          while ($auto = $resultado->fetch_assoc()) {
-              ?>
-              <a href="detalle_auto.php?id=<?php echo $auto['id']; ?>" class="card">
-                <img src="<?php echo htmlspecialchars($auto['imagen']); ?>" alt="<?php echo htmlspecialchars($auto['nombre']); ?>">
-                <div class="info">
-                  <h3><?php echo htmlspecialchars($auto['nombre']); ?></h3>
-                  <p><?php echo htmlspecialchars($auto['descripcion']); ?></p>
-                  <span class="price"><?php echo htmlspecialchars($auto['precio']); ?></span>
-                  <span class="stars"><i class='bx bxs-star'></i> <?php echo intval($auto['estrellas']); ?> </span>
-                </div>
-              </a>
-              <?php
-          }
-          $stmt->close();
+            while ($auto = $resultado->fetch_assoc()) {
+              echo "<a href='detalle_auto.php?id={$auto['id']}' class='card'>
+                      <img src='" . htmlspecialchars($auto['imagen']) . "' alt='" . htmlspecialchars($auto['nombre']) . "'>
+                      <div class='info'>
+                        <h3>" . htmlspecialchars($auto['nombre']) . "</h3>
+                        <p>" . htmlspecialchars($auto['descripcion']) . "</p>
+                        <span class='price'>" . htmlspecialchars($auto['precio']) . "</span>
+                        <span class='stars'><i class='bx bxs-star'></i> " . intval($auto['estrellas']) . "</span>
+                      </div>
+                    </a>";
+            }
+            $stmt->close();
           ?>
         </div>
         <button class="scroll-btn right" onclick="scrollRightBtn('user-autos-scroll')"><i class='bx bx-caret-right'></i></button>
@@ -140,36 +179,57 @@ if ($usuarioSesion === $nombreUsuario) {
 
 <script src="js/script.js"></script>
 <script>
-function copiarCorreo(correo) {
-  navigator.clipboard.writeText(correo).then(() => {
-    alert("Correo copiado al portapapeles:\n" + correo);
-  }).catch(err => {
-    console.error("Error al copiar:", err);
-    alert("No se pudo copiar el correo.");
-  });
-}
+document.addEventListener('DOMContentLoaded', () => {
+  const ratingStars = document.getElementById('rating-stars');
+  if (!ratingStars) return;
+  const userValued = ratingStars.getAttribute('data-user-valued') === '1';
+  const promedio = parseFloat(ratingStars.getAttribute('data-promedio')) || 0;
+  const inputValor = document.getElementById('valoracion');
+  const form = document.getElementById('rating-form');
+  const stars = ratingStars.querySelectorAll('i');
 
-document.querySelectorAll('.star-rating .star').forEach(star => {
-  star.addEventListener('click', function() {
-    const estrellas = this.getAttribute('data-star');
-    const usuario_valorado = document.querySelector('.star-rating').getAttribute('data-usuario');
+  function pintarEstrellas(valor) {
+    stars.forEach((star, idx) => {
+      if (idx < valor) {
+        star.classList.add('bxs-star');
+        star.classList.remove('bx-star');
+      } else {
+        star.classList.add('bx-star');
+        star.classList.remove('bxs-star');
+      }
+    });
+  }
 
-    fetch('guardar_valoracion.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: `estrellas=${estrellas}&usuario_valorado=${usuario_valorado}`
-    })
-    .then(response => response.text())
-    .then(data => {
-      alert(data);
-      location.reload();
-    })
-    .catch(err => alert("Error al enviar la valoración"));
-  });
+  pintarEstrellas(Math.floor(promedio));
+
+  if (!userValued) {
+    stars.forEach((star, idx) => {
+      star.setAttribute('tabindex', 0);
+      star.setAttribute('aria-checked', 'false');
+
+      star.addEventListener('click', () => {
+        const val = idx + 1;
+        inputValor.value = val;
+        pintarEstrellas(val);
+        form.submit();
+      });
+
+      star.addEventListener('mouseover', () => pintarEstrellas(idx + 1));
+      star.addEventListener('mouseout', () => pintarEstrellas(Math.floor(promedio)));
+      star.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const val = idx + 1;
+          inputValor.value = val;
+          pintarEstrellas(val);
+          form.submit();
+        }
+      });
+    });
+  }
 });
 </script>
 
 </body>
 </html>
+

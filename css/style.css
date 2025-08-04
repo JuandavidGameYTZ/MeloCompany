@@ -36,6 +36,7 @@
   /* Special Colors */
   --color-stars: #e6d00c;
   --color-money: #18c964;
+  --color-error: red;
 
   /* Input Styles */
   --secondary-input-color: rgb(196, 196, 196);
@@ -1360,12 +1361,11 @@ label {
   opacity: 0.2;
 }
 #rating-stars.stars {
-  margin-top: 4px;
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 .estrellas-auto-detalle i {
   font-size: 2rem;
-  color: #ccc;
+  color: var(--text-color);
   transition: color 0.2s, transform 0.2s;
   cursor: pointer;
 }
@@ -1540,6 +1540,16 @@ label {
   text-overflow: ellipsis;
 }
 
+.badge {
+  background: var(--color-error);
+  color: var(--text-color);
+  border-radius: 99px;
+  padding: 1px 6px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+
 /* ==========================================================
 TEXT CHAT 
  ============================================================ */
@@ -1619,6 +1629,45 @@ TEXT CHAT
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
+
+.comentdex-wrapper .comentdex-list2 {
+  list-style: none;
+  padding: 0;
+}
+
+.comentdex-wrapper .comentdex-list2 li {
+  margin-bottom: 8px;
+}
+
+.comentdex-wrapper .comentdex-list2 a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-color)  ;
+  transition: 0.3s;
+  padding: 10px 12px;
+  border-radius: 50px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  background-color: var(--main-color);
+  border: 1px solid var(--secondary-hover-color)  ;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+justify-content: center;
+margin-bottom: 3px;
+font-size: larger;
+  font-weight: 700;
+  color: var(--text-color);
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+
+.comentdex-wrapper .comentdex-list2 a:hover {
+    background-color: var(--primary-hover-color);
+  border-color: var(--secondary-color);
+}
+
 
 .comentdex-wrapper .comentdex-list a:hover {
     background-color: var(--primary-hover-color);

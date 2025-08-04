@@ -61,21 +61,23 @@ $stmt->close();
   <link rel="icon" href="img/MeloIcon.png" type="image/png" />
 </head>
 
-
 <body class="no-scroll">
 
 <?php include 'header.php'; ?>
-
-
-
 
 <div class="comentdex-wrapper">
   <div class="comentdex-layout">
   <div class="comentdex-sidebar">
 
-  <h4>Chat de</h4>
+  <h3>Chats <i class='bx bx-message-dots'></i></h3>
 
-  <?php
+<ul id="sidebar-chat-list" class="comentdex-list"></ul>
+
+  </div>
+
+  <!-- Chat principal -->
+  <div class="comentdex-main">
+      <?php
 
 // Obtener imagen del receptor
 $stmt3 = $conn->prepare("SELECT imagen_perfil FROM registro WHERE Nombre = ?");
@@ -88,55 +90,16 @@ $stmt3->close();
 
 
 // Mostrar al receptor como si fuera un item de lista
-echo "<li class='comentdex-list'>
+echo "<li class='comentdex-list2'>
   <a href='perfil_publico.php?nombre=" . urlencode($receptor) . "'>
     <img src='$imgReceptor' class='comentdex-avatar'> 
     <span>$receptor</span>
   </a>
 </li>";
 ?>
-
-
-  <h3>Chats <i class='bx bx-message-dots'></i></h3>
-  
-
-
-  
-  <ul class="comentdex-list">
-  <?php
-  // Obtiene la lista de chats únicos del usuario
-  $stmt = $conn->prepare("
-    SELECT DISTINCT IF(emisor = ?, receptor, emisor) AS usuario_chat 
-    FROM mensajes 
-    WHERE emisor = ? OR receptor = ?
-  ");
-  $stmt->bind_param("sss", $emisor, $emisor, $emisor);
-  $stmt->execute();
-  $res = $stmt->get_result();
-
-  while ($chat = $res->fetch_assoc()) {
-    $usuarioChat = $chat['usuario_chat'];
-    // Obtiene la imagen de perfil del usuario del chat
-    $stmt2 = $conn->prepare("SELECT imagen_perfil FROM registro WHERE Nombre = ?");
-    $stmt2->bind_param("s", $usuarioChat);
-    $stmt2->execute();
-    $r2 = $stmt2->get_result();
-    $img = $r2->fetch_assoc()['imagen_perfil'] ?? 'img/Profile_Icon.png';
-    $stmt2->close();
-
-    echo "<li><a href='comentdex.php?con=" . urlencode($usuarioChat) . "'>
-      <img src='$img' class='comentdex-avatar'> 
-      <span>$usuarioChat</span>
-      </a></li>";
-  }
-  $stmt->close();
-  ?>
-  </ul>
-  </div>
-
-  <!-- Chat principal -->
-  <div class="comentdex-main">
   <div class="comentdex-box" id="chat-box"></div>
+
+  
   <form id="form-mensaje" autocomplete="off" method="post">
   <input type="text" name="mensaje" id="mensaje" placeholder="Escribe tu mensaje..." required>
   <input type="hidden" name="receptor" value="<?php echo htmlspecialchars($receptor); ?>">
@@ -200,11 +163,25 @@ function cargarMensajes() {
   });
 }
 
-
-
-
 setInterval(cargarMensajes, 2000);
 cargarMensajes();
 </script>
+
+<script>
+function actualizarSidebar() {
+    fetch('actualizar_sidebar.php')
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('sidebar-chat-list').innerHTML = html;
+        });
+}
+
+// Actualiza cada 5 segundos
+setInterval(actualizarSidebar, 5000);
+
+// También al cargar la página
+document.addEventListener('DOMContentLoaded', actualizarSidebar);
+</script>
+
 </body>
 </html>

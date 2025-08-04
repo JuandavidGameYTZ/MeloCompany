@@ -113,6 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endif; ?>
     </div>
 </a>
+
+
   <form method="POST">
     <label for="nombre" class="ajustes-label">Nombre de usuario:</label>
     <input type="text" id="nombre" name="nombre" class="input-container" value="<?php echo htmlspecialchars($datos['Nombre']); ?>" required>
