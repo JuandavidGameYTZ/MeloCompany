@@ -90,6 +90,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_oculto']) && $
     header("Location: " . $_SERVER['REQUEST_URI']); exit();
 }
 
+// Procesar eliminación del auto si es el dueño
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_auto']) && $usuario === $auto['usuario']) {
+    // Eliminar valoraciones, comentarios, denuncias, etc. relacionadas
+    $stmt = $conn->prepare("DELETE FROM valorarauto WHERE id_auto = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    $stmt = $conn->prepare("DELETE FROM comentarios WHERE id_auto = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    $stmt = $conn->prepare("DELETE FROM denuncias WHERE id_auto = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    // Finalmente, eliminar el auto
+    $stmt = $conn->prepare("DELETE FROM autos WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    // Redirigir a inicio o perfil
+    header("Location: perfil_publico.php?nombre=" . urlencode($usuario));
+    exit();
+}
+
+
 // Procesar renta
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rentar_auto']) && $usuario && $usuario !== $auto['usuario']) {
     $fecha_inicio = $_POST['fecha_inicio'] ?? '';
@@ -211,6 +237,12 @@ if ($usuario) {
   </form>
   <?php endif; ?>
 
+  <?php if ($usuario === $auto['usuario']): ?>
+  <form method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este auto? Esta acción no se puede deshacer.');" style="display:inline;">
+    <input type="hidden" name="eliminar_auto" value="1">
+    <button type="submit" class="boton rojo">Eliminar auto</button>
+  </form>
+<?php endif; ?>
 
   <div class="comentarios">
     <h2>Comentarios</h2>
@@ -229,12 +261,6 @@ if ($usuario) {
       <?php endwhile; ?>
     <?php endif; ?>
 
-<?php if ($usuario === $auto['usuario']): ?>
-  <form method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este auto? Esta acción no se puede deshacer.');" style="display:inline;">
-    <input type="hidden" name="eliminar_auto" value="1">
-    <button type="submit" class="boton rojo">Eliminar auto</button>
-  </form>
-<?php endif; ?>
 
 
     <?php if ($usuario): ?>

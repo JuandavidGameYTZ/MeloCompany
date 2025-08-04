@@ -2260,6 +2260,19 @@ DENUNCIAS
   }
 }
 
+/* ==========================================================
+  notifications
+  ========================================================== */
+
+
+  .notification-wrapper {
+  position: relative;
+  display: inline-block;
+}
+#notifCount {
+  font-weight: bold;
+}
+
 
 
 
