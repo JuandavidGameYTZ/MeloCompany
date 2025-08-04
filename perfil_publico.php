@@ -5,6 +5,11 @@ require 'conexion.php';
 $nombreUsuario = $_GET['nombre'] ?? '';
 $usuarioSesion = $_SESSION['usuario'] ?? '';
 
+if ($nombreUsuario === $usuarioSesion) {
+    header("Location: profile.php");
+    exit();
+}
+
 if (empty($nombreUsuario)) {
     echo "Usuario no especificado.";
     exit();
@@ -111,7 +116,8 @@ if ($usuarioSesion && $usuarioSesion !== $nombreUsuario) {
             <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class="boton"><i class='bx bx-message-dots'></i></a>
           </div>
         <?php elseif (!$usuarioSesion): ?>
-          <p><a href="login.php">Inicia sesión para enviar mensajes</a></p>
+          <p><a class = boton href="login.php">Inicia sesión para enviar mensajes</a></p>
+          <p><a class = boton href="register.php">Registrarse para enviar mensajes</a></p>
         <?php endif; ?>
 
 
@@ -124,13 +130,10 @@ if ($usuarioSesion && $usuarioSesion !== $nombreUsuario) {
         </form>
 
         <?php if ($usuarioSesion === $nombreUsuario): ?>
+
           <div class="boton_profile">
-            <a href="agregar_auto.php" class="boton">Agregar Auto a rentar</a>
 
-
-            
-
-
+           <!--  <a href="agregar_auto.php" class="boton">Agregar Auto a rentar</a>-->
 
           </div>
         <?php endif; ?>
@@ -228,6 +231,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const stars = document.querySelectorAll('#rating-stars i');
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        window.location.href = 'login.php';
+      });
+    });
+  });
 </script>
 
 </body>
