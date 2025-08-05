@@ -95,13 +95,52 @@ $stmt->close();
         ?>
       </div>
 
-      <!-- Estrellas solo visuales -->
     
           <!-- <p class="rating-label"><?php echo "$promedio / 5 ($total_val valoraciones)"; ?></p> -->
       </div>
     </div>
   </div>
 </div>
+
+
+
+<!-- AUTOS RENTADOS POR EL USUARIO -->
+<div class="profilecar">
+  <section class="marketplace">
+    <div class="category" id="Rentas">
+      <div class="category-title">Rentando <i class='bx bx-key'></i></div>
+      <div class="carousel-wrapper">
+        <button class="scroll-btn left" onclick="scrollLeftBtn('rentas-scroll')"><i class='bx bx-caret-left'></i></button>
+        <div class="cards scrollable" id="rentas-scroll">
+          <?php
+          $stmt = $conn->prepare("
+            SELECT a.*, r.fecha_inicio, r.fecha_fin 
+            FROM rentas r 
+            INNER JOIN autos a ON r.auto_id = a.id 
+            WHERE r.cliente = ?
+          ");
+          $stmt->bind_param("s", $usuario);
+          $stmt->execute();
+          $resultado = $stmt->get_result();
+          while ($auto = $resultado->fetch_assoc()):
+          ?>
+          <a href="detalle_auto.php?id=<?php echo $auto['id']; ?>" class="card">
+            <img src="<?php echo htmlspecialchars($auto['imagen']); ?>" alt="<?php echo htmlspecialchars($auto['nombre']); ?>">
+            <div class="info">
+              <h3><?php echo htmlspecialchars($auto['nombre']); ?></h3>
+              <span class="price"><?php echo htmlspecialchars($auto['precio']); ?></span>
+              <p><strong>Desde:</strong> <?php echo htmlspecialchars($auto['fecha_inicio']); ?></p>
+              <p><strong>Hasta:</strong> <?php echo htmlspecialchars($auto['fecha_fin']); ?></p>
+            </div>
+          </a>
+          <?php endwhile; $stmt->close(); ?>
+        </div>
+        <button class="scroll-btn right" onclick="scrollRightBtn('rentas-scroll')"><i class='bx bx-caret-right'></i></button>
+      </div>
+    </div>
+  </section>
+</div>
+
 
 <!-- AUTOS DEL USUARIO -->
 <div class="profilecar">
@@ -135,37 +174,6 @@ $stmt->close();
   </section>
 </div>
 
-<!-- AUTOS RENTADOS POR EL USUARIO -->
-<div class="profilecar">
-  <section class="marketplace">
-    <div class="category" id="Rentas">
-      <div class="category-title">Mis rentas <i class='bx bx-key'></i></div>
-      <div class="carousel-wrapper">
-        <button class="scroll-btn left" onclick="scrollLeftBtn('rentas-scroll')"><i class='bx bx-caret-left'></i></button>
-        <div class="cards scrollable" id="rentas-scroll">
-          <?php
-          $stmt = $conn->prepare("SELECT a.* FROM rentas r INNER JOIN autos a ON r.auto_id = a.id WHERE r.cliente = ?");
-          $stmt->bind_param("s", $usuario);
-          $stmt->execute();
-          $resultado = $stmt->get_result();
-          while ($auto = $resultado->fetch_assoc()):
-          ?>
-          <a href="detalle_auto.php?id=<?php echo $auto['id']; ?>" class="card">
-            <img src="<?php echo htmlspecialchars($auto['imagen']); ?>" alt="<?php echo htmlspecialchars($auto['nombre']); ?>">
-            <div class="info">
-              <h3><?php echo htmlspecialchars($auto['nombre']); ?></h3>
-              <p><?php echo htmlspecialchars($auto['descripcion']); ?></p>
-              <span class="price"><?php echo htmlspecialchars($auto['precio']); ?></span>
-              <span class="stars"><i class='bx bxs-star'></i> <?php echo intval($auto['estrellas']); ?> </span>
-            </div>
-          </a>
-          <?php endwhile; $stmt->close(); ?>
-        </div>
-        <button class="scroll-btn right" onclick="scrollRightBtn('rentas-scroll')"><i class='bx bx-caret-right'></i></button>
-      </div>
-    </div>
-  </section>
-</div>
 
 <script src="js/script.js"></script>
 </body>

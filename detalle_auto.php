@@ -159,7 +159,6 @@ if ($usuario) {
   <title>Detalle del Auto - <?php echo htmlspecialchars($auto['nombre']); ?></title>
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="img/MeloIcon.png" type="image/png" />
 </head>
 <body>
@@ -205,12 +204,35 @@ if ($usuario) {
     </div>
     <?php endif; ?>
 
+
+<div><?php if ($usuario && $usuario !== $auto['usuario']): ?>
+  <div class = rentaauto>
+  <button class="boton" onclick="abrirPopup()">Rentar <?php echo htmlspecialchars($auto['nombre']); ?> por <?php echo htmlspecialchars($auto['precio']); ?> </button>
+<?php endif; ?> </div>
+
+
+
     <a href="perfil_publico.php?nombre=<?php echo urlencode($auto['Nombre']); ?>" class="public-profile-link">
+      
+
+
+
       <div class="public-profile-bubble">
+
         <div class="public-profile-pic">
           <img src="<?php echo !empty($auto['imagen_perfil']) ? htmlspecialchars($auto['imagen_perfil']) : 'img/Profile_Icon.png'; ?>" alt="Perfil del dueño" />
         </div>
+
         <p class="public-username"><?php echo htmlspecialchars($auto['Nombre']); ?></p>
+ <?php if ($usuario && $usuario !== $auto['Nombre']): ?>
+  <form action="comentdex.php" method="get" style="display:inline;">
+    <input type="hidden" name="con" value="<?php echo htmlspecialchars($auto['Nombre']); ?>">
+    <button type="submit" class="boton">
+      chatear <i class='bx bx-message-dots'></i>
+    </button>
+  </form>
+<?php endif; ?>
+
       </div>
     </a>
 
@@ -226,21 +248,119 @@ if ($usuario) {
 
   <p class="car-location"><?php echo htmlspecialchars($auto['ubicacion'] ?? 'No especificada'); ?></p>
 
-  <a href="denuncias.php?id=<?php echo $auto['id']; ?>" class="boton">Denunciar</a>
+<form action="denuncias.php" method="get" style="display:inline;">
+  <input type="hidden" name="id" value="<?php echo $auto['id']; ?>">
+  <button type="submit" class="boton">Denunciar <i class='bx  bx-block'  ></i> </button>
+</form>
 
-  <?php if ($usuario === $auto['usuario']): ?>
+
+
+
+<div id="popup-renta" class="popup-overlay">
+
+
+
+  <div class="popup-contenido">
+
+  <div class="tituloespecico">    Rentar <?php echo htmlspecialchars($auto['nombre']); ?>
+    <span class="cerrar" onclick="cerrarPopup()">&times;</span> </div>
+
+    <form method="post" oninput="calcularPrecioRenta()">
+      <input type="hidden" name="rentar_auto" value="1">
+
+<div class="date-time-container">
+  <label for="fecha_inicio">Fecha de inicio:</label>
+  <input type="datetime-local" id="fecha_inicio" name="fecha_inicio" required>
+
+  <label for="fecha_fin">Fecha de fin:</label>
+  <input type="datetime-local" id="fecha_fin" name="fecha_fin" required>
+</div>
+
+
+      <!-- Mostrar duración -->
+      <p class="renta-info">
+        Duración: <span id="duracion-horas">0</span> horas <span id="dias-equivalentes">0</span> dias
+      </p>
+
+      <!-- Mostrar total -->
+<p class="renta-info">
+  <br>Total a pagar: <span id="total-renta" class="Colorgreen">$0.00</span>  por hora
+</p>
+      <button type="submit" class="boton">Confirmar Renta</button>
+    </form>
+  </div>
+</div>
+<script>
+
+function abrirPopup() {
+  document.getElementById('popup-renta').style.display = 'flex';
+}
+
+function cerrarPopup() {
+  document.getElementById('popup-renta').style.display = 'none';
+}
+
+
+function calcularPrecioRenta() {
+  const inicioInput = document.getElementById('fecha_inicio').value;
+  const finInput = document.getElementById('fecha_fin').value;
+
+  const precioPorHora = <?php echo (float)$auto['precio']; ?>;
+
+  if (!inicioInput || !finInput) return;
+
+  const inicio = new Date(inicioInput);
+  const fin = new Date(finInput);
+
+  if (isNaN(inicio.getTime()) || isNaN(fin.getTime()) || fin <= inicio) {
+    document.getElementById('duracion-horas').textContent = '0';
+    document.getElementById('dias-equivalentes').textContent = '0';
+    document.getElementById('total-renta').textContent = '$0.00';
+    return;
+  }
+
+  let horasEfectivas = 0;
+
+  // Recorre hora por hora y cuenta solo las horas válidas (7am a 12:59am del día siguiente)
+  let actual = new Date(inicio);
+  while (actual < fin) {
+    const hora = actual.getHours();
+    if (hora >= 7 || hora < 1) {
+      horasEfectivas++;
+    }
+    actual.setHours(actual.getHours() + 1);
+  }
+
+  const total = horasEfectivas * precioPorHora;
+
+  document.getElementById('duracion-horas').textContent = horasEfectivas;
+  document.getElementById('dias-equivalentes').textContent = (horasEfectivas / 18).toFixed(2); // opcional
+  document.getElementById('total-renta').textContent = '$' + total.toFixed(2);
+}
+</script>
+
+
+
+
+<?php if ($usuario === $auto['usuario']): ?>
   <form method="post" style="display:inline;">
     <input type="hidden" name="toggle_oculto" value="1">
     <button type="submit" class="boton">
-      <?php echo $auto['oculto'] ? 'Mostrar auto' : 'Ocultar auto'; ?>
+      <?php if ($auto['oculto']): ?>
+        Mostrar auto <i class='bx  bx-eye'  ></i> 
+      <?php else: ?>
+        Ocultar auto <i class='bx bx-eye-slash'></i>
+      <?php endif; ?>
     </button>
   </form>
-  <?php endif; ?>
+<?php endif; ?>
+
+
 
   <?php if ($usuario === $auto['usuario']): ?>
   <form method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este auto? Esta acción no se puede deshacer.');" style="display:inline;">
     <input type="hidden" name="eliminar_auto" value="1">
-    <button type="submit" class="boton rojo">Eliminar auto</button>
+    <button type="submit" class="boton rojo">Eliminar auto <i class='bx  bx-trash'  ></i> </button>
   </form>
 <?php endif; ?>
 

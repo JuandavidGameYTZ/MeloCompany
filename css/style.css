@@ -1,10 +1,6 @@
 /* ==========================================================
   FONT IMPORTS
   ========================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* ==========================================================
   CSS VARIABLES (THEME COLORS, SIZES, ETC.)
@@ -34,9 +30,11 @@
   --universal-blur: blur(30px);
 
   /* Special Colors */
+    --color-stars--readonly: #efb412;
   --color-stars: #e6d00c;
   --color-money: #18c964;
   --color-error: red;
+  --color-money-hover: #038a3e;
 
   /* Input Styles */
   --secondary-input-color: rgb(196, 196, 196);
@@ -1042,7 +1040,7 @@ label {
   flex-shrink: 0;
 }
 .info {
-  padding: 12px 10px 6px;
+  padding: 4px 7px 14px;
   text-align: left;
   flex-grow: 1;
   display: flex;
@@ -1275,9 +1273,9 @@ label {
 }
 .car-image {
   width: 100%;
-  max-height: 300px;
+  max-height: 350px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 6px;
   margin-bottom: 6px;
 }
 .car-title {
@@ -1368,6 +1366,155 @@ label {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.rentaauto {
+  margin-bottom: 20px;
+  margin-top: 7px;
+
+
+}
+
+/* ==========================================================
+  POPUP STYLES
+  ========================================================== */
+
+
+.tituloespecico {
+  font-size: 1.5rem !important;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+.popup-overlay {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* fondo oscuro semitransparente */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-contenido {
+  background-color: var(--main-color);
+  border: 1px solid var(--secondary-hover-color);
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  
+}
+
+@media (max-width: 800px) {
+  .popup-contenido  {
+ font-size: large !important;
+  }
+ }
+
+.popup-contenido label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.popup-contenido input[type="date"]
+ {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+}
+
+.popup-contenido button {
+  border: none;
+  cursor: pointer;
+  margin-top: 21px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+@media (max-width: 800px) {
+  .cerrar  {
+ font-size: 26px !important;
+  }
+ }
+
+
+.cerrar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+
+.cerrar:hover {
+  color: var(--secondary-color);
+ 
+}
+
+.cerrar:active {
+  color: var(--primary-hover-color);
+}
+
+
+/* Contenedor opcional para espaciado */
+.date-time-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: var(--main-color);
+  border: 1px solid var(--secondary-hover-color);
+  border-radius: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--text-color);
+}
+
+/* Etiquetas (label) */
+.date-time-container label {
+  font-size: 15px;
+  color: var(--text-color);
+  margin-bottom: 4px;
+}
+
+/* Inputs de fecha/hora */
+.date-time-container input[type="datetime-local"] {
+  background-color: var(--inside-input-color);
+  border: 1px solid var(--secondary-hover-color);
+  border-radius: 25px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text-color);
+  outline: none;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.date-time-container input[type="datetime-local"]:focus {
+  border-color: var(--secondary-color);
+}
+
+.Colorgreen {
+  color: var(--color-money);
+
+}
+
 /* ==========================================================
   RATING STARS
   ========================================================== */
@@ -1386,7 +1533,7 @@ label {
   opacity: 0.2;
 }
 #rating-stars.stars {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .estrellas-auto-detalle i {
   font-size: 2rem;
@@ -1401,6 +1548,26 @@ label {
 }
 .stars.read-only i {
   cursor: default;
+  color: var(--color-stars--readonly);
+}
+
+.stars.read-only i:hover {
+  cursor: default;
+  color: var(--color-stars);
+}
+
+.car-price {
+  color: var(--color-money);
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 0px;
+  display: block;
+  transition: color 0.3s ease ;
+  text-align: left;
+}
+.car-price:hover {
+  color: var(--color-money-hover);
+  transition: color 0.3s ease, text-decoration 0.3s ease;
 }
 
 /* ==========================================================
@@ -1463,6 +1630,7 @@ label {
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
   margin-bottom: 20px;
+    margin-top: 2px;
 }
 .public-profile-pic {
   width: 40px;
@@ -2331,6 +2499,11 @@ DENUNCIAS
 #notifCount {
   font-weight: bold;
 }
+
+
+
+
+
 
 
 
