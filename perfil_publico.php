@@ -94,8 +94,10 @@ if ($usuarioSesion && $usuarioSesion !== $nombreUsuario) {
         <img src="<?php echo !empty($datos['imagen_perfil']) ? $datos['imagen_perfil'] : 'img/Profile_Icon.png'; ?>" class="profile-img">
       </div>
 
+      
       <div class="name_bg">
         <h2><?php echo htmlspecialchars($datos['Nombre']); ?></h2>
+
         <!-- VALORACIÓN DE USUARIO -->
         <div class="stars estrellas-auto-detalle <?php echo $user_valor > 0 ? 'read-only' : ''; ?>"
              id="rating-stars"
@@ -110,11 +112,15 @@ if ($usuarioSesion && $usuarioSesion !== $nombreUsuario) {
                 echo "<i class='bx {$cls}' data-star='{$i}' role='radio' tabindex='0' aria-label='{$i} estrellas' aria-checked='false'></i>";
             }
           ?>
+
+
         </div>
-        <?php if (!empty($datos['CorreoElectronico']) && $usuarioSesion && $usuarioSesion !== $nombreUsuario): ?>
-          <div style="margin-top: 10px;">
-            <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class="boton"><i class='bx bx-message-dots'></i></a>
+
+                                          <div class ="boton_chatp">
+            <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class = boton> chatear con  <?php echo htmlspecialchars($datos['Nombre']); ?>     <i class='bx bx-message-dots'></i></a>
           </div>
+        <?php if (!empty($datos['CorreoElectronico']) && $usuarioSesion && $usuarioSesion !== $nombreUsuario): ?>
+
         <?php elseif (!$usuarioSesion): ?>
           <p><a class = boton href="login.php">Inicia sesión para enviar mensajes</a></p>
           <p><a class = boton href="register.php">Registrarse para enviar mensajes</a></p>

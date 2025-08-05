@@ -1130,6 +1130,7 @@ label {
   margin-top: 5%;
   overflow: hidden;
 }
+
 .change-bg-form .bg-overlay {
   position: absolute;
   top: 0; left: 0;
@@ -1178,7 +1179,15 @@ label {
   background-color: var(--text-color);
   border: 3px solid var(--text-color);
   margin-right: 20px;
+ transition: transform 0.3s ease; 
 }
+
+.profile_icon_big:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
 .profile_icon_big img {
   width: 100%;
   height: 100%;
@@ -1186,6 +1195,7 @@ label {
   border-radius: 50%;
   display: block;
 }
+
 .change-pic-form {
   position: absolute;
   top: 0;
@@ -1221,7 +1231,6 @@ label {
 }
 .name_bg {
   color: var(--text-color);
-  padding: 10px 0;
   font-size: 1.4rem;
   font-weight: bold;
 }
