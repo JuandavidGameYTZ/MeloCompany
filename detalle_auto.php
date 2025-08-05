@@ -159,9 +159,11 @@ if ($usuario) {
   <title>Detalle del Auto - <?php echo htmlspecialchars($auto['nombre']); ?></title>
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet">
+ <!--  <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
   <link rel="icon" href="img/MeloIcon.png" type="image/png" />
 </head>
 <body>
+
 
 <?php include 'header.php'; ?>
 
@@ -367,6 +369,21 @@ function calcularPrecioRenta() {
   <div class="comentarios">
     <h2>Comentarios</h2>
 
+    <?php if ($usuario): ?>
+    <form method="post" class="formulario-comentario">
+      <label for="nuevo_comentario">Añadir comentario</label>
+      <textarea id="nuevo_comentario" name="nuevo_comentario" maxlength="250" required oninput="updateCounter()"></textarea>
+      <div id="charCounter">250 caracteres restantes</div>
+
+      <?php if ($error_comentario): ?>
+        <p class="error"><?php echo $error_comentario; ?></p>
+      <?php endif; ?>
+
+      <button type="submit" class="boton">Enviar</button>
+    </form>
+    <?php endif; ?>
+
+
     <?php if ($result_comments->num_rows === 0): ?>
       <p class="sin-comentarios">No hay comentarios todavía.</p>
     <?php else: ?>
@@ -383,19 +400,7 @@ function calcularPrecioRenta() {
 
 
 
-    <?php if ($usuario): ?>
-    <form method="post" class="formulario-comentario">
-      <label for="nuevo_comentario">Añadir comentario</label>
-      <textarea id="nuevo_comentario" name="nuevo_comentario" maxlength="250" required oninput="updateCounter()"></textarea>
-      <div id="charCounter">250 caracteres restantes</div>
 
-      <?php if ($error_comentario): ?>
-        <p class="error"><?php echo $error_comentario; ?></p>
-      <?php endif; ?>
-
-      <button type="submit" class="boton">Enviar</button>
-    </form>
-    <?php endif; ?>
   </div>
 </div>
 

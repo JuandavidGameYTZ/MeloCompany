@@ -96,7 +96,7 @@ if ($usuarioSesion && $usuarioSesion !== $nombreUsuario) {
 
       
       <div class="name_bg">
-        <h2><?php echo htmlspecialchars($datos['Nombre']); ?></h2>
+        <h1><?php echo htmlspecialchars($datos['Nombre']); ?></h1>
 
         <!-- VALORACIÓN DE USUARIO -->
         <div class="stars estrellas-auto-detalle <?php echo $user_valor > 0 ? 'read-only' : ''; ?>"
@@ -114,9 +114,7 @@ if ($usuarioSesion && $usuarioSesion !== $nombreUsuario) {
           ?>
 
 
-        </div>
-
-                                          <div class ="boton_chatp">
+        </div> <div class ="boton_chatp">
             <a href="comentdex.php?con=<?php echo urlencode($nombreUsuario); ?>" class = boton> chatear con  <?php echo htmlspecialchars($datos['Nombre']); ?>     <i class='bx bx-message-dots'></i></a>
           </div>
         <?php if (!empty($datos['CorreoElectronico']) && $usuarioSesion && $usuarioSesion !== $nombreUsuario): ?>
