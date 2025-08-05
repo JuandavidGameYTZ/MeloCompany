@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-
+<?php if (!$usuarioSesion): ?>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const stars = document.querySelectorAll('#rating-stars i');
@@ -251,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 </script>
+<?php endif; ?>
 
 </body>
 </html>

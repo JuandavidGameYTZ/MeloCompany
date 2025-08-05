@@ -1494,6 +1494,12 @@ label {
     transition: transform 0.1s, box-shadow 0.1s;
 }
 
+@media (max-width: 800px) {
+  .chat-list-container {
+
+    margin: 100px 15px 20px 15px !important; 
+  }
+}
 
 .chat-title {
   color: var(--text-color);
@@ -1723,6 +1729,17 @@ font-size: larger;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+
+
+
+@media (max-width: 800px) {
+  .comentdex-wrapper .comentdex-main {
+    padding: 5px !important;
+      padding-top: 84px  !important;
+
+  }
 }
 
 .comentdex-wrapper .comentdex-main h2 {

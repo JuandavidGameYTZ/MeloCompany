@@ -97,6 +97,8 @@ echo "<li class='comentdex-list2'>
   </a>
 </li>";
 ?>
+
+
   <div class="comentdex-box" id="chat-box"></div>
 
   
