@@ -117,19 +117,3 @@ require 'conexion.php';
 <script src="js/script.js"></script>
 
 
-<!-- Scripts JS -->
-<script src="js/script.js"></script>
-
-<div id="google_translate_element"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'es', // Idioma original
-      includedLanguages: 'en,es,fr,de,it,pt,ja,ko,zh-CN', // Idiomas permitidos
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-      autoDisplay: true
-    }, 'google_translate_element');
-  }
-</script>
-
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
