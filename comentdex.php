@@ -102,10 +102,10 @@ echo "<li class='comentdex-list2'>
   <div class="comentdex-box" id="chat-box"></div>
 
   
-  <form id="form-mensaje" autocomplete="off" method="post">
-  <input type="text" name="mensaje" id="mensaje" placeholder="Escribe tu mensaje..." required>
-  <input type="hidden" name="receptor" value="<?php echo htmlspecialchars($receptor); ?>">
-  <button type="submit" class="comentdex-btn">
+  <form id="form-mensaje" autocomplete="on" method="post" title="Escribe un mensaje">
+  <input type="text" name="mensaje" id="mensaje" placeholder="Escribe tu mensaje..." title="Escribe un mensaje" required>
+  <input type="hidden" name="receptor" value="<?php echo htmlspecialchars($receptor); ?>" title="Escribe un mensaje">
+  <button type="submit" class="comentdex-btn" title="Escribe un mensaje">
     <i class='bx bx-send'></i>
   </button>
   </form>

@@ -33,6 +33,7 @@ require 'conexion.php';
         aria-label="Buscar autos disponibles"
         autocomplete="off"
         id="busquedaInput"
+        title="Buscardor"
       />
       <button type="submit" style="background: none; border: none; cursor: pointer;">
         <i class='bx bx-search'></i>
@@ -45,7 +46,7 @@ require 'conexion.php';
 
 
   <!-- Botón para agregar auto -->
- <a href="agregar_auto.php" class="botonE"><i class='bx  bx-plus'  ></i> Agregar Auto a rentar</a>
+ <a href="agregar_auto.php" class="botonE" title = Agregar un auto><i class='bx  bx-plus'  ></i> Agregar Auto a rentar</a>
 
    <style>
 

@@ -144,8 +144,8 @@ body {
   background: var(--main-gradient);
   backdrop-filter: var(--universal-blur);
   -webkit-backdrop-filter: var(--universal-blur);
-  border-bottom-left-radius: 9px;
-  border-bottom-right-radius: 9px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -506,7 +506,7 @@ border: var(--secondary-color)  1px solid;
   width: 100%;
   max-width: 500px;
   background-color: var(--main-solid-color);
-  border-radius: 10px;
+  border-radius: 25px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
@@ -576,7 +576,7 @@ border: var(--secondary-color)  1px solid;
   list-style: none;
   padding: 0;
   margin: 0;
-  border-radius: 10px;
+  border-radius: 25px;
   max-height: 300px;
   overflow-y: auto;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
@@ -623,7 +623,7 @@ border: var(--secondary-color)  1px solid;
   font-size: 1rem;
   font-weight: 600;
   border: none;
-  border-radius: 9px;
+  border-radius: 100px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   text-align: center;
@@ -651,9 +651,6 @@ border: var(--secondary-color)  1px solid;
 
 
 
-
-
-
 .botonE{
   background: var(--boton-static);
   display: inline-block;
@@ -663,7 +660,7 @@ border: var(--secondary-color)  1px solid;
   font-size: 1rem;
   font-weight: 600;
   border: none;
-  border-radius: 9px;
+  border-radius: 100px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   text-align: center;
@@ -1010,25 +1007,26 @@ label {
 .cards.scrollable::-webkit-scrollbar {
   display: none;
 }
-/* Card style */
+
 .card {
   background: var(--card-background);
-  border-radius: 10px;
+  border-radius: 25px;
   overflow: hidden;
   text-decoration: none;
   color: var(--text-color);
   transition: transform 0.3s ease, box-shadow 0.5s ease;
   flex-direction: column;
-  min-width: 120px;
-  min-height: 120px;
-  max-height: 221px;
-  max-width: 200px;
+  width: 200px;       
+  height: 220px;         
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 2;
   display: flex;
+  flex-shrink: 0;            
+  flex-grow: 0;              
 }
+
 .card img {
   width: 100%;
   object-fit: cover;
@@ -1095,13 +1093,19 @@ label {
   cursor: pointer;
   font-size: 20px;
   font-weight: bold;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  border-radius: 20px;
+  transition: background-color 0.3s, transform 0.2s ease;
   z-index: 2;
 }
+
 .scroll-btn:hover {
   background-color: var(--secondary-color);
   color: var(--text-color);
+  transform: scale(1.0001);
+}
+
+.scroll-btn:active {
+    transform: scale(0.95);
 }
 .scroll-btn.left {
   margin-right: 10px;
