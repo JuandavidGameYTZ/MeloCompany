@@ -10,6 +10,21 @@ $usuario = $_SESSION['usuario'] ?? null;
 $error_comentario = '';
 
 
+$stmt = $conn->prepare("
+  SELECT c.usuario, c.comentario, c.fecha, r.imagen_perfil, COALESCE(v.valor, 0) AS valor
+  FROM comentarios c
+  JOIN registro r ON c.usuario = r.Nombre
+  LEFT JOIN valorarauto v ON v.usuario = c.usuario AND v.id_auto = c.id_auto
+  WHERE c.id_auto = ?
+  ORDER BY c.fecha DESC
+");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result_comments = $stmt->get_result();
+
+
+
+
 // Procesar eliminación del auto si es el dueño
 
 
@@ -41,18 +56,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_auto']) && $
 
 }
 
-// Procesar comentario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_comentario']) && $usuario) {
-    $comentario = trim($_POST['nuevo_comentario']);
-    if (strlen($comentario) > 250) {
-        $error_comentario = "El comentario no puede exceder 250 caracteres.";
+    // Verificar si el usuario valoró
+    $stmt = $conn->prepare("SELECT 1 FROM valorarauto WHERE id_auto = ? AND usuario = ?");
+    $stmt->bind_param("is", $id, $usuario);
+    $stmt->execute();
+    $tieneValoracion = $stmt->get_result()->num_rows > 0;
+
+    if (!$tieneValoracion) {
+        $error_comentario = "Tienes que ratear el vehículo primero.";
     } else {
-        $stmt = $conn->prepare("INSERT INTO comentarios (id_auto, usuario, comentario, fecha) VALUES (?, ?, ?, NOW())");
-        $stmt->bind_param("iss", $id, $usuario, $comentario);
-        $stmt->execute();
-        header("Location: " . $_SERVER['REQUEST_URI']); exit();
+        $comentario = trim($_POST['nuevo_comentario']);
+        if (strlen($comentario) > 250) {
+            $error_comentario = "El comentario no puede exceder 250 caracteres.";
+        } else {
+            $stmt = $conn->prepare("INSERT INTO comentarios (id_auto, usuario, comentario, fecha) VALUES (?, ?, ?, NOW())");
+            $stmt->bind_param("iss", $id, $usuario, $comentario);
+            $stmt->execute();
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
+        }
     }
 }
+
 
 // Procesar valoración
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['valoracion']) && $usuario) {
@@ -159,7 +185,6 @@ if ($usuario) {
   <title>Detalle del Auto - <?php echo htmlspecialchars($auto['nombre']); ?></title>
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet">
- <!--  <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
   <link rel="icon" href="img/MeloIcon.png" type="image/png" />
 </head>
 <body>
@@ -237,11 +262,13 @@ if ($usuario) {
 
       </div>
     </a>
+    
 
     <div class="description-bubble" id="description-bubble">
       <p id="car-description"><?php echo nl2br(htmlspecialchars($auto['descripcion'])); ?></p>
       <span class="show-more">ver más</span>
     </div>
+    
 
     <?php if (!empty($auto['ubicacion'])): ?>
       <iframe class="car-map" width="100%" height="300" loading="lazy" allowfullscreen src="https://www.google.com/maps?q=<?php echo urlencode($auto['ubicacion']); ?>&output=embed"></iframe>
@@ -259,8 +286,6 @@ if ($usuario) {
 
 
 <div id="popup-renta" class="popup-overlay">
-
-
 
   <div class="popup-contenido">
 
@@ -293,7 +318,6 @@ if ($usuario) {
   </div>
 </div>
 <script>
-
 function abrirPopup() {
   document.getElementById('popup-renta').style.display = 'flex';
 }
@@ -302,11 +326,11 @@ function cerrarPopup() {
   document.getElementById('popup-renta').style.display = 'none';
 }
 
-
 function calcularPrecioRenta() {
   const inicioInput = document.getElementById('fecha_inicio').value;
   const finInput = document.getElementById('fecha_fin').value;
 
+  // Precio por hora del auto (PHP)
   const precioPorHora = <?php echo (float)$auto['precio']; ?>;
 
   if (!inicioInput || !finInput) return;
@@ -321,27 +345,31 @@ function calcularPrecioRenta() {
     return;
   }
 
-  let horasEfectivas = 0;
+  // Diferencia en milisegundos -> horas (Math.ceil para contar horas parciales como completas)
+  const diffMs = fin.getTime() - inicio.getTime();
+  const horasEfectivas = Math.ceil(diffMs / (1000 * 60 * 60));
 
-  // Recorre hora por hora y cuenta solo las horas válidas (7am a 12:59am del día siguiente)
-  let actual = new Date(inicio);
-  while (actual < fin) {
-    const hora = actual.getHours();
-    if (hora >= 7 || hora < 1) {
-      horasEfectivas++;
-    }
-    actual.setHours(actual.getHours() + 1);
+  // Calcular días equivalentes según tu regla:
+  let diasCompletos = Math.floor(horasEfectivas / 24);
+  let horasRestantes = horasEfectivas % 24;
+
+  let diasEquivalentes = diasCompletos;
+  if (horasRestantes > 0) {
+    diasEquivalentes += 0.5; // cualquier resto de horas cuenta como medio día
   }
 
-  const total = horasEfectivas * precioPorHora;
+  // Precio por día (24 horas)
+  const precioPorDia = precioPorHora * 24;
+
+  // Calcular total basado en días equivalentes
+  const total = diasEquivalentes * precioPorDia;
 
   document.getElementById('duracion-horas').textContent = horasEfectivas;
-  document.getElementById('dias-equivalentes').textContent = (horasEfectivas / 18).toFixed(2); // opcional
-  document.getElementById('total-renta').textContent = '$' + total.toFixed(2);
+  document.getElementById('dias-equivalentes').textContent = diasEquivalentes.toFixed(1);
+  // opcional: mostrar también el desglose de días en el total
+  document.getElementById('total-renta').textContent = '$' + total.toFixed(2) + ' (' + diasEquivalentes.toFixed(1) + ' días)';
 }
 </script>
-
-
 
 
 <?php if ($usuario === $auto['usuario']): ?>
@@ -366,10 +394,11 @@ function calcularPrecioRenta() {
   </form>
 <?php endif; ?>
 
-  <div class="comentarios">
-    <h2>Comentarios</h2>
 
-    <?php if ($usuario): ?>
+<div class="comentarios">
+  <h2>Comentarios</h2>
+
+  <?php if ($usuario): ?>
     <form method="post" class="formulario-comentario">
       <label for="nuevo_comentario">Añadir comentario</label>
       <textarea id="nuevo_comentario" name="nuevo_comentario" maxlength="250" required oninput="updateCounter()"></textarea>
@@ -381,28 +410,55 @@ function calcularPrecioRenta() {
 
       <button type="submit" class="boton">Enviar</button>
     </form>
-    <?php endif; ?>
+  <?php endif; ?>
 
+  <?php if ($result_comments->num_rows === 0): ?>
+    <p class="sin-comentarios">No hay comentarios todavía.</p>
+  <?php else: ?>
+    <?php while ($coment = $result_comments->fetch_assoc()): ?>
+      <?php
+        // Obtener imagen desde la tabla registro según el usuario del comentario
+        $stmtImg = $conn->prepare("SELECT imagen_perfil FROM registro WHERE Nombre = ?");
+        $stmtImg->bind_param("s", $coment['usuario']);
+        $stmtImg->execute();
+        $rImg = $stmtImg->get_result();
+        $imagenPerfil = $rImg->fetch_assoc()['imagen_perfil'] ?? 'img/Profile_Icon.png';
+        $stmtImg->close();
 
-    <?php if ($result_comments->num_rows === 0): ?>
-      <p class="sin-comentarios">No hay comentarios todavía.</p>
-    <?php else: ?>
-      <?php while ($coment = $result_comments->fetch_assoc()): ?>
-        <div class="comentario">
-          <p class="comentario-cabecera">
-            <strong><?php echo htmlspecialchars($coment['usuario']); ?></strong>
-            <small><?php echo date('d/m/Y H:i', strtotime($coment['fecha'])); ?></small>
-          </p>
-          <p class="comentario-texto"><?php echo nl2br(htmlspecialchars($coment['comentario'])); ?></p>
+        // Valores para mostrar
+        $imagen = htmlspecialchars($imagenPerfil);
+        $valor = intval($coment['valor'] ?? 0);
+      ?>
+      <div class="comentario">
+        <div class="comentario-usuario">
+          <img src="<?php echo $imagen; ?>" 
+               alt="Foto de <?php echo htmlspecialchars($coment['usuario']); ?>" 
+               class="comentario-foto" />
+          <strong><?php echo htmlspecialchars($coment['usuario']); ?></strong>
+          
+          <!-- Mostrar estrellas -->
+          <div class="comentario-estrellas">
+            <?php 
+              for ($i = 1; $i <= 5; $i++) {
+                $cls = $i <= $valor ? 'bxs-star' : 'bx-star';
+                echo "<i class='bx {$cls}'></i>";
+              }
+            ?>
+          </div>
         </div>
-      <?php endwhile; ?>
-    <?php endif; ?>
 
-
-
-
-  </div>
+        <small class="comentario-fecha">
+          <?php echo date('d/m/Y H:i', strtotime($coment['fecha'])); ?>
+        </small>
+        
+        <p class="comentario-texto">
+          <?php echo nl2br(htmlspecialchars($coment['comentario'])); ?>
+        </p>
+      </div>
+    <?php endwhile; ?>
+  <?php endif; ?>
 </div>
+
 
 <script src="js/script.js"></script>
 <script>

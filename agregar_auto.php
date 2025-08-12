@@ -15,7 +15,8 @@ if (!isset($_SESSION['usuario'])) {
   <link rel="stylesheet" href="css/style.css" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="icon" href="img/MeloIcon.png" type="image/png" />
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 </head>
 <body>
@@ -50,7 +51,7 @@ if (!isset($_SESSION['usuario'])) {
     
     <label for="precio">Precio (ej. $7/hora):</label>
     <div class="input-container">
-      <input type="text" id="precio" name="precio" placeholder="$7/hora" required>
+      <input type="" id="number" name="precio" placeholder="$7/hora" required>
     </div>
 
 
@@ -80,79 +81,45 @@ if (!isset($_SESSION['usuario'])) {
 
 
 
-
-<!-- Estilos de Leaflet -->
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
-
-<!-- Script de Leaflet -->
-<script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
-
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Coordenadas iniciales: Santo Domingo
-    const centro = [18.4861, -69.9312];
+    const centro = [18.4861, -69.9312]; 
 
     const mapa = L.map("mapa").setView(centro, 13);
 
-    // Agregar mapa base desde OpenStreetMap
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "© OpenStreetMap",
     }).addTo(mapa);
 
-    // Marcador inicial
     let marcador = L.marker(centro, { draggable: true }).addTo(mapa);
 
-    // Actualiza input al hacer clic en el mapa
     mapa.on("click", function (e) {
       marcador.setLatLng(e.latlng);
-      actualizarInput(e.latlng);
+      obtenerDireccion(e.latlng);
     });
 
-    // También si el marcador se arrastra
-    marcador.on("dragend", function (e) {
-      actualizarInput(marcador.getLatLng());
+    marcador.on("dragend", function () {
+      obtenerDireccion(marcador.getLatLng());
     });
 
-    function actualizarInput(latlng) {
-      const lat = latlng.lat.toFixed(6);
-      const lng = latlng.lng.toFixed(6);
-      document.getElementById("ubicacion").value = `${lat}, ${lng}`;
+    function obtenerDireccion(latlng) {
+      const lat = latlng.lat;
+      const lng = latlng.lng;
+
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+        .then(response => response.json())
+        .then(data => {
+          const direccion = data.display_name || `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+          document.getElementById("ubicacion").value = direccion;
+        })
+        .catch(error => {
+          console.error("Error al obtener dirección:", error);
+          document.getElementById("ubicacion").value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+        });
     }
 
-    // Inicializa el valor
-    actualizarInput(centro);
+    // Inicializa con dirección desde centro
+    obtenerDireccion({ lat: centro[0], lng: centro[1] });
   });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>
-

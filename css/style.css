@@ -42,8 +42,8 @@
   --inside-input-color: rgb(224, 224, 224);
 
   /* Button Styles */
-  --boton-static: linear-gradient(to right, #59bdd1, #2f6772);
-  --boton-hover: linear-gradient(to right, #62cee3, #3c8291);
+  --boton-static: linear-gradient(to right, #21b2cf, #0aa0be);
+  --boton-hover: linear-gradient(to right, #62cee3, #0d9dbe);
   --boton-click: linear-gradient(to right, #4895a4, #21474f);
 
   /* Card Styles */
@@ -2142,6 +2142,10 @@ font-size: larger;
 /* ==========================================================
   COMMENTS SECTION
   ========================================================== */
+
+
+
+  
 .comentarios {
   max-width: 100%;
   margin: 30px auto;
@@ -2197,7 +2201,7 @@ font-size: larger;
 .comentario-texto {
   font-size: 1rem;
   line-height: 1.4;
-  white-space: pre-wrap;
+  white-space: normal;
   color: var(--text-color);
 }
 .formulario-comentario {
@@ -2240,7 +2244,85 @@ font-size: larger;
   color: var(--text-color);
 }
 
+.comentario-usuario {
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: var(--main-color);
+  border: 1px solid var(--secondary-hover-color);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  margin-bottom: 7px;
+  margin-right: 635px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 
+}
+
+
+
+.comentario-usuario:hover {
+  background-color: var(--primary-hover-color);
+  border-color: var(--secondary-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+} 
+
+
+
+.comentario-foto {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--text-color);
+}
+
+.comentario-usuario strong {
+  font-size: 1rem;
+  color: var(--text-color);
+  white-space: nowrap;        /* keep text in one line */
+  overflow: hidden;           /* hide overflow */
+  text-overflow: ellipsis;    /* show ... */
+  max-width: 150px;           /* adjust as needed */
+  display: inline-block;      /* required for ellipsis to work */
+  vertical-align: middle;     /* aligns well with stars/images */
+}
+
+
+/* Estrellas */
+.comentario-estrellas {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.comentario-estrellas i {
+  font-size: 1.1rem;
+  color: var(--color-stars--readonly);
+}
+
+/* Fecha */
+.comentario-fecha {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  margin-left: 10px;
+}
+
+/* Texto del comentario */
+.comentario-texto {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  line-height: 1.4;
+    margin-left: 10px;
+}
+
+/* Sin comentarios */
+.sin-comentarios {
+  color: var(--text-color);
+  font-style: italic;
+}
 
 /* ==========================================================
   SETTINGS PAGE
